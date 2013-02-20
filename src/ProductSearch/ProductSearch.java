@@ -11,6 +11,17 @@ public class ProductSearch {
 	private List<Product> productList;
 
 	/**
+	 * Creates a ProductSearch object which searches for the name.
+	 * 
+	 * @param name
+	 *            The product name, any result that is a substring of the
+	 *            submitted name will be returned.
+	 */
+	public ProductSearch(String name) {
+		this(name, null);
+	}
+
+	/**
 	 * Creates a ProductSearch object which searches for the name and sorts it
 	 * by the comparator.
 	 * 
@@ -41,7 +52,9 @@ public class ProductSearch {
 			this.productList = list;
 		}
 
-		Collections.sort(list, comparator);
+		if (comparator != null) {
+			Collections.sort(list, comparator);
+		}
 
 		this.productList = list;
 	}
