@@ -1,5 +1,6 @@
 package ProductSearch;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -9,6 +10,7 @@ public class ProductSearch {
 
 	private String name;
 	private List<Product> productList;
+	private int results;
 
 	/**
 	 * Creates a ProductSearch object which searches for the name.
@@ -19,6 +21,29 @@ public class ProductSearch {
 	 */
 	public ProductSearch(String name) {
 		this(name, null);
+	}
+
+	public ProductSearch(String name, int results) {
+		this(name, null, results);
+	}
+
+	/**
+	 * Creates a ProductSearch object which searches for the name and sorts it
+	 * by the comparator, then cuts the list to the size of results.
+	 * 
+	 * @param name
+	 *            The product name, any result that is a substring of the
+	 *            submitted name will be returned.
+	 * @param comparator
+	 *            The comparator to be used.
+	 * @param results
+	 *            The number of search results to be returned.
+	 */
+	public ProductSearch(String name, Comparator<Product> comparator,
+			int results) {
+		this.name = name;
+		doSearch(name, comparator);
+		productList = productList.subList(results - 1, productList.size());
 	}
 
 	/**
@@ -37,7 +62,7 @@ public class ProductSearch {
 	}
 
 	private void doSearch(String name, Comparator<Product> comparator) {
-		List<Product> list;
+		List<Product> list = new ArrayList<Product>(results);
 
 		// If name is null, search for nothing instead of null.
 		if (name == null) {
@@ -48,11 +73,11 @@ public class ProductSearch {
 
 		// No point in sorting a list that is less than two elements.
 		if (list.size() < 2) {
-			System.out.println("List is too small to sort.");
 			this.productList = list;
 		}
 
 		if (comparator != null) {
+
 			Collections.sort(list, comparator);
 		}
 
@@ -60,7 +85,9 @@ public class ProductSearch {
 	}
 
 	/**
-	 * @return A list of the products sorted according to the filter.
+	 * Returns a list of the products sorted according to the filter(s).
+	 * 
+	 * @return A list of the products sorted according to the filter(s).
 	 */
 	public List<Product> getProducts() {
 		return this.productList;
