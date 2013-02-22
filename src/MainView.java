@@ -17,9 +17,13 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.ButtonGroup;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+
 import javax.swing.SwingConstants;
-import net.miginfocom.swing.MigLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.BoxLayout;
 
 
 public class MainView extends JFrame {
@@ -27,7 +31,17 @@ public class MainView extends JFrame {
 	private JPanel contentPane;
 	private final HeaderView headerView = new HeaderView();
 	private final ContentView contentView = new ContentView();
-
+	
+	/**
+	 * X-position of window
+	 */
+	
+	private int xPosition;
+	/**
+	 * Y-position of window
+	 */
+	private int yPosition;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -48,28 +62,54 @@ public class MainView extends JFrame {
 	 * Create the frame.
 	 */
 	public MainView() {
+		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1024, 594);
+		setBounds(100, 100, 1200, 720);
+		
+		// Handle positioning of window
+		headerView.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				xPosition = e.getX();
+				yPosition = e.getY();
+				System.out.println(e.getSource());
+			}
+		});
+		headerView.addMouseMotionListener(new MouseMotionAdapter() {
+			public void mouseDragged(MouseEvent e) {
+				setLocation(getLocation().x + (e.getX() - xPosition),
+						getLocation().y + (e.getY() - yPosition));
+			}
+		});
+		
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		
+		JPanel panel = new JPanel();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(contentView, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1003, Short.MAX_VALUE)
-						.addComponent(headerView, GroupLayout.PREFERRED_SIZE, 1003, Short.MAX_VALUE))
+						.addComponent(contentView, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
+						.addComponent(headerView, GroupLayout.PREFERRED_SIZE, 1180, Short.MAX_VALUE))
 					.addGap(10))
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(2)
 					.addComponent(headerView, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(contentView, GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(1)
+					.addComponent(contentView, GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE))
 		);
+		panel.setLayout(null);
 		contentPane.setLayout(gl_contentPane);
 	}
 }
