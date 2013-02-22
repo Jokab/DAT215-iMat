@@ -43,8 +43,8 @@ public class ProductSearch {
 			int results) {
 		this.name = name;
 		doSearch(name, comparator);
-		if(results >= 2) {
-			productList = productList.subList(0, productList.size());
+		if(results <= this.productList.size()) {
+			productList = productList.subList(0, results);
 		}
 	}
 
