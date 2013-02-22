@@ -1,126 +1,80 @@
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JSeparator;
 
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.Color;
-import javax.swing.border.LineBorder;
+
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import javax.swing.JLayeredPane;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+
 
 
 public class SearchBar extends JPanel {
 	private final JTextField searchField = new JTextField();
+	
+	private SearchController controller;
 	private final JPanel panel = new JPanel();
-	private final JLabel name1 = new JLabel("New label");
-	private final JLabel pic1 = new JLabel("New label");
-	private final JLabel price1 = new JLabel("New label");
-	private final JSeparator separator = new JSeparator();
-	private final JLabel pic2 = new JLabel("New label");
-	private final JLabel name2 = new JLabel("New label");
-	private final JLabel price2 = new JLabel("New label");
-	private final JLabel price3 = new JLabel("New label");
-	private final JSeparator separator_1 = new JSeparator();
-	private final JLabel name3 = new JLabel("New label");
-	private final JLabel pic3 = new JLabel("New label");
-	
-	private final JLabel[][] labelArr = new JLabel[][] {{
-			pic1,name1,price1},
-			{pic2,name2,price2},
-			{pic3,name3,price3}
-	};
-	
-	
-	
 
 	/**
 	 * Create the panel.
 	 */
 	public SearchBar() {
-		SearchController controller = new SearchController(this);
-		setLayout(null);
-		searchField.setText("S\u00F6k produkt...");
-		searchField.setBounds(208, 11, 253, 20);
-		
-		add(searchField);
-		searchField.setColumns(10);
-		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		panel.setBackground(Color.WHITE);
-		panel.setBounds(208, 30, 253, 153);
-		
-		add(panel);
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(separator, GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-						.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 247, Short.MAX_VALUE)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(4)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-									.addComponent(pic3)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(name3, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-									.addGap(39))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(pic2)
-									.addGap(10)
-									.addComponent(name2, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 39, Short.MAX_VALUE))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(pic1)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(name1, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 39, Short.MAX_VALUE)))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-								.addComponent(price3)
-								.addComponent(price2)
-								.addComponent(price1))
-							.addGap(16)))
-					.addContainerGap())
+		this.controller = new SearchController(this);
+		searchField.setText("S\u00F6k produkt...");
+		searchField.setColumns(10);
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+						.addComponent(searchField, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 253, GroupLayout.PREFERRED_SIZE))
+					.addGap(123))
 		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(price1)
-							.addGap(15)
-							.addComponent(price2)
-							.addGap(15)
-							.addComponent(price3))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(pic1)
-								.addComponent(name1))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(separator, GroupLayout.PREFERRED_SIZE, 3, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(pic2)
-								.addComponent(name2))
-							.addGap(7)
-							.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(pic3)
-								.addComponent(name3))))
-					.addContainerGap(66, Short.MAX_VALUE))
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(searchField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+					.addGap(2)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(381))
 		);
-		panel.setLayout(gl_panel);
-		
 		panel.setVisible(false);
+		panel.setLayout(new GridLayout(0,1));
+		panel.setPreferredSize(new Dimension(0,1));
+		setLayout(groupLayout);
 		
+		// Listens to changes in the textfield text
+		searchField.getDocument().addDocumentListener(new DocumentListener() {
+			  public void changedUpdate(DocumentEvent e) {
+				  update();
+			  }
+			  public void removeUpdate(DocumentEvent e) {
+				  update();
+			  }
+			  public void insertUpdate(DocumentEvent e) {
+				  update();
+			  }
+
+			  public void update() {
+				 getPanel().setVisible(false);
+			     controller.updateAutoCompletePanel(getSearchField());
+			     if(!(getSearchField().getText().isEmpty())) {
+			     	getPanel().setVisible(true);
+			     }
+			  }
+		});
 
 	}
 
@@ -137,58 +91,7 @@ public class SearchBar extends JPanel {
 		return this.searchField;
 	}
 
-
 	public JPanel getPanel() {
 		return panel;
 	}
-
-	public JLabel getName1() {
-		return name1;
-	}
-
-
-	public JLabel getPic1() {
-		return pic1;
-	}
-
-
-	public JLabel getPrice1() {
-		return price1;
-	}
-
-
-	public JLabel getPic2() {
-		return pic2;
-	}
-
-
-	public JLabel getName2() {
-		return name2;
-	}
-
-
-	public JLabel getPrice2() {
-		return price2;
-	}
-
-
-	public JLabel getPrice3() {
-		return price3;
-	}
-
-
-	public JLabel getName3() {
-		return name3;
-	}
-
-
-	public JLabel getPic3() {
-		return pic3;
-	}
-
-
-	public JLabel[][] getLabelArr() {
-		return labelArr;
-	}
-
 }

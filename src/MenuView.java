@@ -21,6 +21,7 @@ public class MenuView extends JPanel {
 	private final JLabel lblNewLabel = new JLabel("New label");
 	private final JButton btnSkafferi = new JButton("Skafferi");
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private final SearchBar searchBar = new SearchBar();
 
 	/**
 	 * Create the panel.
@@ -54,12 +55,15 @@ public class MenuView extends JPanel {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(214)
 							.addComponent(btnSkafferi)))
+					.addGap(18)
+					.addComponent(searchBar, GroupLayout.PREFERRED_SIZE, 256, GroupLayout.PREFERRED_SIZE)
+					.addGap(26)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnNewButton_4, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(60)
 							.addComponent(btnNewButton_5)))
-					.addGap(59)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(88)
@@ -70,23 +74,28 @@ public class MenuView extends JPanel {
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(5)
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(11)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnNewButton_2)
-						.addComponent(btnNewButton_3)
-						.addComponent(btnNewButton_1)
-						.addComponent(btnSkafferi)))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(11)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnNewButton_7)
-						.addComponent(btnNewButton_6)
-						.addComponent(btnNewButton_4)
-						.addComponent(btnNewButton_5))
-					.addGap(12))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(5)
+							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(11)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnNewButton_2)
+								.addComponent(btnNewButton_3)
+								.addComponent(btnNewButton_1)
+								.addComponent(btnSkafferi)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(11)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnNewButton_7)
+								.addComponent(btnNewButton_6)
+								.addComponent(btnNewButton_4)
+								.addComponent(btnNewButton_5)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(searchBar, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(260, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
 

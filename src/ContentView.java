@@ -13,7 +13,7 @@ public class ContentView extends JPanel {
 	public ContentView() {
 		setBackground(Color.ORANGE);
 		setLayout(null);
-		searchBar.setBounds(130, 85, 612, 99);
+		searchBar.setBounds(12, 80, 612, 178);
 		
 		add(searchBar);
 
