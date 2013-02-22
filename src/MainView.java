@@ -71,7 +71,6 @@ public class MainView extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				xPosition = e.getX();
 				yPosition = e.getY();
-				System.out.println(e.getSource());
 			}
 		});
 		headerView.addMouseMotionListener(new MouseMotionAdapter() {
@@ -89,25 +88,25 @@ public class MainView extends JFrame {
 		JPanel panel = new JPanel();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(contentView, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
-						.addComponent(headerView, GroupLayout.PREFERRED_SIZE, 1180, Short.MAX_VALUE))
-					.addGap(10))
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(headerView, GroupLayout.PREFERRED_SIZE, 1180, Short.MAX_VALUE)
+						.addComponent(contentView, GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE))
+					.addGap(10))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(2)
-					.addComponent(headerView, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
+					.addComponent(headerView, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(1)
-					.addComponent(contentView, GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(contentView, GroupLayout.PREFERRED_SIZE, 531, GroupLayout.PREFERRED_SIZE))
 		);
 		panel.setLayout(null);
 		contentPane.setLayout(gl_contentPane);
