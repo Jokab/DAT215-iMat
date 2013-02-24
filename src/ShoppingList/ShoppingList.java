@@ -1,35 +1,77 @@
-package shoppingCart;
-
-import java.util.Iterator;
+package ShoppingList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.List;
 
-import se.chalmers.ait.dat215.project.IMatDataHandler;
-import se.chalmers.ait.dat215.project.Product;
-import se.chalmers.ait.dat215.project.ShoppingCart;
-import se.chalmers.ait.dat215.project.ShoppingCartListener;
-import se.chalmers.ait.dat215.project.ShoppingItem;
-/**
- * 
- * @author christoffer
- * A class used to add functionality to the the singleton ShoppingCart class.
- */
-public class ShoppingCartAdapter {
-	public IMatDataHandler dataHandler;
-	public ShoppingCart shoppingCart;
-	public ShoppingCartAdapter(){
-		dataHandler = IMatDataHandler.getInstance();
-		shoppingCart = dataHandler.getShoppingCart();
+import se.chalmers.ait.dat215.project.*;
+
+
+public class ShoppingList implements Serializable {
+	
+	private List<ShoppingItem> list;
+	private String name;
+	
+	private final static String FILE_PATH = System.getProperty("user.home") + "/.dat215/imat/shoppinglists/";
+	
+	public ShoppingList(String name) {
+		this(null, name);
 	}
-	public ShoppingCart getShoppingCart(){
-		return shoppingCart;
+	
+	public ShoppingList(List<ShoppingItem> list, String name) {
+		this.name = name;
+		this.list = list;
+		writeToFile();
 	}
-	/**
-	 * Adds an item to the shopping cart. If that item already exists it's amount is increased.
-	 * @param item the item to be added
-	 */
+	
+//	public ShoppingList(List<Product> list, String name) {
+//		this.name = name;
+//		for(Product p : list) {
+//			addProduct(p);
+//		}
+//		writeToFile();
+//	}
+	
+	
+	
+	public List<ShoppingItem> getItems() {
+		return this.list;
+	}
+
+	public double getTotal() {
+		if(getItems() != null || getItems().size() != 0) {
+			double total = 0;
+			
+			for(ShoppingItem item : getItems()) 
+				total += item.getProduct().getPrice() * item.getAmount();	
+			
+			return total;
+		} else 
+			return 0;
+		
+	}
+	
+	public int getNbrItems() {
+		if(getItems() != null || getItems().size() != 0) {
+			return getItems().size();
+		} else {
+			return 0;
+		}
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+
+	
 	public void addItem(ShoppingItem item){
 		if(!this.contains(item)){
-			shoppingCart.addItem(item);
+			addItem(item);
 		} else {
 			ShoppingItem temp = this.getItemReference(item);
 			temp.setAmount(temp.getAmount() + item.getAmount());
@@ -41,7 +83,7 @@ public class ShoppingCartAdapter {
 	 */
 	public void addProduct(Product prod){
 		if(!this.contains(prod)){
-			shoppingCart.addItem(new ShoppingItem(prod));
+			addItem(new ShoppingItem(prod));
 		} else {
 			ShoppingItem temp = this.getItemReference(prod);
 			temp.setAmount(temp.getAmount() + 1);
@@ -54,7 +96,7 @@ public class ShoppingCartAdapter {
 	 */
 	public void addProduct(Product prod, double amount){
 		if(!this.contains(prod)){
-			shoppingCart.addItem(new ShoppingItem(prod, amount));
+			addItem(new ShoppingItem(prod, amount));
 		} else {
 			ShoppingItem temp = this.getItemReference(prod);
 			temp.setAmount(temp.getAmount() + amount);
@@ -66,9 +108,8 @@ public class ShoppingCartAdapter {
 	 */
 	public void addCart(ShoppingCart cart){
 		List<ShoppingItem> list = cart.getItems();
-		Iterator i = list.iterator();
-		while(i.hasNext()){
-			this.addItem((ShoppingItem) i.next());
+		for(ShoppingItem item : list) {
+			this.addItem(item);
 		}
 	}
 	/**
@@ -85,8 +126,7 @@ public class ShoppingCartAdapter {
 	 * @return true if the product is in the cart
 	 */
 	public boolean contains(Product prod){
-		List<ShoppingItem> list = shoppingCart.getItems();
-		
+
 		for(ShoppingItem item : list) {
 			if(item.getProduct().getName().equals(prod.getName())) {
 				System.out.println("Does exist!");
@@ -96,52 +136,47 @@ public class ShoppingCartAdapter {
 		
 		return false;
 	}
+	
+	
 	public ShoppingItem getItemReference(ShoppingItem item){
-		List<ShoppingItem> list = shoppingCart.getItems();
-		Iterator i = list.iterator();
-		while(i.hasNext()){
-			ShoppingItem temp = (ShoppingItem) i.next();
+		for(ShoppingItem i : this.list) {
+			ShoppingItem temp = i;
 			if(item.getProduct().equals(temp.getProduct())){
 				return temp;
 			}
 		}
 		return null;
 	}
+	
 	public ShoppingItem getItemReference(Product prod) {
 		return getItemReference(new ShoppingItem(prod));
 	}
-	public int getNbrItems() {
-		if(shoppingCart.getItems() != null || shoppingCart.getItems().size() != 0) {
-			return shoppingCart.getItems().size();
-		} else {
-			return 0;
-		}
-	}
+	
 	public void addShoppingCartListener(ShoppingCartListener scl){
-		shoppingCart.addShoppingCartListener(scl);
+		addShoppingCartListener(scl);
 	}
 	public void clear(){
-		shoppingCart.clear();
+		list.clear();
 	}
 	public void fireShoppingCartChanged(ShoppingItem item, boolean addEvent){
-		shoppingCart.fireShoppingCartChanged(item, addEvent);
+		fireShoppingCartChanged(item, addEvent);
 	}
-	public List<ShoppingItem> getItems(){
-		return shoppingCart.getItems();
-	}
-	public double getTotal(){
-		return shoppingCart.getTotal();
-	}
+
 	public void removeItem(int index){
-		shoppingCart.removeItem(index);
+		list.remove(index);
 	}
 	public void removeItem(ShoppingItem item){
-		shoppingCart.removeItem(item);
-		
+		for(ShoppingItem i : list) {
+			if(i.equals(item)) {
+				list.remove(i);
+			}
+		}	
 	}
+	
 	public void removeShoppingCartListener(ShoppingCartListener scl){
-		shoppingCart.removeShoppingCartListener(scl);
+		removeShoppingCartListener(scl);
 	}
+	
 	/**
 	 * increases the amount of an item found in the shopping cart by 1
 	 * @param item the item in question
@@ -180,4 +215,18 @@ public class ShoppingCartAdapter {
 			temp.setAmount(temp.getAmount() - 1);
 		}
 	}
+	
+	private void writeToFile() {
+		try {
+			File file = new File(FILE_PATH + this.name + ".txt");
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+
+			out.writeObject(this);
+			out.flush();
+			out.close();		
+		} catch (IOException e) {
+			System.out.println("File does not exist.");
+		}
+	}
+	
 }
