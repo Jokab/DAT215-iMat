@@ -1,4 +1,6 @@
 package SearchBar;
+
+
 import javax.swing.JPanel;
 
 import java.awt.Dimension;
@@ -12,7 +14,14 @@ import javax.swing.SwingConstants;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 import java.awt.Color;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
 import javax.swing.JSeparator;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.SoftBevelBorder;
 
 
 /**
@@ -26,12 +35,12 @@ public class AutoCompleteProductsPanel extends JPanel {
 	private final JLabel image = new JLabel("");
 	private final JLabel name = new JLabel("Product Name");
 	private final JLabel price = new JLabel("Price");
-	private final JSeparator separator = new JSeparator();
 
 	/**
 	 * Create the panel.
 	 */
 	public AutoCompleteProductsPanel(Product product) {
+		setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		setBackground(Color.WHITE);
 		price.setHorizontalAlignment(SwingConstants.RIGHT);
 		GroupLayout groupLayout = new GroupLayout(this);
@@ -43,15 +52,13 @@ public class AutoCompleteProductsPanel extends JPanel {
 					.addGap(38)
 					.addComponent(name, GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
 					.addGap(31)
-					.addComponent(price, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+					.addComponent(price, GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
 					.addContainerGap())
-				.addComponent(separator, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(8)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(9)
@@ -81,5 +88,9 @@ public class AutoCompleteProductsPanel extends JPanel {
 
 	public JLabel getPriceLabel() {
 		return price;
+	}
+
+	public void addAutoCompMouseListener(MouseListener listener) {
+		addMouseListener(listener);
 	}
 }

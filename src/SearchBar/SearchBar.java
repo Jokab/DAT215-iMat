@@ -1,30 +1,28 @@
 package SearchBar;
+
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.Color;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-
+import javax.swing.JLayeredPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
 import java.awt.Dimension;
-
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
 
 
-/**
- * A search bar-view for displaying auto-complete results.
- * 
- * @author Jakob
- *
- */
 public class SearchBar extends JPanel {
 	private final JTextField searchField = new JTextField();
 	
@@ -35,30 +33,30 @@ public class SearchBar extends JPanel {
 	 * Create the panel.
 	 */
 	public SearchBar() {
-		setBackground(Color.ORANGE);
-		panel.setVisible(false);
 		panel.setBackground(Color.WHITE);
-		
 		this.controller = new SearchController(this);
-		
 		searchField.setText("S\u00F6k produkt...");
 		searchField.setColumns(10);
-		panel.setLayout(new GridLayout(0,1));
-		panel.setPreferredSize(new Dimension(0,1));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(searchField, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
-				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+						.addComponent(searchField, GroupLayout.PREFERRED_SIZE, 253, GroupLayout.PREFERRED_SIZE))
+					.addGap(0))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(searchField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(1)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 12, Short.MAX_VALUE)
-					.addGap(124))
+					.addComponent(searchField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+					.addGap(2)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+					.addGap(381))
 		);
+		panel.setVisible(false);
+		panel.setLayout(new GridLayout(0,1));
+		panel.setPreferredSize(new Dimension(0,1));
 		setLayout(groupLayout);
 		
 		// Listens to changes in the textfield text
@@ -83,6 +81,7 @@ public class SearchBar extends JPanel {
 		});
 
 	}
+
 
 	public void addBarActionPerformedListener(ActionListener listener) {
 		searchField.addActionListener(listener);
