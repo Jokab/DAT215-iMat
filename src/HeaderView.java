@@ -31,6 +31,7 @@ public class HeaderView extends JPanel {
 	 * Create the panel.
 	 */
 	public HeaderView() {
+		setOpaque(false);
 		setBackground(Color.white);		
 		
 		// To fix click and drag issue

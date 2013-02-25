@@ -24,6 +24,7 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.SwingConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.BoxLayout;
+import java.awt.Color;
 
 
 public class MainView extends JFrame {
@@ -62,6 +63,7 @@ public class MainView extends JFrame {
 	 * Create the frame.
 	 */
 	public MainView() {
+		setBackground(Color.WHITE);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1200, 720);
