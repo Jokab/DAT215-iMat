@@ -23,10 +23,6 @@ import java.awt.BorderLayout;
 public class HeaderView extends JPanel {
 	private final JLabel logoPanel = new JLabel();
 	private final MenuView menuView = new MenuView();
-	private final JButton exitButton = new JButton();
-	private final JButton maximizeButton = new JButton();
-	private final JPanel windowButtonsPanel = new JPanel();
-	private final JButton minimizeButton = new JButton();
 	/**
 	 * Create the panel.
 	 */
@@ -55,62 +51,25 @@ public class HeaderView extends JPanel {
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED, 1099, Short.MAX_VALUE)
-							.addComponent(windowButtonsPanel, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
-							.addGap(22))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(36)
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE)
-									.addGap(435))
-								.addComponent(menuView, GroupLayout.PREFERRED_SIZE, 718, GroupLayout.PREFERRED_SIZE))
-							.addContainerGap())))
+					.addGap(36)
+					.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE)
+					.addGap(445))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(menuView, GroupLayout.PREFERRED_SIZE, 718, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(windowButtonsPanel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-							.addGap(35)
-							.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(menuView, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(33)
-							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(141, Short.MAX_VALUE))
+							.addGap(26)
+							.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(menuView, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(175, Short.MAX_VALUE))
 		);
-		
-		// Set options for window buttons
-		windowButtonsPanel.setLayout(new BorderLayout(7, 0));
-		windowButtonsPanel.setMinimumSize(new Dimension(50,12));
-		windowButtonsPanel.setOpaque(false);
-		
-		minimizeButton.setToolTipText("Minimera");
-		minimizeButton.setSize(new Dimension(12, 12));
-		minimizeButton.setContentAreaFilled(false);
-		minimizeButton.setBorder(null);
-		minimizeButton.setIcon(new ImageIcon("img/minimizeIcon.png"));
-		windowButtonsPanel.add(minimizeButton, BorderLayout.WEST);
-		
-		maximizeButton.setSize(new Dimension(12, 12));
-		maximizeButton.setContentAreaFilled(false);
-		maximizeButton.setToolTipText("Maximera");
-		maximizeButton.setBorder(null);
-		maximizeButton.setIcon(new ImageIcon("img/maximizeIcon.png"));
-		windowButtonsPanel.add(maximizeButton, BorderLayout.CENTER);
-		
-		exitButton.setSize(new Dimension(12, 12));
-		exitButton.setContentAreaFilled(false);
-		exitButton.setBorder(null);
-		exitButton.setToolTipText("St\u00E4ng");
-		exitButton.setIcon(new ImageIcon("img/exitIcon.png"));
-		windowButtonsPanel.add(exitButton, BorderLayout.EAST);
 		
 		setLayout(groupLayout);
 
