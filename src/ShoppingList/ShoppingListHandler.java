@@ -11,7 +11,7 @@ import java.util.List;
 public class ShoppingListHandler {
 
 	private final static String FILE_PATH = System.getProperty("user.home")
-			+ "\\.dat215\\imat\\shoppinglists\\";
+			+ "/.dat215/imat/shoppinglists/";
 
 	public List<ShoppingList> getShoppingLists() {
 		try {
@@ -23,25 +23,31 @@ public class ShoppingListHandler {
 			}
 
 			return list;
-		} catch (Exception e) { }
+		} catch (Exception e) { 
+			System.out.println("cannot read files...");
+		}
 
 		return null;
 	}
 
 	private File[] findFiles() {
+		System.out.println("finding files...");
 		File dir = new File(FILE_PATH);
 
-		return dir.listFiles(new FilenameFilter() {
-			public boolean accept(File dir, String fileName) {
-				return fileName.endsWith(".txt");
-			}
-		});
+		return dir.listFiles();
+				
+//				new FilenameFilter() {
+//			public boolean accept(File dir, String fileName) {
+//				return fileName.endsWith(".txt");
+//			}
+//		});
 	}
 
 	public ShoppingList readFile(String name) {
 		ShoppingList list = null;
+		System.out.println(FILE_PATH + name);
 		try {
-			FileInputStream fileIn = new FileInputStream(FILE_PATH + name);
+			FileInputStream fileIn = new FileInputStream(FILE_PATH + name);		
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 
 			list = (ShoppingList) in.readObject();

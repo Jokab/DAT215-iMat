@@ -27,14 +27,14 @@ public class ShoppingListTest {
 		listShop.add(new ShoppingItem(p));
 		listShop.add(new ShoppingItem(p1));
 		
-		ShoppingList list = new ShoppingList(listShop, "Vardag");
-		
 		
 		
 		System.out.println("STARTING READING --------------------- \n \n");
-		ShoppingList list1 = new ShoppingList("Vardag");
-		ShoppingList list2 = new ShoppingList("Lördag");
-		ShoppingList list3 = new ShoppingList("Söndag");
+
+		ShoppingList list = new ShoppingList(listShop, "Vardag");
+		System.out.println(list.getName());
+		ShoppingList list2 = new ShoppingList("Lordag");
+		ShoppingList list3 = new ShoppingList("Sondag");
 		ShoppingList list4 = new ShoppingList("Fest");
 		
 		ShoppingListHandler handler = new ShoppingListHandler();
@@ -43,7 +43,10 @@ public class ShoppingListTest {
 		for(ShoppingList daList : readList) {
 			System.out.println(daList.getName());
 		}
-		handler.deleteFile("Vardag");
+		
+		if(handler.deleteFile("Vardag")) {
+			System.out.println("Delete successful.");
+		}
 
 		
 //		System.out.println("Total price: " + list.getTotal() + "\tExpected: 250");

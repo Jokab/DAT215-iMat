@@ -218,15 +218,26 @@ public class ShoppingList implements Serializable {
 	
 	private void writeToFile() {
 		try {
+			File dir = new File(FILE_PATH);
+			if(!dir.exists()) {
+				createDir(dir);
+			}
+			
 			File file = new File(FILE_PATH + this.name + ".txt");
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
 
 			out.writeObject(this);
 			out.flush();
 			out.close();		
+			
 		} catch (IOException e) {
 			System.out.println("File does not exist.");
 		}
+	}
+	
+	private void createDir(File dir) {
+		dir.mkdir();
+		System.out.println(dir.exists());
 	}
 	
 }
