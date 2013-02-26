@@ -13,6 +13,7 @@ public class InformationPanelTest {
 		IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 		JFrame frame = new JFrame();
 		InformationPanel info = new InformationPanel();
+		frame.setSize(info.getMinimumSize());
 		frame.add(info);
 		frame.setVisible(true);
 		info.setVisible(true);

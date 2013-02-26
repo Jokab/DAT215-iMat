@@ -31,6 +31,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.text.MaskFormatter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Dimension;
 
 public class InformationPanel extends JPanel {
 	
@@ -38,17 +39,23 @@ public class InformationPanel extends JPanel {
 	private JTextField FirstNameField;
 	private JTextField AddressField;
 	private JTextField CityField;
+	private JFormattedTextField PhoneNumberField;
 	private JFormattedTextField ZIPField;
 	private JFormattedTextField MonthField;
 	private JFormattedTextField CardNumberField;
 	private JFormattedTextField YearField;
+	private JFormattedTextField CCVField;
 	private JTextField EmailField;
+	
 	private Session session;
 
 	/**
 	 * Create the panel.
 	 */
 	public InformationPanel() {
+		setPreferredSize(new Dimension(800, 500));
+		setMinimumSize(new Dimension(800, 500));
+		setMaximumSize(new Dimension(800, 500));
 		
 		session = Session.getInstance();
 		
@@ -81,6 +88,7 @@ public class InformationPanel extends JPanel {
 		phoneFormat.setMaximumIntegerDigits(14);
 		phoneFormat.setMinimumIntegerDigits(8);
 		phoneFormat.setGroupingUsed(false);
+		
 		
 		JLabel LastNameLabel = new JLabel("Efternamn:");
 		LastNameLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
@@ -211,7 +219,11 @@ public class InformationPanel extends JPanel {
 		BeginVerificationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO: Load verification panel.
-				session.saveSession();
+				if (session.infoIsOk()){
+					session.saveSession();
+				} else {
+					//TODO: Pop up som informerar användaren om att denna är dum i huvudet
+				}
 			}
 		});
 		
@@ -220,7 +232,7 @@ public class InformationPanel extends JPanel {
 		
 		
 		
-		final JFormattedTextField CCVField = new JFormattedTextField(CCVFormat);
+		CCVField = new JFormattedTextField(CCVFormat);
 		CCVField.setText(session.getValue("ccv"));
 		CCVField.addFocusListener(new FocusAdapter() {
 			public void focusLost(FocusEvent e){
@@ -234,7 +246,7 @@ public class InformationPanel extends JPanel {
 		JLabel EmailLabel = new JLabel("Email:");
 		EmailLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
 		
-		final JFormattedTextField PhoneNumberField = new JFormattedTextField(phoneFormat);
+		PhoneNumberField = new JFormattedTextField(phoneFormat);
 		PhoneNumberField.setText(session.getValue("phonenumber"));
 		PhoneNumberField.addFocusListener(new FocusAdapter() {
 			public void focusLost(FocusEvent e){

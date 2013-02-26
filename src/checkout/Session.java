@@ -45,7 +45,7 @@ public class Session {
 		return userInfo.get(s1);
 	}
 	public void saveSession(){
-		if(saveInfo){
+		if(saveInfo && infoIsOk()){
 			customer.setFirstName(this.getValue("firstname"));
 			customer.setLastName(this.getValue("lastname"));
 			customer.setEmail(this.getValue("email"));
@@ -59,6 +59,42 @@ public class Session {
 			creditCard.setValidYear(Integer.parseInt(this.getValue("validyear")));
 			creditCard.setVerificationCode(Integer.parseInt(this.getValue("ccv")));
 		}
+	}
+	public boolean infoIsOk(){
+		// TODO: Tester så att systemet inte pajar
+				try {
+					Integer.parseInt(this.getValue("ccv"));
+				} catch (Exception e){
+					return false;
+				}
+				try {
+					Double.parseDouble(this.getValue("cardnumber"));
+				} catch (Exception e){
+					return false;
+				}
+				
+				try {
+					Integer.parseInt(this.getValue("validyear"));
+				} catch (Exception e){
+					return false;
+				}
+				try {
+					Integer.parseInt(this.getValue("validmonth"));
+				} catch (Exception e){
+					return false;
+				}
+				if (this.getValue("firstname").length()==0){
+					return false;
+				} else if (this.getValue("lastname").length()==0){
+					return false;
+				} else if (this.getValue("address").length()==0){
+					return false;
+				} else if (this.getValue("city").length()==0){
+					return false;
+				} else if (this.getValue("phonenumber").length()==0){
+					return false;
+				}
+				return true;
 	}
 	public boolean getSaveInfo(){
 		return saveInfo;
