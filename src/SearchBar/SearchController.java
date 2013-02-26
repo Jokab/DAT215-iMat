@@ -80,7 +80,7 @@ public class SearchController {
 			if(evt.getSource().getClass().equals(AutoCompleteProductsPanel.class)) {
 				AutoCompleteProductsPanel panel = (AutoCompleteProductsPanel)evt.getSource();
 	
-				if(panel.contains(evt.getX(), evt.getY())) {
+				if(panel.contains(evt.getPoint())) {
 					panel.setBackground(Color.BLUE);
 				}
 			}

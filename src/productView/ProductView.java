@@ -23,11 +23,15 @@ import se.chalmers.ait.dat215.project.Product;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
+
 import javax.swing.JComboBox;
-import javax.swing.JToolBar;
 import javax.swing.border.MatteBorder;
 import java.awt.Component;
 import javax.swing.Box;
+
+import ShoppingList.ShoppingList;
 
 
 public class ProductView extends JPanel {
@@ -35,10 +39,8 @@ public class ProductView extends JPanel {
 	private int nbrOfProd;
 	private static JComboBox shoppingListBox;
 	private static JLabel starLabel;
-	private final Component rigidArea = Box.createRigidArea(new Dimension(20, 20));
 	private final ProductAmountPanel productAmountPanel = new ProductAmountPanel();
 	private final ProductAmountPanel productAmountPanel_1 = new ProductAmountPanel();
-	private final Component rigidArea_1 = Box.createRigidArea(new Dimension(20, 20));
 	
 	/**
 	 * Create the panel.
@@ -56,19 +58,16 @@ public class ProductView extends JPanel {
 		/* Adding the image */
 		
 		JLabel productPic = new JLabel();
-		productPic.setLocation(12, 13);
 		productPic.setPreferredSize(new Dimension(96, 96));
 		productPic.setMaximumSize(new Dimension(96, 96));
 		productPic.setMinimumSize(new Dimension(96, 96));
-		productPic.setSize(new Dimension(119, 113));
 		productPic.setIcon(dataHandler.getImageIcon(product, new Dimension(96,96)));
 		
 		JLabel productPrice = new JLabel("Pris: " + product.getPrice() + product.getUnit());
-		productPrice.setBounds(143, 53, 134, 23);
 		productPrice.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
 		
 		JLabel productTitle = new JLabel(product.getName());
-		productTitle.setBounds(141, 7, 135, 34);
+		productTitle.setMaximumSize(new Dimension(70, 14));
 		productTitle.setFont(new Font("Lucida Grande", Font.PLAIN, 24));
 		
 		/* Create a random number for the weight of the product */
@@ -77,63 +76,97 @@ public class ProductView extends JPanel {
 		int num = rand.nextInt(1000);
 		
 		JLabel productUnit = new JLabel("" + num + " gram");
-		productUnit.setBounds(288, 16, 104, 23);
 		productUnit.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
 		
 		JButton buyButton = new JButton("K\u00F6p");
-		buyButton.setLocation(614, 92);
 		buyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		buyButton.setSize(new Dimension(163, 38));
 		buyButton.setBackground(Color.BLACK);
 		
 		starLabel = new JLabel("*");
-		starLabel.setBounds(728, 13, 49, 26);
 		starLabel.setVisible(false);
 		
-		shoppingListBox = new JComboBox();
-		shoppingListBox.setBounds(583, 14, 133, 24);
+		shoppingListBox = new JComboBox<ShoppingList>();
 		shoppingListBox.setVisible(false);
 
 		String PicURL = "/.dat215/imat/images/SuperStar.png";
 		ImageIcon starIcon = new ImageIcon(PicURL);
 		starLabel.setIcon(starIcon);
-		setLayout(null);
-		add(productPic);
-		add(productTitle);
-		add(productUnit);
-		add(productPrice);
-		productAmountPanel.setBounds(776, 73, 1, 1);
-		add(productAmountPanel);
-		add(shoppingListBox);
-		add(starLabel);
-		productAmountPanel_1.setBounds(398, 86, 210, 50);
-		add(productAmountPanel_1);
-		add(buyButton);
-		rigidArea_1.setBounds(0, 13, 793, 123);
-		
-		add(rigidArea_1);
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(productPic, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(productTitle, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+								.addComponent(productPrice, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(534)
+									.addComponent(productAmountPanel, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
+								.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+									.addGap(10)
+									.addComponent(productUnit, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(shoppingListBox, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(starLabel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addComponent(productAmountPanel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(buyButton, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
+							.addGap(42))))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(productPic, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(72)
+							.addComponent(productAmountPanel, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(24, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(6)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(6)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(starLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+								.addComponent(shoppingListBox, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(productTitle, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+								.addComponent(productUnit, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(productPrice, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+							.addComponent(productAmountPanel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(13))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addGap(17)
+							.addComponent(buyButton, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
+		);
+		setLayout(groupLayout);
 	
 		
 		/* The hover effect */
-		addMouseListener(new java.awt.event.MouseAdapter() {
-			
-			
-		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		    	shoppingListBox.setVisible(true);
-		    	starLabel.setVisible(true);
-		    }
-		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		    	if(ProductView.this.getBounds().contains(evt.getPoint())){
-		    		return;
-		    	}else {
-		    		shoppingListBox.setVisible(false);
-		    		starLabel.setVisible(false);
-		    	}
-		    }
-		});
+		
+	}
+	
+	public void addViewMouseListener(MouseListener listener) {
+		addMouseListener(listener);
 	}
 	
 	public void productIncrease(){
@@ -144,12 +177,11 @@ public class ProductView extends JPanel {
 		nbrOfProd -= (nbrOfProd == 0)? 0: 1;
 	}
 	
-	public static void main(String[] args){
-		JFrame jf = new JFrame();
-		jf.setVisible(true);
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		List<Product> pers = dataHandler.getProducts();
-		ProductView pv = new ProductView(pers.get(0));
-		jf.getContentPane().add(pv);	
-	}	
+	public JComboBox getShoppingListBox() {
+		return shoppingListBox;
+	}
+	
+	public JLabel getStarLabel() {
+		return starLabel;
+	}
 }
