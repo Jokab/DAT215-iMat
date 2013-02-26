@@ -18,6 +18,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLayeredPane;
 
 
 public class MainView extends JFrame {
@@ -38,6 +39,7 @@ public class MainView extends JFrame {
 	 * Y-position of window
 	 */
 	private int yPosition;
+	private final JLayeredPane layeredPane = new JLayeredPane();
 
 	/**
 	 * Create the frame.
@@ -48,62 +50,30 @@ public class MainView extends JFrame {
 		setUndecorated(true);
 		setBounds(100, 100, 1200, 720);
 		
-		// Handle positioning of window
-		headerView.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				xPosition = e.getX();
-				yPosition = e.getY();
-			}
-		});
-		headerView.addMouseMotionListener(new MouseMotionAdapter() {
-			public void mouseDragged(MouseEvent e) {
-				setLocation(getLocation().x + (e.getX() - xPosition),
-						getLocation().y + (e.getY() - yPosition));
-			}
-		});
-		
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JPanel panel = new JPanel();
-		
-		
-		windowbuttonsPanel.setOpaque(false);
-		windowbuttonsPanel.setMinimumSize(new Dimension(50, 12));
-		windowbuttonsPanel.setLayout(new BorderLayout(7, 0));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(1111, Short.MAX_VALUE)
-					.addComponent(windowbuttonsPanel, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
-					.addGap(27))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(contentView, GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
-						.addComponent(headerView, GroupLayout.PREFERRED_SIZE, 1180, Short.MAX_VALUE))
-					.addGap(10))
+				.addComponent(layeredPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(windowbuttonsPanel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-					.addGap(7)
-					.addComponent(headerView, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE)
-					.addGap(29)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(contentView, GroupLayout.PREFERRED_SIZE, 459, GroupLayout.PREFERRED_SIZE))
+					.addComponent(layeredPane, GroupLayout.PREFERRED_SIZE, 740, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		
 		// Windowbuttons
+		windowbuttonsPanel.setBounds(this.getWidth() - 80, 15, 52, 14);	
+		windowbuttonsPanel.setOpaque(false);
+		windowbuttonsPanel.setMinimumSize(new Dimension(50, 12));
+		windowbuttonsPanel.setLayout(new BorderLayout(7, 0));
+		
 		minimizeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setState(Frame.ICONIFIED);
@@ -138,8 +108,29 @@ public class MainView extends JFrame {
 		exitButton.setContentAreaFilled(false);
 		exitButton.setBorder(null);
 		windowbuttonsPanel.add(exitButton, BorderLayout.EAST);
-		panel.setLayout(null);
 		exitButton.setIcon(new ImageIcon("img/exitIcon.png"));
+		
+		
+		contentView.setBounds(0, 184, 1180, 459);
+		headerView.setBounds(0, 0, 1180, 184);
+		
+		layeredPane.add(contentView, new Integer(1));
+		layeredPane.add(headerView, new Integer(2));
+		layeredPane.add(windowbuttonsPanel, new Integer(5));
+		
+		// Handle positioning of window
+		headerView.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				xPosition = e.getX();
+				yPosition = e.getY();
+			}
+		});
+		headerView.addMouseMotionListener(new MouseMotionAdapter() {
+			public void mouseDragged(MouseEvent e) {
+				setLocation(getLocation().x + (e.getX() - xPosition),
+						getLocation().y + (e.getY() - yPosition));
+			}
+		});
 		
 		
 		contentPane.setLayout(gl_contentPane);
