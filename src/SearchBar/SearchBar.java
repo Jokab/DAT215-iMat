@@ -1,8 +1,12 @@
+package SearchBar;
+
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.Color;
 
 import javax.swing.event.DocumentEvent;
@@ -39,15 +43,15 @@ public class SearchBar extends JPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-						.addComponent(searchField, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 253, GroupLayout.PREFERRED_SIZE))
-					.addGap(123))
+						.addComponent(searchField, GroupLayout.PREFERRED_SIZE, 253, GroupLayout.PREFERRED_SIZE))
+					.addGap(0))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addComponent(searchField, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 					.addGap(2)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
 					.addGap(381))
 		);
 		panel.setVisible(false);
