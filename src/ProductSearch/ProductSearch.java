@@ -20,11 +20,11 @@ public class ProductSearch {
 	 *            submitted name will be returned.
 	 */
 	public ProductSearch(String name) {
-		this(name, null);
+		this(name, 50);
 	}
 
 	public ProductSearch(String name, int results) {
-		this(name, null, results);
+		this(name, results, null);
 	}
 
 	/**
@@ -39,28 +39,12 @@ public class ProductSearch {
 	 * @param results
 	 *            The number of search results to be returned.
 	 */
-	public ProductSearch(String name, Comparator<Product> comparator,
-			int results) {
+	public ProductSearch(String name, int results, Comparator<Product> comparator) {
 		this.name = name;
 		doSearch(name, comparator);
 		if(results <= this.productList.size()) {
 			productList = productList.subList(0, results);
 		}
-	}
-
-	/**
-	 * Creates a ProductSearch object which searches for the name and sorts it
-	 * by the comparator.
-	 * 
-	 * @param name
-	 *            The product name, any result that is a substring of the
-	 *            submitted name will be returned.
-	 * @param comparator
-	 *            The comparator to be used.
-	 */
-	public ProductSearch(String name, Comparator<Product> comparator) {
-		this.name = name;
-		doSearch(name, comparator);
 	}
 
 	private void doSearch(String name, Comparator<Product> comparator) {
@@ -79,7 +63,6 @@ public class ProductSearch {
 		}
 
 		if (comparator != null) {
-
 			Collections.sort(list, comparator);
 		}
 

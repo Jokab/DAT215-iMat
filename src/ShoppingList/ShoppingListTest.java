@@ -44,7 +44,7 @@ public class ShoppingListTest {
 			System.out.println(daList.getName());
 		}
 		
-		if(handler.deleteFile("Vardag")) {
+		if(handler.deleteList("Vardag")) {
 			System.out.println("Delete successful.");
 		}
 

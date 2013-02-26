@@ -13,6 +13,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -35,6 +36,7 @@ public class SearchController {
 	private IMatDataHandler dh = IMatDataHandler.getInstance();
 	private final SearchBar bar;
 	private final int MAX_RESULTS = 3;
+	private final Comparator<Product> DEFAULT_COMPARATOR = null;
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -113,9 +115,9 @@ public class SearchController {
 		bar.getPanel().removeAll();
 
 		String input = bar.getSearchField().getText();
-		ProductSearch ps = new ProductSearch(input, null, MAX_RESULTS);
+		ProductSearch ps = new ProductSearch(input, MAX_RESULTS, null);
 		List<Product> list = ps.getProducts();
-		System.out.println(list.size());
+		
 		if(list.size() != 0) {
 			System.out.println(list.size());
 			for (Product p : list) {
@@ -125,17 +127,9 @@ public class SearchController {
 			}		
 		} else {
 			bar.getPanel().removeAll();
+			bar.getPanel().revalidate();
 			bar.getPanel().setVisible(false);
-			
-//			bar.getPanel().revalidate();
 		}
-		
-//		if(list.size() > 0) {
-//			Dimension d = new Dimension((int) new AutoCompleteProductsPanel(list.get(0)).getSize().getWidth(),
-//					(int) (new AutoCompleteProductsPanel(list.get(0)).getSize()
-//							.getHeight() * list.size()));
-//		}
-
 	}
 	
 	public boolean panelHasContent() {

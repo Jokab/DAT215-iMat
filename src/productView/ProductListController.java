@@ -3,26 +3,35 @@ package productView;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import core.ViewController;
+
 import se.chalmers.ait.dat215.project.Product;
 import ProductSearch.ProductSearch;
 import SearchBar.AutoCompleteProductsPanel;
 
-public class ProductListController {
+/**
+ * A class for controlling the ProductListView, which holds and shows Products
+ * found in a search. When the search function is used, updates the view automatically
+ * with the results that were found, and sorted if a comparator is specified.
+ * 
+ * @author Jakob
+ *
+ */
+public class ProductListController implements ViewController {
 
 	private ProductListView view;
 
 	public ProductListController(ProductListView view) {
-		this.view = view;
-		updateView();
+		this.view = new ProductListView();
 	}
 
-	public void updateView() {
-		ProductSearch search = new ProductSearch("Kyckling", 50);
+	private void updateView(ProductSearch search) {
 		List<Product> list = search.getProducts();
 		for (Product p : list) {
 			ProductView pView = new ProductView(p);
@@ -31,14 +40,43 @@ public class ProductListController {
 			view.getViewPanel().revalidate();
 		}
 	}
+	
+	/**
+	 * Updates the view with products found in search using a name.
+	 * 
+	 * @param name The name to be searched for.
+	 */
+	public void search(String name) {
+		updateView(new ProductSearch(name));
+	}
+	
+	/**
+	 * Updates the view with "results" amount of products found in search using a name.
+	 * 
+	 * @param name The name to be searched for.
+	 * @param results The amount of results to return.
+	 */
+	public void search(String name, int results) {
+		updateView(new ProductSearch(name, results));
+	}
+	
+	/**
+	 * Updates the view with "results" amount of products found in search using a name,
+	 * sorted by a comparator. 
+	 * 
+	 * @param name The name to be searched for.
+	 * @param results The amount of results to return.
+	 * @param comp The comparator to be used.
+	 */
+	public void search(String name, int results, Comparator<Product> comp) {
+		updateView(new ProductSearch(name, results, comp));
+	}
 
+	
 	private class ViewMouseListener implements MouseListener {
 
 		@Override
-		public void mouseClicked(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
+		public void mouseClicked(MouseEvent arg0) { }
 
 		@Override
 		public void mouseEntered(MouseEvent evt) {
@@ -68,17 +106,10 @@ public class ProductListController {
 		}
 
 		@Override
-		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
+		public void mousePressed(MouseEvent arg0) { }
 
 		@Override
-		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
+		public void mouseReleased(MouseEvent arg0) { }
 	}
 
 }

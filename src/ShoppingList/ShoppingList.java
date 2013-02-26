@@ -11,6 +11,14 @@ import java.util.List;
 import se.chalmers.ait.dat215.project.*;
 
 
+/**
+ * A model of a ShoppingList, and all of the related functionality. Functions basically
+ * like a ShoppingCart, except that it can be written to file. The class writes itself to
+ * file 
+ * 
+ * @author Jakob
+ *
+ */
 public class ShoppingList implements Serializable {
 	
 	private List<ShoppingItem> list;
@@ -27,16 +35,6 @@ public class ShoppingList implements Serializable {
 		this.list = list;
 		writeToFile();
 	}
-	
-//	public ShoppingList(List<Product> list, String name) {
-//		this.name = name;
-//		for(Product p : list) {
-//			addProduct(p);
-//		}
-//		writeToFile();
-//	}
-	
-	
 	
 	public List<ShoppingItem> getItems() {
 		return this.list;
@@ -66,9 +64,7 @@ public class ShoppingList implements Serializable {
 	public String getName() {
 		return this.name;
 	}
-	
-
-	
+		
 	public void addItem(ShoppingItem item){
 		if(!this.contains(item)){
 			addItem(item);
