@@ -20,13 +20,10 @@ public class ProductCategories {
 		
 		Map<ProductCategory, String> meatSubcategories = new HashMap<ProductCategory, String>();
 		meatSubcategories.put(ProductCategory.MEAT, "NÖTKÖTT");
-		meatSubcategories.put(ProductCategory.MEAT, "FLÄSKKÖTT");
 		categories.put("kött", meatSubcategories);
 		
 		Map<ProductCategory, String> fishSubcategories = new HashMap<ProductCategory, String>();
 		fishSubcategories.put(ProductCategory.FISH, "SKALDJUR");
-		fishSubcategories.put(ProductCategory.FISH, "HAVSFISK");
-		fishSubcategories.put(ProductCategory.FISH, "INSJÖFISK");
 		categories.put("fisk", fishSubcategories);
 		
 		Map<ProductCategory, String> greensSubcategories = new HashMap<ProductCategory, String>();
@@ -55,12 +52,11 @@ public class ProductCategories {
 		Map<ProductCategory, String> drinksSubcategories = new HashMap<ProductCategory, String>();
 		drinksSubcategories.put(ProductCategory.HOT_DRINKS, "VARMA DRYCKER");
 		drinksSubcategories.put(ProductCategory.COLD_DRINKS, "KALLA DRYCKER");
-		categories.put("mejeri", drinksSubcategories);
+		categories.put("drycker", drinksSubcategories);
 		
 		Map<ProductCategory, String> dairySubcategories = new HashMap<ProductCategory, String>();
 		dairySubcategories.put(ProductCategory.DAIRIES, "MJÖLK");
-		dairySubcategories.put(ProductCategory.DAIRIES, "OST");
-		categories.put("mejeri", meatSubcategories);
+		categories.put("mejeri", dairySubcategories);
 	}
 	
 	public static synchronized ProductCategories getInstance() {

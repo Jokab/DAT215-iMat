@@ -3,7 +3,11 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
-
+/**
+ * A Specialized menu panel
+ * @author Sebastian
+ *
+ */
 public class MenuPanel extends JPanel {
 	/**
 	 * Create the panel.

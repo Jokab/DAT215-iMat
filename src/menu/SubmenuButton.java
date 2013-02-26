@@ -8,8 +8,8 @@ import javax.swing.JButton;
  * A specialized JButton. 
  * Has the ability to turn active.
  * 
- * When inactive: Transparent, no border, 16pt Segoe UI Light, rgb(184, 184, 184).
- * When active: Transparent, no border, 16pt Segoe UI Bold, rgb(150, 150, 150).
+ * When inactive: Transparent, no border, 11pt Segoe UI Light, rgb(144, 144, 144).
+ * When active: Segoe UI Bold, rgb(62, 62, 62).
  * 
  * @author Sebastian Blomberg
  *
@@ -34,11 +34,11 @@ public class SubmenuButton extends JButton {
 	 */
 	public void toggle() {
 		if(isToggled) {
-			setFont(new Font("Segoe UI Light", Font.PLAIN, 14));
-			setForeground(new Color(184,184,184));
+			setFont(new Font("Segoe UI", Font.PLAIN, 11));
+			setForeground(new Color(144,144,144));
 		} else {
-			setFont(new Font("Segoe UI Bold", Font.PLAIN, 14));
-			setForeground(new Color(150,150,150));
+			setFont(new Font("Segoe UI Bold", Font.PLAIN, 11));
+			setForeground(new Color(62, 62, 62));
 		}
 		isToggled ^= true;
 	}
