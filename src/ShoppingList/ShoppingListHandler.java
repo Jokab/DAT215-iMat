@@ -2,125 +2,178 @@ package ShoppingList;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FilenameFilter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import shoppingCart.shoppingCartTest;
 
 /**
  * A class for managing retreiving, deleting and other useful functionality
  * regarding ShoppingLists.
  * 
  * @author Jakob
- *
+ * 
  */
-public class ShoppingListHandler {
+public class ShoppingListHandler implements Serializable {
 
-	
-	
 	private final static String FILE_PATH = System.getProperty("user.home")
-			+ "/.dat215/imat/shoppinglists/";
+			+ "/.dat215/imat/shoppinglists.data";
+	private static ShoppingListHandler INSTANCE = null;
+	private ShoppingListHolder shoppingListHolder = null;
+
+	private ShoppingListHandler() {
+		shoppingListHolder = new ShoppingListHolder();
+	}
+
+	public synchronized static ShoppingListHandler getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new ShoppingListHandler();
+		}
+
+		return INSTANCE;
+	}
 
 	/**
-	 * Returns a List&lt;ShoppingList&gt; containing all the available ShoppingLists. 
+	 * Reads the ShoppingListHolder and loads it into memory for future use.
+	 * Must be called before stored ShoppingLists can be retrieved.
 	 * 
-	 * @return A List containing all the available ShoppingLists. 
 	 */
-	public List<ShoppingList> getShoppingLists() {
+	public void readLists() {
+		File file = new File(FILE_PATH);
+		if(!file.exists()) {
+			writeLists();
+		}
+		
 		try {
-			File[] files = findFiles();
-			List<ShoppingList> list = new LinkedList<ShoppingList>();
+			FileInputStream fileIn = new FileInputStream(FILE_PATH);
+			ObjectInputStream in = new ObjectInputStream(fileIn);
 
-			for (int i = 0; i < files.length; i++) {
-				list.add(readFile(files[i].getName()));
+			shoppingListHolder = (ShoppingListHolder) in.readObject();
+			in.close();
+		} catch (ClassNotFoundException e) {
+			Logger.getLogger(ShoppingListHandler.class.getName()).log(
+					Level.SEVERE, null, e);
+		} catch (IOException e) {
+			Logger.getLogger(ShoppingListHandler.class.getName()).log(
+					Level.SEVERE, null, e);
+		}
+	}
+
+	/**
+	 * Returns true if a list with the specified name exists.
+	 * 
+	 * @param name
+	 *            The name to be checked for existence.
+	 * @return
+	 */
+	public boolean listExists(String name) {
+		if (shoppingListHolder != null) {
+			for (ShoppingList list : shoppingListHolder.shoppingLists) {
+				return name.equals(list.getName());
 			}
+		}
 
-			return list;
-		} catch (Exception e) {
-			System.out.println("cannot read files...");
+		return false;
+
+	}
+
+	/**
+	 * Returns true if the specified ShoppingList exists.
+	 * 
+	 * @param list
+	 *            The ShoppingList to be checked for existence.
+	 * @return
+	 */
+	public boolean listExists(ShoppingList list) {
+		if (shoppingListHolder != null) {
+			return shoppingListHolder.shoppingLists.contains(list);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Writes the lists that have been added to file. Cannot be called unless
+	 * the holder has been read.
+	 * 
+	 */
+	public void writeLists() {
+		if (shoppingListHolder == null) {
+			// If we haven't got anything to save, no point in saving.
+			return;
+		}
+
+		try {
+			File file = new File(FILE_PATH);
+			ObjectOutputStream out = new ObjectOutputStream(
+					new FileOutputStream(file));
+
+			out.writeObject(shoppingListHolder);
+			out.flush();
+			out.close();
+
+		} catch (IOException e) {
+			Logger.getLogger(ShoppingListHandler.class.getName()).log(
+					Level.SEVERE, null, e);
+		}
+	}
+
+	/**
+	 * Returns a Set&lt;ShoppingList&gt; containing all the available
+	 * ShoppingLists.
+	 * 
+	 * @return A Set&lt;ShoppingList&gt; containing all the available
+	 *         ShoppingLists.
+	 */
+	public Set<ShoppingList> getShoppingLists() {
+		if (shoppingListHolder != null) {
+			return shoppingListHolder.shoppingLists;
 		}
 
 		return null;
 	}
 
-	private File[] findFiles() {
-		System.out.println("finding files...");
-		File dir = new File(FILE_PATH);
-
-		return dir.listFiles(new FilenameFilter() {
-			public boolean accept(File dir, String fileName) {
-				return fileName.endsWith(".txt");
-			}
-		});
-	}
-
-	/**
-	 * Reads and returns the ShoppingList with the specified name.
-	 * 
-	 * @param name The name of the ShoppingList to be retreived.
-	 * @return The ShoppingList with the specified name.
-	 */
-	public ShoppingList readFile(String name) {
-		ShoppingList list = null;
-		System.out.println(FILE_PATH + name);
-		try {
-			FileInputStream fileIn = new FileInputStream(FILE_PATH + name);
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-
-			list = (ShoppingList) in.readObject();
-			in.close();
-		} catch (ClassNotFoundException e) {
-			System.out.println("Class not found.");
-		} catch (IOException e) {
-			System.out.println("not found");
+	public void addShoppingList(ShoppingList list) {
+		if (shoppingListHolder != null) {
+			shoppingListHolder.shoppingLists.add(list);
 		}
-
-		return list;
 	}
 
 	/**
-	 * Deletes the list with the specified name. Returns true if successful, else false.
+	 * Deletes the list with the specified name. Returns true if successful,
+	 * else false.
 	 * 
-	 * @param name The name of the list to be deleted.
+	 * @param name
+	 *            The name of the list to be deleted.
 	 * @return True if deletion was successful, else false.
 	 */
-	public boolean deleteList(String name) {
-		try {
-			File file = new File(FILE_PATH + name + ".txt");
-			if (!file.exists()) {
-				throw new IllegalArgumentException("File does not exist.");
+	public boolean removeShoppingList(String name) {
+		if (shoppingListHolder != null) {
+			for (ShoppingList list : shoppingListHolder.shoppingLists) {
+				if (list.getName().equals(name)) {
+					shoppingListHolder.shoppingLists.remove(list);
+					return true;
+				}
 			}
+		}
 
-			file.delete();
-			return true;
-		} catch (Exception e) {
-		}
-		
 		return false;
 	}
-	
-	/**
-	 * Returns true if a list with the specified name exists.
-	 * 
-	 * @param name The name to be checked for existence.
-	 * @return
-	 */
-	public boolean listExists(String name) {
-		for(ShoppingList list : getShoppingLists()) {
-			return name.equals(list.getName());
+
+	private class ShoppingListHolder implements Serializable {
+
+		protected Set<ShoppingList> shoppingLists;
+
+		public ShoppingListHolder() {
+			shoppingLists = new HashSet<ShoppingList>();
 		}
-		return false;
-	}
-	
-	/**
-	 * Returns true if the specified ShoppingList exists.
-	 * 
-	 * @param list The ShoppingList to be checked for existence.
-	 * @return
-	 */
-	public boolean listExists(ShoppingList list) {
-		return getShoppingLists().contains(list);
 	}
 
 }
