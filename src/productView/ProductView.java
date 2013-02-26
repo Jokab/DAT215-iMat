@@ -31,8 +31,6 @@ import javax.swing.border.MatteBorder;
 import java.awt.Component;
 import javax.swing.Box;
 
-import ShoppingList.ShoppingList;
-
 
 public class ProductView extends JPanel {
 	private static IMatDataHandler dataHandler = IMatDataHandler.getInstance();
@@ -88,7 +86,7 @@ public class ProductView extends JPanel {
 		starLabel = new JLabel("*");
 		starLabel.setVisible(false);
 		
-		shoppingListBox = new JComboBox<ShoppingList>();
+		shoppingListBox = new JComboBox();
 		shoppingListBox.setVisible(false);
 
 		String PicURL = "/.dat215/imat/images/SuperStar.png";
