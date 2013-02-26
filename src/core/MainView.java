@@ -86,8 +86,8 @@ public class MainView extends JFrame {
 					.addGap(27))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(headerView, GroupLayout.PREFERRED_SIZE, 1180, Short.MAX_VALUE)
-						.addComponent(contentView, GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE))
+						.addComponent(contentView, GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
+						.addComponent(headerView, GroupLayout.PREFERRED_SIZE, 1180, Short.MAX_VALUE))
 					.addGap(10))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -96,11 +96,11 @@ public class MainView extends JFrame {
 					.addContainerGap()
 					.addComponent(windowbuttonsPanel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 					.addGap(7)
-					.addComponent(headerView, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(headerView, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE)
+					.addGap(29)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
-					.addComponent(contentView, GroupLayout.PREFERRED_SIZE, 439, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(contentView, GroupLayout.PREFERRED_SIZE, 459, GroupLayout.PREFERRED_SIZE))
 		);
 		
 		// Windowbuttons

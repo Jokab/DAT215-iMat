@@ -32,7 +32,7 @@ public class HeaderView extends JPanel {
 	private SubmenuPanel submenuPanel = new SubmenuPanel();
 	private final JPanel menuPanelWrapper = new JPanel();
 	private final JPanel submenuPanelWrapper = new JPanel();
-	private int i = 0;
+
 	/**
 	 * Create the panel.
 	 */
@@ -58,33 +58,37 @@ public class HeaderView extends JPanel {
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-					.addGap(26)
-					.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE)
-					.addGap(664))
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addGap(63)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(submenuPanelWrapper, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 927, Short.MAX_VALUE)
-						.addComponent(menuPanelWrapper, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+							.addGap(36)
+							.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addGap(82)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(menuPanelWrapper, GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(20)
+									.addComponent(submenuPanelWrapper, GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)))))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-							.addGap(38))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)))
-					.addComponent(menuPanelWrapper, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(submenuPanelWrapper, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(120, Short.MAX_VALUE))
+							.addGap(24)
+							.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(menuPanelWrapper, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(submenuPanelWrapper, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(151, Short.MAX_VALUE))
 		);
 		FlowLayout flowLayout = (FlowLayout) menuPanelWrapper.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
@@ -98,9 +102,7 @@ public class HeaderView extends JPanel {
 	
 	public void setMenuPanel(JPanel menuPanel) {
 		menuPanelWrapper.removeAll();
-		
 		menuPanelWrapper.add(menuPanel);
-	
 		menuPanelWrapper.validate();
 	}
 	
