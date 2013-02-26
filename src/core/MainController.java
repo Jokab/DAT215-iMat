@@ -1,5 +1,7 @@
 package core;
 import java.util.LinkedList;
+
+import se.chalmers.ait.dat215.project.ProductCategory;
 import menu.MenuController;
 
 /**
@@ -18,14 +20,28 @@ public class MainController {
 	private LinkedList<ViewController> history = new LinkedList<ViewController>();
 	private MainView mainView;
 	private MenuController menuController;
+	private final int DEFAULT_HISTORY_STEP = 10;
 	
 	public MainController() {
 		this.mainView = new MainView(); 
-		this.menuController = new MenuController(mainView.getHeaderView());
+		this.menuController = new MenuController(mainView.getHeaderView(), this);
 		
 	}
 	
-	public void switchController(ViewController controller) {
-		
+	public void initProductListController(String category) {
+		//new ProductListController()
+		switchController(null);
+	}
+	
+	public void initProductListController(String category, ProductCategory productCategory) {
+		//new ProductListController()
+		switchController(null);
+	}
+	
+	private void switchController(ViewController controller) {
+		if(history.size() >= DEFAULT_HISTORY_STEP) {
+			history.removeFirst();
+		}
+		history.add(controller);
 	}
 }
