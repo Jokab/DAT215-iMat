@@ -15,29 +15,23 @@ import java.util.logging.Logger;
 import shoppingCart.shoppingCartTest;
 
 /**
- * A class for managing retreiving, deleting and other useful functionality
+ * A singleton class for managing retrieving, deleting and other useful functionality
  * regarding ShoppingLists.
  * 
  * @author Jakob
  * 
  */
-public class ShoppingListHandler implements Serializable {
+public enum ShoppingListHandler implements Serializable {
 
-	private final static String FILE_PATH = System.getProperty("user.home")
+	INSTANCE;
+
+	public static final String FILE_PATH = System.getProperty("user.home")
 			+ "/.dat215/imat/shoppinglists.data";
-	private static ShoppingListHandler INSTANCE = null;
-	private ShoppingListHolder shoppingListHolder = null;
+
+	private ShoppingListHolder shoppingListHolder = new ShoppingListHolder();
 
 	private ShoppingListHandler() {
-		shoppingListHolder = new ShoppingListHolder();
-	}
-
-	public synchronized static ShoppingListHandler getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new ShoppingListHandler();
-		}
-
-		return INSTANCE;
+		;
 	}
 
 	/**
@@ -47,10 +41,10 @@ public class ShoppingListHandler implements Serializable {
 	 */
 	public void readLists() {
 		File file = new File(FILE_PATH);
-		if(!file.exists()) {
+		if (!file.exists()) {
 			writeLists();
 		}
-		
+
 		try {
 			FileInputStream fileIn = new FileInputStream(FILE_PATH);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -105,10 +99,10 @@ public class ShoppingListHandler implements Serializable {
 	 * 
 	 */
 	public void writeLists() {
-		if (shoppingListHolder == null) {
-			// If we haven't got anything to save, no point in saving.
-			return;
-		}
+		// if (shoppingListHolder == null) {
+		// // If we haven't got anything to save, no point in saving.
+		// return;
+		// }
 
 		try {
 			File file = new File(FILE_PATH);
@@ -116,7 +110,8 @@ public class ShoppingListHandler implements Serializable {
 					new FileOutputStream(file));
 
 			out.writeObject(shoppingListHolder);
-			out.flush();
+			out.
+			flush();
 			out.close();
 
 		} catch (IOException e) {
@@ -155,23 +150,22 @@ public class ShoppingListHandler implements Serializable {
 	 * @return True if deletion was successful, else false.
 	 */
 	public boolean removeShoppingList(String name) {
-		if (shoppingListHolder != null) {
-			for (ShoppingList list : shoppingListHolder.shoppingLists) {
-				if (list.getName().equals(name)) {
-					shoppingListHolder.shoppingLists.remove(list);
-					return true;
-				}
+		for (ShoppingList list : shoppingListHolder.shoppingLists) {
+			if (list.getName().equals(name)) {
+				shoppingListHolder.shoppingLists.remove(list);
+				return true;
 			}
 		}
+		
 
 		return false;
 	}
 
 	private class ShoppingListHolder implements Serializable {
 
-		protected Set<ShoppingList> shoppingLists;
+		private Set<ShoppingList> shoppingLists;
 
-		public ShoppingListHolder() {
+		ShoppingListHolder() {
 			shoppingLists = new HashSet<ShoppingList>();
 		}
 	}

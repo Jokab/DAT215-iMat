@@ -33,13 +33,13 @@ public class ShoppingListTest {
 		System.out.println("\n\nSTARTING READING ---------------------");
 
 		ShoppingList list = new ShoppingList(listShop, "Vardag");
-		ShoppingList list2 = new ShoppingList("Lordag");
-		ShoppingList list3 = new ShoppingList("Sondag");
-		ShoppingList list4 = new ShoppingList("Fest");
+		ShoppingList list2 = new ShoppingList(listShop, "Lordag");
+		ShoppingList list3 = new ShoppingList(listShop, "Sondag");
+		ShoppingList list4 = new ShoppingList(listShop, "Fest");
 		
-		ShoppingListHandler handler = ShoppingListHandler.getInstance();
-
-		handler.readLists();
+		ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
+		
+		handler.readLists(); 
 //		handler.addShoppingList(list);
 //		handler.addShoppingList(list2);
 //		handler.addShoppingList(list3);
@@ -53,9 +53,9 @@ public class ShoppingListTest {
 //			System.out.println(daList.getItems().get(0).getProduct().getName());
 		}
 		
-		if(handler.removeShoppingList("Vardag")) {
-			System.out.println("Delete successful.");
-		}
-
+//		if(handler.removeShoppingList("Vardag")) {
+//			System.out.println("Delete successful.");
+//		}
+//		handler.writeLists();
 	}
 }
