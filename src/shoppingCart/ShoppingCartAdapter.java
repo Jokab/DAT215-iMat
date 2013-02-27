@@ -16,13 +16,21 @@ import se.chalmers.ait.dat215.project.ShoppingItem;
  * A class used to add functionality to the the singleton ShoppingCart class.
  */
 public class ShoppingCartAdapter {
-	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	private static ShoppingCartAdapter instance = null;
 	
-	public IMatDataHandler dataHandler;
-	public ShoppingCart shoppingCart;
-	public ShoppingCartAdapter(){
+	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	private IMatDataHandler dataHandler;
+	private ShoppingCart shoppingCart;
+	
+	private ShoppingCartAdapter(){
 		dataHandler = IMatDataHandler.getInstance();
 		shoppingCart = dataHandler.getShoppingCart();
+	}
+	public synchronized static ShoppingCartAdapter getInstance() {
+		if(instance == null) {
+			instance = new ShoppingCartAdapter();
+		}
+		return instance;
 	}
 	public ShoppingCart getShoppingCart(){
 		return shoppingCart;
