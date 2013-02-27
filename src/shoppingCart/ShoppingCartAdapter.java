@@ -89,7 +89,6 @@ public class ShoppingCartAdapter {
 		
 		for(ShoppingItem item : list) {
 			if(item.getProduct().getName().equals(prod.getName())) {
-				System.out.println("Does exist!");
 				return true;
 			} 
 		}

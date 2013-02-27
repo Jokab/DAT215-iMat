@@ -1,5 +1,8 @@
 package checkout;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
@@ -222,6 +225,9 @@ public class InformationPanel extends JPanel {
 				if (session.infoIsOk()){
 					session.saveSession();
 				} else {
+					System.out.println("error");
+					JOptionPane.showMessageDialog(new JFrame("Ajdå"), "Det verkar ha blivit något fel med de uppgifter du matat in.\n Var god se över dessa och försök igen.");
+					//JDialog errorMessage = new JDialog(new JDialog(), "Det verkar vara något fel med de uppgifter som du matat in");
 					//TODO: Pop up som informerar användaren om att denna är dum i huvudet
 				}
 			}

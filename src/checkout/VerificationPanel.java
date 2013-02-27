@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -23,6 +25,7 @@ public class VerificationPanel extends JPanel {
 	private JTextField passwordField;
 	public VerificationPanel() {
 		IMatDataHandler dataHandler = IMatDataHandler.getInstance();
+		Date todaysDate = new Date();
 		Session session = Session.getInstance();
 		Dimension d = new Dimension(600/3, 265/3);
 		Dimension d2 = new Dimension(200,200);
@@ -62,6 +65,8 @@ public class VerificationPanel extends JPanel {
 		JLabel dynamicAmountLabel = new JLabel("" + dataHandler.getShoppingCart().getTotal() + " kr", SwingConstants.RIGHT);
 		
 		JLabel dynamicCardNumberLabel = new JLabel(session.getValue("cardnumber"), SwingConstants.RIGHT);
+		
+		JLabel dynamicDateLabel = new JLabel("" + todaysDate.getDate() + "/" + (todaysDate.getMonth()+1));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -76,22 +81,21 @@ public class VerificationPanel extends JPanel {
 								.addComponent(submitButton))
 							.addComponent(pleaseLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addGroup(groupLayout.createSequentialGroup()
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+									.addComponent(cardNumberLabel, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+									.addComponent(dateLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(amountLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(retailLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE))
+								.addPreferredGap(ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
 								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-									.addGroup(groupLayout.createSequentialGroup()
-										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-											.addComponent(cardNumberLabel, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-											.addComponent(dateLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(amountLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(retailLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE))
-										.addPreferredGap(ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
-										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-											.addComponent(matnyttitLabel)
-											.addComponent(dynamicCardNumberLabel, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-											.addComponent(dynamicAmountLabel, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)))
-									.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-										.addComponent(passwordLabel)
-										.addGap(72)
-										.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE))))))
+									.addComponent(matnyttitLabel)
+									.addComponent(dynamicCardNumberLabel, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+									.addComponent(dynamicAmountLabel, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+									.addComponent(dynamicDateLabel)))
+							.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(passwordLabel)
+								.addGap(72)
+								.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE))))
 					.addGap(329))
 		);
 		groupLayout.setVerticalGroup(
@@ -110,7 +114,9 @@ public class VerificationPanel extends JPanel {
 						.addComponent(amountLabel)
 						.addComponent(dynamicAmountLabel))
 					.addGap(18)
-					.addComponent(dateLabel)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(dateLabel)
+						.addComponent(dynamicDateLabel))
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(cardNumberLabel)
