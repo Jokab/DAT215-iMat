@@ -20,11 +20,13 @@ import javax.swing.SwingConstants;
 import se.chalmers.ait.dat215.project.ShoppingItem;
 
 import java.awt.Font;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
-public class ShoppingcartView extends JPanel {
+public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 
-	private ShoppingCartAdapter model;
+	private ShoppingCartAdapter model = null;
 	
 	private JPanel productListPanel;
 	private JPanel summaryPanel;
@@ -155,7 +157,11 @@ public class ShoppingcartView extends JPanel {
 	}
 
 	public void setModel(ShoppingCartAdapter model) {
+		if(this.model != null) {
+			this.model.removeListener(this);
+		}
 		this.model = model;
+		this.model.addListener(this);
 	}
 	
 	private void updateSummary() {
@@ -169,5 +175,11 @@ public class ShoppingcartView extends JPanel {
 		for(ShoppingItem item : tmpList) {
 			productListPanel.add(new ShoppingCartProductPanel(item));
 		}
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		updateSummary();
+		updateItemList();
 	}
 }

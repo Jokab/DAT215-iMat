@@ -1,5 +1,7 @@
 package shoppingCart;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,6 +16,8 @@ import se.chalmers.ait.dat215.project.ShoppingItem;
  * A class used to add functionality to the the singleton ShoppingCart class.
  */
 public class ShoppingCartAdapter {
+	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	
 	public IMatDataHandler dataHandler;
 	public ShoppingCart shoppingCart;
 	public ShoppingCartAdapter(){
@@ -34,6 +38,7 @@ public class ShoppingCartAdapter {
 			ShoppingItem temp = this.getItemReference(item);
 			temp.setAmount(temp.getAmount() + item.getAmount());
 		}
+		pcs.firePropertyChange("Item added", null, null);
 	}
 	/**
 	 * Adds a product to the list of shoppingItems in the cart
@@ -46,6 +51,7 @@ public class ShoppingCartAdapter {
 			ShoppingItem temp = this.getItemReference(prod);
 			temp.setAmount(temp.getAmount() + 1);
 		}
+		pcs.firePropertyChange("Product added", null, null);
 	}
 	/**
 	 * Adds a product to the list of shoppingItems in the cart
@@ -59,6 +65,7 @@ public class ShoppingCartAdapter {
 			ShoppingItem temp = this.getItemReference(prod);
 			temp.setAmount(temp.getAmount() + amount);
 		}
+		pcs.firePropertyChange("Product added", null, null);
 	}
 	/**
 	 * 
@@ -70,6 +77,8 @@ public class ShoppingCartAdapter {
 		while(i.hasNext()){
 			this.addItem((ShoppingItem) i.next());
 		}
+		pcs.firePropertyChange("Items added", null, null);
+		
 	}
 	/**
 	 * 
@@ -117,14 +126,9 @@ public class ShoppingCartAdapter {
 			return 0;
 		}
 	}
-	public void addShoppingCartListener(ShoppingCartListener scl){
-		shoppingCart.addShoppingCartListener(scl);
-	}
 	public void clear(){
 		shoppingCart.clear();
-	}
-	public void fireShoppingCartChanged(ShoppingItem item, boolean addEvent){
-		shoppingCart.fireShoppingCartChanged(item, addEvent);
+		pcs.firePropertyChange("Cleared items", null, null);
 	}
 	public List<ShoppingItem> getItems(){
 		return shoppingCart.getItems();
@@ -134,13 +138,12 @@ public class ShoppingCartAdapter {
 	}
 	public void removeItem(int index){
 		shoppingCart.removeItem(index);
+		pcs.firePropertyChange("Item removed", null, null);
 	}
 	public void removeItem(ShoppingItem item){
 		shoppingCart.removeItem(item);
+		pcs.firePropertyChange("Item removed", null, null);
 		
-	}
-	public void removeShoppingCartListener(ShoppingCartListener scl){
-		shoppingCart.removeShoppingCartListener(scl);
 	}
 	/**
 	 * increases the amount of an item found in the shopping cart by 1
@@ -148,6 +151,7 @@ public class ShoppingCartAdapter {
 	 */
 	public void increaseItemAmount(ShoppingItem item){
 		this.increaseProductAmount(item.getProduct());
+		pcs.firePropertyChange("Amount of item changed", null, null);
 	}
 	/**
 	 * decreases the amount of an item found in the shopping cart by 1
@@ -155,6 +159,7 @@ public class ShoppingCartAdapter {
 	 */
 	public void decreaseItemAmount(ShoppingItem item){
 		this.decreaseProductAmount(item.getProduct());
+		pcs.firePropertyChange("Amount of item changed", null, null);
 	}
 	/**
 	 * increases the amount of an product found in the shopping cart by 1
@@ -167,6 +172,7 @@ public class ShoppingCartAdapter {
 			ShoppingItem temp = this.getItemReference(prod);
 			temp.setAmount(temp.getAmount() + 1);
 		}
+		pcs.firePropertyChange("Amount of product changed", null, null);
 	}
 	/**
 	 * decreases the amount of an product found in the shopping cart by 1
@@ -179,6 +185,7 @@ public class ShoppingCartAdapter {
 			ShoppingItem temp = this.getItemReference(prod);
 			temp.setAmount(temp.getAmount() - 1);
 		}
+		pcs.firePropertyChange("Amount of product changed", null, null);
 	}
 	
 	/**
@@ -187,5 +194,21 @@ public class ShoppingCartAdapter {
 	 */
 	public int getTotalProductsAmount() {
 		return shoppingCart.getItems().size();
+	}
+	
+	/**
+	 * Adds a new listener to this model.
+	 * @param listener
+	 */
+	public void addListener(PropertyChangeListener listener) {
+		pcs.addPropertyChangeListener(listener);
+	}
+	
+	/**
+	 * Removes a listener from this model.
+	 * @param listener
+	 */
+	public void removeListener(PropertyChangeListener listener) {
+		pcs.removePropertyChangeListener(listener);
 	}
 }
