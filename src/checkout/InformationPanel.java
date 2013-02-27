@@ -91,11 +91,6 @@ public class InformationPanel extends JPanel {
 		monthFormat.setMinimumIntegerDigits(2);
 		monthFormat.setGroupingUsed(false);
 		
-		NumberFormat phoneFormat = NumberFormat.getInstance();
-		phoneFormat.setMaximumIntegerDigits(14);
-		phoneFormat.setMinimumIntegerDigits(8);
-		phoneFormat.setGroupingUsed(false);
-		
 		
 		JLabel LastNameLabel = new JLabel("Efternamn:");
 		LastNameLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
@@ -256,7 +251,7 @@ public class InformationPanel extends JPanel {
 		JLabel EmailLabel = new JLabel("Email:");
 		EmailLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
 		
-		PhoneNumberField = new JFormattedTextField(phoneFormat);
+		PhoneNumberField = new JFormattedTextField();
 		PhoneNumberField.setText(session.getValue("phonenumber"));
 		PhoneNumberField.addFocusListener(new FocusAdapter() {
 			public void focusLost(FocusEvent e){
