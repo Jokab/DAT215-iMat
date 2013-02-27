@@ -141,4 +141,10 @@ public class MainView extends JFrame {
 	public HeaderView getHeaderView() {
 		return this.headerView;
 	}
+	
+	public void setContentView(JPanel panel) {
+		contentView.removeAll();
+		contentView.add(panel);
+		contentView.revalidate();
+	}
 }
