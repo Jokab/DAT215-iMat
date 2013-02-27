@@ -33,17 +33,19 @@ import javax.swing.Box;
 
 
 public class ProductView extends JPanel {
-	private static IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 	private int nbrOfProd;
 	private static JComboBox shoppingListBox;
-	private static JLabel starLabel;
 	private final ProductAmountPanel productAmountPanel = new ProductAmountPanel();
 	private final ProductAmountPanel productAmountPanel_1 = new ProductAmountPanel();
+	private JButton starButton;
+	private Product product;
 	
 	/**
 	 * Create the panel.
 	 */
 	public ProductView(Product product) {
+		this.product =product;  
+		IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 		setMaximumSize(new Dimension(800, 150));
 		setPreferredSize(new Dimension(800, 150));
 		setSize(new Dimension(800, 150));
@@ -83,15 +85,18 @@ public class ProductView extends JPanel {
 		});
 		buyButton.setBackground(Color.BLACK);
 		
-		starLabel = new JLabel("*");
-		starLabel.setVisible(false);
-		
 		shoppingListBox = new JComboBox();
 		shoppingListBox.setVisible(false);
 
-		String PicURL = "/.dat215/imat/images/SuperStar.png";
-		ImageIcon starIcon = new ImageIcon(PicURL);
-		starLabel.setIcon(starIcon);
+		String PicURL = "/.dat215/imat/images/SuperStarOfylld.png";
+		ImageIcon starIcon = new ImageIcon(System.getProperty("user.home") + PicURL);
+		
+		starButton = new JButton();
+		starButton.setBorder(null);
+		starButton.setIcon(starIcon);
+		/*default invisible*/
+		starButton.setVisible(false);
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -99,27 +104,28 @@ public class ProductView extends JPanel {
 					.addContainerGap()
 					.addComponent(productPic, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(productTitle, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+								.addComponent(productTitle, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
 								.addComponent(productPrice, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE))
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(534)
-									.addComponent(productAmountPanel, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
-								.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-									.addGap(10)
-									.addComponent(productUnit, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(shoppingListBox, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(starLabel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-							.addComponent(productAmountPanel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(10)
-							.addComponent(buyButton, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
-							.addGap(42))))
+							.addComponent(productUnit, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
+							.addGap(98)
+							.addComponent(shoppingListBox, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(95)
+									.addComponent(productAmountPanel, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(35)
+									.addComponent(starButton, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(productAmountPanel_1, GroupLayout.PREFERRED_SIZE, 266, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(buyButton, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -131,29 +137,29 @@ public class ProductView extends JPanel {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(72)
 							.addComponent(productAmountPanel, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(24, Short.MAX_VALUE))
+					.addContainerGap(29, Short.MAX_VALUE))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(6)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(6)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(starLabel, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-								.addComponent(shoppingListBox, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(6, 6, Short.MAX_VALUE)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(productTitle, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-								.addComponent(productUnit, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+								.addComponent(productUnit, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+								.addComponent(shoppingListBox, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(productPrice, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+							.addComponent(productPrice, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+							.addGap(10))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-							.addComponent(productAmountPanel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(13))
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-							.addGap(17)
+							.addContainerGap()
+							.addComponent(starButton, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)))
+					.addGap(7)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(buyButton, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+							.addGap(13))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(productAmountPanel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap())))
 		);
 		setLayout(groupLayout);
@@ -179,7 +185,16 @@ public class ProductView extends JPanel {
 		return shoppingListBox;
 	}
 	
-	public JLabel getStarLabel() {
-		return starLabel;
+	public JButton getStarButton() {
+		return starButton;
+	}
+	
+	public Product getProduct(){
+		return product;
+	}
+
+	public void addActionListener(ActionListener starActionListener) {
+		starButton.addActionListener(starActionListener);
+		
 	}
 }
