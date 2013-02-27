@@ -1,6 +1,8 @@
 package core;
 import java.util.LinkedList;
 
+import productView.ProductListController;
+
 import se.chalmers.ait.dat215.project.ProductCategory;
 import menu.MenuController;
 
@@ -29,13 +31,15 @@ public class MainController {
 	}
 	
 	public void initProductListController(String category) {
-		//new ProductListController()
-		switchController(null);
+		ProductListController productListController = new ProductListController();
+		productListController.filter(category);
+		switchController(productListController);
 	}
 	
-	public void initProductListController(String category, ProductCategory productCategory) {
-		//new ProductListController()
-		switchController(null);
+	public void initProductListController(String category, ProductCategory subcategory) {
+		ProductListController productListController = new ProductListController();
+		productListController.filter(category, subcategory);
+		switchController(productListController);
 	}
 	
 	private void switchController(ViewController controller) {
@@ -43,5 +47,6 @@ public class MainController {
 			history.removeFirst();
 		}
 		history.add(controller);
+		mainView.setContentView(controller.getView());
 	}
 }
