@@ -9,15 +9,17 @@ import java.awt.FlowLayout;
 import java.awt.Dimension;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JFormattedTextField;
 import javax.swing.SpringLayout;
 import javax.swing.BoxLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.text.NumberFormat;
 
 public class ProductAmountPanel extends JPanel {
 	private final JLabel label = new JLabel("Antal: ");
-	private final JTextField textField = new JTextField("1");
+	private final JFormattedTextField textField;
 	private final JButton button = new JButton("+");
 	private final JButton button_1 = new JButton("-");
 
@@ -29,19 +31,30 @@ public class ProductAmountPanel extends JPanel {
 		setMaximumSize(new Dimension(200, 50));
 		setSize(new Dimension(200, 50));
 		setMinimumSize(new Dimension(200, 50));
+		
+		NumberFormat amountFormat = NumberFormat.getInstance();
+		amountFormat.setMaximumIntegerDigits(3);
+		amountFormat.setMinimumIntegerDigits(1);
+		amountFormat.setMaximumFractionDigits(2);
+		amountFormat.setMinimumFractionDigits(0);
+		amountFormat.setGroupingUsed(false);
+		textField = new JFormattedTextField(amountFormat);
+		textField.setValue(1);
 		textField.setSize(new Dimension(15, 15));
 		textField.setMaximumSize(new Dimension(15, 15));
 		textField.setPreferredSize(new Dimension(10, 20));
 		textField.setMinimumSize(new Dimension(15, 15));
 		textField.setColumns(10);
+		
+		button.setForeground(Color.BLACK);
+		button.setBackground(new Color(40, 190, 90));
+		button.setActionCommand("+");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				increaseAmount();
 			}
 		});
-		button.setForeground(Color.BLACK);
-		button.setBackground(new Color(40, 190, 90));
-		button.setActionCommand("+");
+		
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				decreaseAmount();
@@ -82,16 +95,25 @@ public class ProductAmountPanel extends JPanel {
 	}
 	
 	public void increaseAmount() {
-		int curr = Integer.parseInt(textField.getText());
-		curr++;
-		this.textField.setText(Integer.toString(curr));
+		double curr = (double) textField.getValue();
+		curr += 1;
+		this.textField.setValue(curr);
 	}
 	
 	public void decreaseAmount() {
-		int curr = Integer.parseInt(textField.getText());
+		double curr = (double) textField.getValue();
 		if ((curr - 1) > 0) {
-			this.textField.setText(Integer.toString(--curr));
+			curr -= 1;
+			this.textField.setValue(curr);
 		}
+	}
+	
+	/**
+	 * Returns the integer in the amount text field.
+	 * @return amount
+	 */
+	public double getAmount() {
+		return (double) textField.getValue();
 	}
 
 }

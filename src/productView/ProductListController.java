@@ -1,43 +1,38 @@
 package productView;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Comparator;
 import java.util.List;
-
+import ProductSearch.ProductFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import core.ViewController;
-
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
+import se.chalmers.ait.dat215.project.ProductCategory;
 import ProductSearch.ProductSearch;
-import SearchBar.AutoCompleteProductsPanel;
 
 /**
  * A class for controlling the ProductListView, which holds and shows Products
  * found in a search. When the search function is used, updates the view automatically
  * with the results that were found, and sorted if a comparator is specified.
  * 
- * @author Jakob
+ * @author Jakob, Sebastian Blomberg
  *
  */
 public class ProductListController implements ViewController {
 
-	public ProductListView view;
+	private ProductListView view;
 	IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 
 	public ProductListController() {
 		this.view = new ProductListView();
 	}
 
-	private void updateView(ProductSearch search) {
-		List<Product> list = search.getProducts();
+	private void updateView(List<Product> list) {
 		for (Product p : list) {
 			ProductView pView = new ProductView(p);
 			pView.addMouseListener(new ViewMouseListener());
@@ -53,7 +48,7 @@ public class ProductListController implements ViewController {
 	 * @param name The name to be searched for.
 	 */
 	public void search(String name) {
-		updateView(new ProductSearch(name));
+		updateView(new ProductSearch(name).getProducts());
 	}
 	
 	/**
@@ -63,7 +58,7 @@ public class ProductListController implements ViewController {
 	 * @param results The amount of results to return.
 	 */
 	public void search(String name, int results) {
-		updateView(new ProductSearch(name, results));
+		updateView(new ProductSearch(name, results).getProducts());
 	}
 	
 	/**
@@ -75,9 +70,16 @@ public class ProductListController implements ViewController {
 	 * @param comp The comparator to be used.
 	 */
 	public void search(String name, int results, Comparator<Product> comp) {
-		updateView(new ProductSearch(name, results, comp));
+		updateView(new ProductSearch(name, results, comp).getProducts());
 	}
 
+	public void filter(String category){
+		updateView(ProductFilter.getProductByCategory(category));
+	}
+	
+	public void filter(String category, ProductCategory subcategory) {
+		updateView(ProductFilter.getProductBySubcategory(subcategory));
+	}
 	
 	private class ViewMouseListener implements MouseListener {
 
@@ -127,5 +129,10 @@ public class ProductListController implements ViewController {
 				dataHandler.removeFavorite(panel.getProduct());
 			}
 		}
+	}
+
+	@Override
+	public JPanel getView() {
+		return view;
 	}
 }

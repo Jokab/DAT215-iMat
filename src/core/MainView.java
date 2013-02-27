@@ -109,6 +109,7 @@ public class MainView extends JFrame {
 		exitButton.setBorder(null);
 		windowbuttonsPanel.add(exitButton, BorderLayout.EAST);
 		exitButton.setIcon(new ImageIcon("img/exitIcon.png"));
+		contentView.setOpaque(false);
 		
 		
 		contentView.setBounds(0, 184, 1180, 459);
@@ -140,5 +141,11 @@ public class MainView extends JFrame {
 	
 	public HeaderView getHeaderView() {
 		return this.headerView;
+	}
+	
+	public void setContentView(JPanel panel) {
+		contentView.removeAll();
+		contentView.add(panel);
+		contentView.revalidate();
 	}
 }
