@@ -1,50 +1,38 @@
 package productView;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
-
 import javax.swing.JButton;
-import javax.swing.JTextField;
-
-import java.util.List;
 import java.util.Random;
-
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
+import shoppingCart.ShoppingCartAdapter;
+
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
-
 import javax.swing.JComboBox;
 import javax.swing.border.MatteBorder;
-import java.awt.Component;
-import javax.swing.Box;
 
 
 public class ProductView extends JPanel {
 	private int nbrOfProd;
 	private static JComboBox shoppingListBox;
 	private final ProductAmountPanel productAmountPanel = new ProductAmountPanel();
-	private final ProductAmountPanel productAmountPanel_1 = new ProductAmountPanel();
 	private JButton starButton;
 	private Product product;
 	
 	/**
 	 * Create the panel.
 	 */
-	public ProductView(Product product) {
-		this.product =product;  
+	public ProductView(final Product product) { 
 		IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 		setMaximumSize(new Dimension(800, 150));
 		setPreferredSize(new Dimension(800, 150));
@@ -81,6 +69,7 @@ public class ProductView extends JPanel {
 		JButton buyButton = new JButton("K\u00F6p");
 		buyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ShoppingCartAdapter.getInstance().addProduct(product, productAmountPanel.getAmount());
 			}
 		});
 		buyButton.setBackground(Color.BLACK);
@@ -107,22 +96,16 @@ public class ProductView extends JPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(productTitle, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+								.addComponent(productTitle, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
 								.addComponent(productPrice, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE))
 							.addGap(10)
 							.addComponent(productUnit, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
 							.addGap(98)
 							.addComponent(shoppingListBox, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(95)
-									.addComponent(productAmountPanel, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(35)
-									.addComponent(starButton, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))))
+							.addGap(35)
+							.addComponent(starButton, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(productAmountPanel_1, GroupLayout.PREFERRED_SIZE, 266, GroupLayout.PREFERRED_SIZE)
+							.addComponent(productAmountPanel, GroupLayout.PREFERRED_SIZE, 266, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(buyButton, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap())))
@@ -130,14 +113,9 @@ public class ProductView extends JPanel {
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(productPic, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(72)
-							.addComponent(productAmountPanel, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(29, Short.MAX_VALUE))
+					.addContainerGap()
+					.addComponent(productPic, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(24, Short.MAX_VALUE))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
@@ -159,7 +137,7 @@ public class ProductView extends JPanel {
 							.addComponent(buyButton, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
 							.addGap(13))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(productAmountPanel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(productAmountPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap())))
 		);
 		setLayout(groupLayout);
@@ -171,14 +149,6 @@ public class ProductView extends JPanel {
 	
 	public void addViewMouseListener(MouseListener listener) {
 		addMouseListener(listener);
-	}
-	
-	public void productIncrease(){
-		nbrOfProd++;
-	}
-	
-	public void productDecrease(){
-		nbrOfProd -= (nbrOfProd == 0)? 0: 1;
 	}
 	
 	public JComboBox getShoppingListBox() {
