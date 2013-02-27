@@ -1,6 +1,9 @@
 package ShoppingList;
 
+
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.LinkedList;
@@ -15,23 +18,30 @@ import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingItem;
 import shoppingCart.ShoppingCartAdapter;
+import shoppingcart.ShoppingCartProductPanel;
 
 public class ShoppingListViewController {
 	
 	public ShoppingListView view;
 	private static final ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
 	private Dimension separatorPanelSize = new Dimension(200000, 5);
+	private ShoppingListEntry activePanel;
 	
 	public ShoppingListViewController() {
 		view = new ShoppingListView();
+		view.addRemoveButtonActionListener(new RemoveButtonListener());
 		updateListView();
 	}
 	
 	public void updateListView() {
+		
+		view.getPanel().removeAll();
 		handler.readLists();
+		System.out.println("removed all panels");
+		view.getPanel().repaint();
 		
 		IMatDataHandler dm = IMatDataHandler.getInstance();
-		ShoppingCartAdapter cart = new ShoppingCartAdapter();
+		ShoppingCartAdapter cart = ShoppingCartAdapter.getInstance();
 		
 		Product p = dm.getProduct(5);
 		Product p1 = dm.getProduct(6);
@@ -50,14 +60,15 @@ public class ShoppingListViewController {
 		ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
 		
 		handler.readLists(); 
-		handler.addShoppingList(list);
-		handler.addShoppingList(list2);
-		handler.addShoppingList(list3);
-		handler.addShoppingList(list4);
+//		handler.addShoppingList(list);
+//		handler.addShoppingList(list2);
+//		handler.addShoppingList(list3);
+//		handler.addShoppingList(list4);
 //		handler.writeLists();
+		System.out.println("read lists");
 		
 		Set<ShoppingList> lists = handler.getShoppingLists();
-		System.out.println(lists.size());
+
 		for(ShoppingList l : lists) {
 			ShoppingListEntry entry = new ShoppingListEntry(l);
 			entry.addEntryMouseListener(new EntryClickedListener());
@@ -69,17 +80,32 @@ public class ShoppingListViewController {
 			
 			view.getPanel().add(separatorPanel);
 		}
+		System.out.println("added panels");
 		
 		view.getPanel().revalidate();
 		view.getPanel().repaint();
+		System.out.println("revalidated");
 	}
 	
 	private class EntryClickedListener implements MouseListener {
-
+		
 		@Override
 		public void mouseClicked(MouseEvent evt) {
-			ShoppingListEntry panel = (ShoppingListEntry)evt.getSource();
-			view.getHeaderNameLabel().setText(panel.getShoppingList().getName());
+			ShoppingListViewController.this.activePanel = (ShoppingListEntry)evt.getSource();
+			view.getRemoveButton().setEnabled(true);
+			updateDetailedPanel(ShoppingListViewController.this.activePanel.getShoppingList());
+		}
+
+		private void updateDetailedPanel(ShoppingList shoppingList) {
+			view.getDetailedPanel().removeAll();
+			
+			view.getHeaderNameLabel().setText(ShoppingListViewController.this.activePanel.getShoppingList().getName());
+			JPanel detailedPanel = view.getDetailedPanel();
+			for(ShoppingItem item : shoppingList.getItems()) {
+				detailedPanel.add(new ShoppingCartProductPanel(item));
+			}
+			
+			view.getDetailedPanel().revalidate();
 		}
 
 		@Override
@@ -96,6 +122,21 @@ public class ShoppingListViewController {
 		
 	}
 	
+	private class RemoveButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			ShoppingList list = ShoppingListViewController.this.activePanel.getShoppingList();
+			handler.removeShoppingList(list.getName());
+			handler.writeLists();
+			handler.getShoppingLists().size();
+			updateListView();
+			System.out.println("UPDATED (IN BUTTON LISTENER)");
+		}
+		
+	}
+	
 	private static class Main extends JFrame {
 		public Main() {
 			ShoppingListViewController controller = new ShoppingListViewController();
@@ -103,11 +144,9 @@ public class ShoppingListViewController {
 			setVisible(true);
 			setPreferredSize(new Dimension(1190,700));
 			
-			
 			add(controller.view);
 			pack();
 		}
-			
 		
 		public static void main(String[] args) {
 			new Main();

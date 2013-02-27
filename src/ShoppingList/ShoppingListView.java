@@ -6,11 +6,14 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JSeparator;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
+
+import java.awt.Component;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 
 public class ShoppingListView extends JPanel {
 	private final JPanel panel = new JPanel();
@@ -20,8 +23,8 @@ public class ShoppingListView extends JPanel {
 	private final JButton newListButton = new JButton("Ny inköpslista");
 	private final JLabel lblInkpslistor = new JLabel("Inköpslistor");
 	private final JPanel panel_3 = new JPanel();
-	private final JButton btnNewButton = new JButton("Lägg till i kundvagn");
-	private final JButton btnTaBortLista = new JButton("Ta bort lista");
+	private final JButton addToCartButton = new JButton("Lägg till i kundvagn");
+	private final JButton removeListButton = new JButton("Ta bort lista");
 	private final JLabel lblNewLabel = new JLabel("");
 
 	/**
@@ -56,16 +59,17 @@ public class ShoppingListView extends JPanel {
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(btnTaBortLista)
+					.addComponent(removeListButton)
 					.addPreferredGap(ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
-					.addComponent(btnNewButton)
+					.addComponent(addToCartButton)
 					.addContainerGap())
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblNewLabel)
 					.addContainerGap(456, Short.MAX_VALUE))
-				.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+				.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 468, GroupLayout.PREFERRED_SIZE)
 		);
+		removeListButton.setEnabled(false);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
@@ -73,13 +77,13 @@ public class ShoppingListView extends JPanel {
 					.addComponent(lblNewLabel)
 					.addGap(29)
 					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 404, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNewButton)
-						.addComponent(btnTaBortLista))
+						.addComponent(addToCartButton)
+						.addComponent(removeListButton))
 					.addContainerGap())
 		);
-		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.X_AXIS));
+		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.Y_AXIS));
 		panel_1.setLayout(gl_panel_1);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
@@ -119,5 +123,16 @@ public class ShoppingListView extends JPanel {
 	}
 	public JLabel getHeaderNameLabel() {
 		return lblNewLabel;
+	}
+	public JPanel getDetailedPanel() {
+		return panel_3;
+	}
+	
+	public void addRemoveButtonActionListener(ActionListener listener) {
+		removeListButton.addActionListener(listener);
+	}
+
+	public JButton getRemoveButton() {
+		return this.removeListButton;
 	}
 }

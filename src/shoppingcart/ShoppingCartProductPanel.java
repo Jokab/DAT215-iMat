@@ -1,4 +1,4 @@
-package shoppingCart;
+package shoppingcart;
 
 import javax.swing.JPanel;
 
@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
+import java.awt.Dimension;
 
 public class ShoppingCartProductPanel extends JPanel {
 
@@ -30,6 +31,10 @@ public class ShoppingCartProductPanel extends JPanel {
 	private JButton deleteButton;
 	
 	public ShoppingCartProductPanel(ShoppingItem item) {
+		setSize(new Dimension(455, 50));
+		setPreferredSize(new Dimension(455, 50));
+		setMinimumSize(new Dimension(455, 50));
+		setMaximumSize(new Dimension(455, 50));
 		double amount = item.getAmount();
 		amountLabel = new JLabel(amount + "st");
 		amountLabel.setFont(new Font("Calibri", Font.PLAIN, 11));
@@ -50,22 +55,22 @@ public class ShoppingCartProductPanel extends JPanel {
 					.addGap(18)
 					.addComponent(productLabel, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(priceLabel)
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(264, Short.MAX_VALUE)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 							.addComponent(amountLabel)
 							.addComponent(productLabel)
 							.addComponent(priceLabel)))
-					.addContainerGap())
+					.addContainerGap(263, Short.MAX_VALUE))
 		);
 		
 		increaseButton = new JButton("+");

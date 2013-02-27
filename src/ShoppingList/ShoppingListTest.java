@@ -1,23 +1,21 @@
 package ShoppingList;
-import java.io.IOException;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import se.chalmers.ait.dat215.project.IMatDataHandler;
-import se.chalmers.ait.dat215.project.Order;
 import se.chalmers.ait.dat215.project.Product;
-import se.chalmers.ait.dat215.project.ShoppingCart;
 import se.chalmers.ait.dat215.project.ShoppingItem;
 import shoppingCart.ShoppingCartAdapter;
-import shoppingCart.shoppingCartTest;
+
 
 
 public class ShoppingListTest {
 	
 	public static void main(String[] args) {
 		IMatDataHandler dm = IMatDataHandler.getInstance();
-		ShoppingCartAdapter cart = new ShoppingCartAdapter();
+		ShoppingCartAdapter cart = ShoppingCartAdapter.getInstance();
 
 		Product p = dm.getProduct(5);
 		Product p1 = dm.getProduct(6);
