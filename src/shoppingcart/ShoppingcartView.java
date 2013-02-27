@@ -1,4 +1,4 @@
-package shoppingCart;
+package shoppingcart;
 
 import java.awt.Color;
 
@@ -16,10 +16,22 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+
+import se.chalmers.ait.dat215.project.ShoppingItem;
+
 import java.awt.Font;
+import java.util.List;
 
 public class ShoppingcartView extends JPanel {
 
+	private ShoppingCartAdapter model;
+	
+	private JPanel productListPanel;
+	private JPanel summaryPanel;
+	
+	private JLabel totalPriceLabel;
+	private JLabel totalAmountLabel;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -27,16 +39,46 @@ public class ShoppingcartView extends JPanel {
 		setOpaque(false);
 		setLayout(null);
 		
+		JPanel listPanel = new JPanel();
+		listPanel.setFocusable(false);
+		listPanel.setBackground(new Color(236, 236, 236));
+		listPanel.setBounds(78, 0, 25, 720);
+		add(listPanel);
+		
 		JPanel contentPanel = new JPanel();
 		contentPanel.setBounds(103, 0, 220, 720);
 		add(contentPanel);
 		
-		JPanel summaryPanel = new JPanel();
+		JLabel iconLabel = new JLabel(new ImageIcon("img/shoppingcartIcon.png"));
+		iconLabel.setBounds(42, 39, 61, 61);
+		add(iconLabel);
+
+		// Create panels in contentPanel
+		summaryPanel = new JPanel();
+		totalPriceLabel = new JLabel();
+		totalPriceLabel.setFont(new Font("Segoe UI", Font.PLAIN, 24));
+		totalPriceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		totalPriceLabel.setForeground(new Color(169, 207, 109));
+		totalAmountLabel = new JLabel();
+		totalAmountLabel.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
+		totalAmountLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		productListPanel = new JPanel();
+		scrollPane.setViewportView(productListPanel);
 		
 		JPanel optionPanel = new JPanel();
+		JLabel lblLggTillVaror = new JLabel("L\u00E4gg till varor fr\u00E5n");
+		JComboBox comboBox = new JComboBox();
+		JButton toCounterButton = new JButton("Till kassa");
+		JButton saveProductListButton = new JButton("Spara Varukorg");
+		saveProductListButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
+		
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addComponent(summaryPanel, GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
@@ -53,15 +95,6 @@ public class ShoppingcartView extends JPanel {
 					.addComponent(optionPanel, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
 		);
 		
-		JLabel totalPriceLabel = new JLabel("99kr");
-		totalPriceLabel.setFont(new Font("Segoe UI", Font.PLAIN, 24));
-		totalPriceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		totalPriceLabel.setForeground(new Color(169, 207, 109))
-		;
-		
-		JLabel lblstVaror = new JLabel("20st varor");
-		lblstVaror.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
-		lblstVaror.setHorizontalAlignment(SwingConstants.RIGHT);
 		GroupLayout gl_summaryPanel = new GroupLayout(summaryPanel);
 		gl_summaryPanel.setHorizontalGroup(
 			gl_summaryPanel.createParallelGroup(Alignment.TRAILING)
@@ -72,7 +105,7 @@ public class ShoppingcartView extends JPanel {
 							.addComponent(totalPriceLabel, GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE))
 						.addGroup(Alignment.TRAILING, gl_summaryPanel.createSequentialGroup()
 							.addContainerGap(160, Short.MAX_VALUE)
-							.addComponent(lblstVaror)))
+							.addComponent(totalAmountLabel)))
 					.addContainerGap())
 		);
 		gl_summaryPanel.setVerticalGroup(
@@ -81,22 +114,11 @@ public class ShoppingcartView extends JPanel {
 					.addGap(24)
 					.addComponent(totalPriceLabel, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblstVaror, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+					.addComponent(totalAmountLabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(29, Short.MAX_VALUE))
 		);
 		summaryPanel.setLayout(gl_summaryPanel);
 		
-		JLabel lblLggTillVaror = new JLabel("L\u00E4gg till varor fr\u00E5n");
-		
-		JComboBox comboBox = new JComboBox();
-		
-		JButton toCounterButton = new JButton("Till kassa");
-		
-		JButton saveProductListButton = new JButton("Spara Varukorg");
-		saveProductListButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		GroupLayout gl_optionPanel = new GroupLayout(optionPanel);
 		gl_optionPanel.setHorizontalGroup(
 			gl_optionPanel.createParallelGroup(Alignment.LEADING)
@@ -128,19 +150,24 @@ public class ShoppingcartView extends JPanel {
 		);
 		optionPanel.setLayout(gl_optionPanel);
 		
-		JPanel productListPanel = new JPanel();
-		scrollPane.setViewportView(productListPanel);
+		
 		contentPanel.setLayout(gl_contentPanel);
-		
-		JPanel listPanel = new JPanel();
-		listPanel.setFocusable(false);
-		listPanel.setBackground(new Color(236, 236, 236));
-		listPanel.setBounds(78, 0, 25, 720);
-		add(listPanel);
-		
-		JLabel lblNewLabel = new JLabel(new ImageIcon("img/shoppingcartIcon.png"));
-		lblNewLabel.setBounds(42, 39, 61, 61);
-		add(lblNewLabel);
+	}
 
+	public void setModel(ShoppingCartAdapter model) {
+		this.model = model;
+	}
+	
+	private void updateSummary() {
+		totalAmountLabel.setText(model.getTotalProductsAmount() + "st varor");
+		totalPriceLabel.setText(model.getTotal() + "kr");
+	}
+	
+	private void updateItemList() {
+		productListPanel.removeAll();
+		List<ShoppingItem> tmpList = model.getItems();
+		for(ShoppingItem item : tmpList) {
+			productListPanel.add(new ShoppingCartProductPanel(item));
+		}
 	}
 }

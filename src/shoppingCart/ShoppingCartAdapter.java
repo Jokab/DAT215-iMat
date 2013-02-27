@@ -1,4 +1,4 @@
-package shoppingCart;
+package shoppingcart;
 
 import java.util.Iterator;
 import java.util.List;
@@ -179,5 +179,13 @@ public class ShoppingCartAdapter {
 			ShoppingItem temp = this.getItemReference(prod);
 			temp.setAmount(temp.getAmount() - 1);
 		}
+	}
+	
+	/**
+	 * Returns the total amount of unique products in the shoppingcart
+	 * @return total amount
+	 */
+	public int getTotalProductsAmount() {
+		return shoppingCart.getItems().size();
 	}
 }
