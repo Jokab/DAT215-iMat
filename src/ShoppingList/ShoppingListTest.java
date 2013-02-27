@@ -2,6 +2,7 @@ package ShoppingList;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Order;
@@ -29,28 +30,32 @@ public class ShoppingListTest {
 		
 		
 		
-		System.out.println("STARTING READING --------------------- \n \n");
+		System.out.println("\n\nSTARTING READING ---------------------");
 
 		ShoppingList list = new ShoppingList(listShop, "Vardag");
-		System.out.println(list.getName());
 		ShoppingList list2 = new ShoppingList("Lordag");
 		ShoppingList list3 = new ShoppingList("Sondag");
 		ShoppingList list4 = new ShoppingList("Fest");
 		
-		ShoppingListHandler handler = new ShoppingListHandler();
-		List<ShoppingList> readList = handler.getShoppingLists();
+		ShoppingListHandler handler = ShoppingListHandler.getInstance();
+
+		handler.readLists();
+//		handler.addShoppingList(list);
+//		handler.addShoppingList(list2);
+//		handler.addShoppingList(list3);
+//		handler.addShoppingList(list4);
+//		handler.writeLists();
 		
-		for(ShoppingList daList : readList) {
+		Set<ShoppingList> readLists = handler.getShoppingLists();
+		
+		for(ShoppingList daList : readLists) {
 			System.out.println(daList.getName());
+//			System.out.println(daList.getItems().get(0).getProduct().getName());
 		}
 		
-		if(handler.deleteFile("Vardag")) {
+		if(handler.removeShoppingList("Vardag")) {
 			System.out.println("Delete successful.");
 		}
 
-		
-//		System.out.println("Total price: " + list.getTotal() + "\tExpected: 250");
-//		System.out.println("Number of items:" + list.getNbrItems()+ "\tExpected: 2");
-//		dm.shutDown();
 	}
 }

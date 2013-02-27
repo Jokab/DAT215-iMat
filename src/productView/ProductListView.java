@@ -20,7 +20,6 @@ public class ProductListView extends JPanel {
 	public ProductListView() {
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setLayout(new GridLayout(0, 1, 0, 0));
-		new ProductListController(this);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBackground(Color.LIGHT_GRAY);
 		
@@ -32,6 +31,11 @@ public class ProductListView extends JPanel {
 		
 	}
 	
+	/**
+	 * Returns the JPanel actually used to display the results.
+	 * 
+	 * @return The results panel.
+	 */
 	public JPanel getViewPanel() {
 		return this.viewPanel;
 	}
