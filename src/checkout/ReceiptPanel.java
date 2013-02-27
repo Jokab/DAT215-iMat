@@ -11,17 +11,34 @@ import javax.swing.JScrollPane;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.swing.BoxLayout;
 
+
+import se.chalmers.ait.dat215.project.IMatDataHandler;
+import se.chalmers.ait.dat215.project.Product;
+import se.chalmers.ait.dat215.project.ShoppingCart;
+import se.chalmers.ait.dat215.project.ShoppingItem;
+import java.awt.GridLayout;
+
 public class ReceiptPanel extends JPanel {
+	private JPanel contentPanel;
 	public ReceiptPanel() {
-		//TODO: Getting the shoppinglist and adding the items to the scrollpane (uneditable versions)
+		contentPanel = new JPanel();
+		contentPanel.setLayout(new GridLayout(0, 1, 0, 0));
+		IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 		Session session = Session.getInstance();
-		
+		ShoppingCart shoppingCart = dataHandler.getShoppingCart();
+		List<ShoppingItem> shoppingList = shoppingCart.getItems();
+		for (int i=0 ; i<shoppingList.size() ; i++){
+			contentPanel.add(new ReceiptProductPanel(shoppingList.get(i)));
+		}
 		JScrollPane scrollPane = new JScrollPane();
 		
 		JLabel thanksLabel = new JLabel("Tack f\u00F6r din best\u00E4llning!");
-		thanksLabel.setFont(new Font("Verdana", Font.PLAIN, 24));
+		thanksLabel.setFont(new Font("Verdana", Font.PLAIN, 26));
 		
 		JLabel totalCostLabel = new JLabel("Total kostnad: ");
 		totalCostLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
@@ -42,21 +59,19 @@ public class ReceiptPanel extends JPanel {
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(257)
-					.addComponent(thanksLabel)
-					.addContainerGap(257, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(0, 0, Short.MAX_VALUE)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(saveCartButton)
+						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(nameLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(addressLabel, GroupLayout.PREFERRED_SIZE, 117, Short.MAX_VALUE)
 								.addComponent(totalCostLabel, GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
 								.addComponent(cardNumberLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 284, GroupLayout.PREFERRED_SIZE))
-						.addComponent(saveCartButton, Alignment.TRAILING))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(scrollPane)
+								.addComponent(thanksLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 					.addGap(18)
 					.addComponent(finishedButton, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
 					.addGap(174))
@@ -67,7 +82,7 @@ public class ReceiptPanel extends JPanel {
 					.addContainerGap()
 					.addComponent(thanksLabel)
 					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(totalCostLabel)
 							.addGap(19)
@@ -75,14 +90,20 @@ public class ReceiptPanel extends JPanel {
 							.addGap(18)
 							.addComponent(nameLabel)
 							.addGap(18)
-							.addComponent(addressLabel))
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 379, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
+							.addComponent(addressLabel)
+							.addGap(270))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 379, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)))
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(saveCartButton)
 						.addComponent(finishedButton))
 					.addContainerGap(21, Short.MAX_VALUE))
 		);
+		
+		
+		scrollPane.setViewportView(contentPanel);
+		
 		setLayout(groupLayout);
 		
 	}

@@ -21,6 +21,8 @@ import javax.swing.JButton;
 import se.chalmers.ait.dat215.project.CreditCard;
 import se.chalmers.ait.dat215.project.Customer;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
+import se.chalmers.ait.dat215.project.ShoppingCart;
+
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.JCheckBox;
@@ -56,6 +58,8 @@ public class InformationPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public InformationPanel() {
+		IMatDataHandler dataHandler = IMatDataHandler.getInstance();
+		final ShoppingCart shoppingCart = dataHandler.getShoppingCart();
 		setPreferredSize(new Dimension(800, 500));
 		setMinimumSize(new Dimension(800, 500));
 		setMaximumSize(new Dimension(800, 500));
@@ -222,7 +226,7 @@ public class InformationPanel extends JPanel {
 		BeginVerificationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO: Load verification panel.
-				if (session.infoIsOk()){
+				if (session.infoIsOk() && !shoppingCart.getItems().isEmpty()){
 					session.saveSession();
 				} else {
 					System.out.println("error");
