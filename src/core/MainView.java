@@ -2,6 +2,7 @@ package core;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
+import java.awt.Graphics;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -32,6 +33,8 @@ public class MainView extends JFrame {
 	private final JButton maximizeButton = new JButton();
 	private final JButton minimizeButton = new JButton();
 	private final JPanel windowbuttonsPanel = new JPanel();
+	private final JPanel popupBgPanel;
+	private final JLayeredPane layeredPane = new JLayeredPane();
 	/**
 	 * X-position of window
 	 */
@@ -41,7 +44,6 @@ public class MainView extends JFrame {
 	 * Y-position of window
 	 */
 	private int yPosition;
-	private final JLayeredPane layeredPane = new JLayeredPane();
 
 	/**
 	 * Create the frame.
@@ -121,12 +123,29 @@ public class MainView extends JFrame {
 		contentView.setBounds(64, 184, 1116, 521);
 		headerView.setBounds(0, 0, 1180, 184);
 		
-		layeredPane.add(contentView, new Integer(1));
-		layeredPane.add(headerView, new Integer(2));
-		layeredPane.add(windowbuttonsPanel, new Integer(5));
-		
 		ShoppingcartView shoppingcartView = new ShoppingcartView();
 		shoppingcartView.setBounds(856, 0, 324, 705);
+		
+		// Manipulate program to first paint other components behind JPanel and then the JPanel
+		popupBgPanel = new JPanel() {
+			protected void paintComponent(Graphics g)
+		    {
+		        g.setColor( getBackground() );
+		        g.fillRect(0, 0, getWidth(), getHeight());
+		        super.paintComponent(g);
+		    }
+		};
+		popupBgPanel.setOpaque(false);
+		popupBgPanel.setBounds(0, 0, 1200, 720);
+		popupBgPanel.setBackground(new Color(0,0,0,60));
+		popupBgPanel.setVisible(false);
+		
+		// Add to layered pane
+		layeredPane.add(contentView, new Integer(1));
+		layeredPane.add(headerView, new Integer(2));
+		layeredPane.add(windowbuttonsPanel, new Integer(6));
+		layeredPane.add(popupBgPanel, new Integer(4));
+		popupBgPanel.setLayout(new BorderLayout(0, 0));
 		layeredPane.add(shoppingcartView, new Integer(3));
 		
 		// Handle positioning of window
@@ -149,13 +168,38 @@ public class MainView extends JFrame {
 		setVisible(true);
 	}
 	
+	/**
+	 * Returns a reference to the <code>HeaderView</code>
+	 * @return HeaderView
+	 */
 	public HeaderView getHeaderView() {
 		return this.headerView;
 	}
 	
+	/**
+	 * Sets the content of the contentView.
+	 * @param panel
+	 */
 	public void setContentView(JPanel panel) {
 		contentView.removeAll();
 		contentView.add(panel);
 		contentView.revalidate();
+	}
+	
+	/**
+	 * Dims the screen and presents the specified JPanel in the middle
+	 * @param panel
+	 */
+	public void setPopup(JPanel panel) {
+		popupBgPanel.setVisible(true);
+		popupBgPanel.add(panel, BorderLayout.CENTER);
+	}
+	
+	/**
+	 * Removes the popup from the screen
+	 */
+	public void removePopup() {
+		popupBgPanel.setVisible(false);
+		popupBgPanel.removeAll();
 	}
 }
