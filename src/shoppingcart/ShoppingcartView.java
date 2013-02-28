@@ -1,4 +1,4 @@
-package shoppingCart;
+package shoppingcart;
 
 import java.awt.Color;
 
@@ -18,7 +18,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
 import se.chalmers.ait.dat215.project.ShoppingItem;
-import shoppingCart.ShoppingCartAdapter;
 
 import java.awt.Font;
 import java.beans.PropertyChangeEvent;

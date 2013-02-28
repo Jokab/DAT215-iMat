@@ -16,30 +16,34 @@ import se.chalmers.ait.dat215.project.Order;
 
 import java.awt.Color;
 import java.awt.event.MouseListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class OrderEntry extends JPanel {
 	private final JButton btnNewButton = new JButton("+\n");
-	private final JLabel shoppingListName = new JLabel("New label");
+	private final JLabel orderDateLabel = new JLabel("New label");
 	private final Component horizontalStrut = Box.createHorizontalStrut(20);
 	private final Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-	private final JPanel shoppingInfoLabel;
+	private final JPanel orderInfoLabel;
 	private Order order;
+	private String date;
+	
 	/**
 	 * Create the panel.
 	 */
 	public OrderEntry(Order order) {
 		this.order = order;
-		shoppingInfoLabel = new OrderEntryInfo(order);
-		shoppingListName.setText(order.getDate().toString());
-		
+		orderInfoLabel = new OrderEntryInfo(order);
+		date = OrderUtil.convertDateToFormattedString(order.getDate());
+		orderDateLabel.setText(date);
 		
 		setBackground(new Color(255, 255, 204));
 		setMinimumSize(new Dimension(280, 45));
 		setMaximumSize(new Dimension(280, 45));
 		setSize(new Dimension(280, 45));
-		setPreferredSize(new Dimension(280, 45));
+		setPreferredSize(new Dimension(305, 45));
 		
 		btnNewButton.setPreferredSize(new Dimension(50, 25));
 		
@@ -57,12 +61,12 @@ public class OrderEntry extends JPanel {
 					.addGap(5)
 					.addComponent(horizontalStrut_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(5)
-					.addComponent(shoppingListName)
+					.addComponent(orderDateLabel)
 					.addGap(5)
-					.addComponent(horizontalStrut, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(horizontalStrut, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(shoppingInfoLabel, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
-					.addGap(31))
+					.addComponent(orderInfoLabel, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -76,12 +80,12 @@ public class OrderEntry extends JPanel {
 									.addGap(12)
 									.addComponent(horizontalStrut_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(12)
-									.addComponent(horizontalStrut, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(5)
-									.addComponent(shoppingListName))))
-						.addComponent(shoppingInfoLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addComponent(orderDateLabel))))
+						.addComponent(orderInfoLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(17)
+							.addComponent(horizontalStrut, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
@@ -95,14 +99,19 @@ public class OrderEntry extends JPanel {
 		addMouseListener(listener);
 	}
 	
-//	public Order getOrders() {
-//		return this.order;
-//	}
-	
-	public String processDate(Date date) {
-		Calendar cal = Calendar.getInstance();
-		cal.
+	public Order getOrder() {
+		return this.order;
 	}
+
+	public String getDate() {
+		return this.date;
+	}
+	
+	
+//	public String processDate(Date date) {
+//		Calendar cal = Calendar.getInstance();
+//		cal.
+//	}
 
 
 }

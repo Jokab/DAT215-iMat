@@ -1,4 +1,4 @@
-package shoppingCart;
+package shoppingcart;
 
 import javax.swing.JPanel;
 
