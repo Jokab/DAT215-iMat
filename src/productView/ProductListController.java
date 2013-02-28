@@ -38,8 +38,8 @@ public class ProductListController implements ViewController {
 			pView.addMouseListener(new ViewMouseListener());
 			pView.addActionListener(new StarActionListener());
 			view.getViewPanel().add(pView);
-			view.getViewPanel().revalidate();
 		}
+		view.getViewPanel().revalidate();
 	}
 	
 	/**

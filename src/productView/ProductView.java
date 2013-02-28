@@ -36,7 +36,7 @@ public class ProductView extends JPanel {
 		setOpaque(false); 
 		IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 		setMaximumSize(new Dimension(800, 150));
-		setPreferredSize(new Dimension(680, 110));
+		setPreferredSize(new Dimension(650, 110));
 		setSize(new Dimension(800, 150));
 		setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(225, 225, 225)));
 		setMinimumSize(new Dimension(800, 150));
@@ -57,12 +57,12 @@ public class ProductView extends JPanel {
 		productPrice.setHorizontalAlignment(SwingConstants.RIGHT);
 		productPrice.setHorizontalTextPosition(SwingConstants.RIGHT);
 		productPrice.setForeground(new Color(150, 150, 150));
-		productPrice.setBounds(296, 38, 134, 23);
+		productPrice.setBounds(283, 41, 134, 23);
 		productPrice.setFont(new Font("Calibri Light", Font.PLAIN, 18));
 		
 		JLabel productTitle = new JLabel(product.getName());
 		productTitle.setForeground(new Color(150, 150, 150));
-		productTitle.setBounds(136, 29, 238, 23);
+		productTitle.setBounds(136, 29, 176, 23);
 		productTitle.setMaximumSize(new Dimension(70, 14));
 		productTitle.setFont(new Font("Calibri Light", Font.PLAIN, 15));
 		
@@ -78,7 +78,7 @@ public class ProductView extends JPanel {
 		
 		JButton buyButton = new JButton(new ImageIcon("img/buyButton.png"));
 		buyButton.setBorder(null);
-		buyButton.setBounds(589, 37, 46, 25);
+		buyButton.setBounds(565, 40, 46, 25);
 		buyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ShoppingCartAdapter.getInstance().addProduct(product, productAmountPanel.getAmount());
@@ -89,7 +89,7 @@ public class ProductView extends JPanel {
 		ImageIcon starIcon = new ImageIcon(System.getProperty("user.home") + PicURL);
 		
 		starButton = new JButton();
-		starButton.setBounds(640, 11, 30, 32);
+		starButton.setBounds(619, 8, 30, 32);
 		starButton.setBorder(null);
 		starButton.setIcon(starIcon);
 		/*default invisible*/
@@ -100,7 +100,7 @@ public class ProductView extends JPanel {
 		add(productPrice);
 		add(productUnit);
 		add(starButton);
-		productAmountPanel.setBounds(453, 39, 80, 20);
+		productAmountPanel.setBounds(450, 42, 80, 20);
 		add(productAmountPanel);
 		add(buyButton);
 	

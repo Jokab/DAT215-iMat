@@ -1,16 +1,15 @@
 package productView;
 import javax.swing.JPanel;
-import javax.swing.JList;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
 import javax.swing.JScrollPane;
 import java.awt.Color;
-import javax.swing.border.LineBorder;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.BoxLayout;
+import java.awt.Component;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 
 public class ProductListView extends JPanel {
-	private final JScrollPane scrollPane = new JScrollPane();
 	private final JPanel viewPanel = new JPanel();
 	
 
@@ -20,20 +19,22 @@ public class ProductListView extends JPanel {
 	public ProductListView() {
 		setOpaque(false);
 		setBorder(null);
-		setLayout(new GridLayout(0, 1, 0, 0));
-		scrollPane.setBorder(null);
-		scrollPane.setOpaque(false);
-		scrollPane.setBackground(Color.WHITE);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
-		add(scrollPane);
+		JScrollPane scrollPane = new JScrollPane();
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+		);
+		scrollPane.setViewportView(viewPanel);
 		viewPanel.setBackground(Color.WHITE);
 		viewPanel.setBorder(null);
-		
-		scrollPane.setViewportView(viewPanel);
-		viewPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		
+		viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.PAGE_AXIS));
+		setLayout(groupLayout);
 	}
 	
 	/**
@@ -44,5 +45,4 @@ public class ProductListView extends JPanel {
 	public JPanel getViewPanel() {
 		return this.viewPanel;
 	}
-
 }
