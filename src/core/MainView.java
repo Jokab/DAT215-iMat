@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
 import shoppingCart.ShoppingcartView;
 import java.awt.FlowLayout;
+import shoppingCart.ShoppingCartMinimizedView;
 
 
 public class MainView extends JFrame {
@@ -34,6 +35,7 @@ public class MainView extends JFrame {
 	private final JButton minimizeButton = new JButton();
 	private final JPanel windowbuttonsPanel = new JPanel();
 	private final JPanel popupBgPanel;
+	private final ShoppingcartView shoppingCartView;
 	private final JLayeredPane layeredPane = new JLayeredPane();
 	/**
 	 * X-position of window
@@ -57,22 +59,21 @@ public class MainView extends JFrame {
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(null);
 		setContentPane(contentPane);
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE))
+				.addComponent(layeredPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(layeredPane, GroupLayout.PREFERRED_SIZE, 740, GroupLayout.PREFERRED_SIZE))
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addComponent(layeredPane, GroupLayout.PREFERRED_SIZE, 740, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
+		layeredPane.setBorder(null);
 		
 		// Windowbuttons
 		windowbuttonsPanel.setBounds(1099, 11, 52, 14);	
@@ -123,8 +124,14 @@ public class MainView extends JFrame {
 		contentView.setBounds(64, 184, 1116, 521);
 		headerView.setBounds(0, 0, 1180, 184);
 		
-		ShoppingcartView shoppingcartView = new ShoppingcartView();
-		shoppingcartView.setBounds(856, 0, 324, 705);
+		shoppingCartView = new ShoppingcartView();
+		shoppingCartView.setBounds(876, 0, 324, 720);
+		
+		// Add to layered pane
+		layeredPane.add(contentView, new Integer(1));
+		layeredPane.add(headerView, new Integer(2));
+		layeredPane.add(windowbuttonsPanel, new Integer(7));
+		layeredPane.add(shoppingCartView, new Integer(4));
 		
 		// Manipulate program to first paint other components behind JPanel and then the JPanel
 		popupBgPanel = new JPanel() {
@@ -135,18 +142,26 @@ public class MainView extends JFrame {
 		        super.paintComponent(g);
 		    }
 		};
+		
+		ShoppingCartMinimizedView shoppingCartMinimizedView = new ShoppingCartMinimizedView();
+		shoppingCartMinimizedView.setBounds(1075, 0, 125, 720);
+		
+		
 		popupBgPanel.setOpaque(false);
-		popupBgPanel.setBounds(0, 0, 1200, 720);
+		popupBgPanel.setBounds(0, 647, 1200, 73);
 		popupBgPanel.setBackground(new Color(0,0,0,60));
 		popupBgPanel.setVisible(false);
-		
-		// Add to layered pane
-		layeredPane.add(contentView, new Integer(1));
-		layeredPane.add(headerView, new Integer(2));
-		layeredPane.add(windowbuttonsPanel, new Integer(6));
-		layeredPane.add(popupBgPanel, new Integer(4));
+		layeredPane.add(popupBgPanel, new Integer(5));
 		popupBgPanel.setLayout(new BorderLayout(0, 0));
-		layeredPane.add(shoppingcartView, new Integer(3));
+		layeredPane.add(shoppingCartMinimizedView);
+		
+		// Set detail view of shoppingcart to non-visible.
+		shoppingCartView.setVisible(false);
+		
+		// Add actionlistener for shoppingcart-show event
+		ActionListener l = new ListListener();
+		shoppingCartMinimizedView.addListListener(l);
+		shoppingCartView.addListListener(l); 
 		
 		// Handle positioning of window
 		headerView.addMouseListener(new MouseAdapter() {
@@ -201,5 +216,14 @@ public class MainView extends JFrame {
 	public void removePopup() {
 		popupBgPanel.setVisible(false);
 		popupBgPanel.removeAll();
+	}
+	
+	private class ListListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			shoppingCartView.setVisible(!shoppingCartView.isVisible());
+		}
+		
 	}
 }

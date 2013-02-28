@@ -26,6 +26,8 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import java.awt.Cursor;
 
 public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 
@@ -33,9 +35,12 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 	
 	private JPanel productListPanel;
 	private JPanel summaryPanel;
-	
 	private JLabel totalPriceLabel;
 	private JLabel totalAmountLabel;
+	
+	private JButton listButton; 
+	private JButton shoppingcartIconButton;
+	private JButton minimizeLabelButton;
 	
 	/**
 	 * Create the panel.
@@ -46,16 +51,6 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		
 		model = ShoppingCartAdapter.getInstance();
 		model.addListener(this);
-		
-		JPanel listPanel = new JPanel();
-		JLabel iconLabel = new JLabel(new ImageIcon("img/shoppingcartIcon.png"));
-		iconLabel.setBounds(42, 39, 61, 61);
-		add(iconLabel);
-		
-		listPanel.setFocusable(false);
-		listPanel.setBackground(new Color(236, 236, 236));
-		listPanel.setBounds(78, 0, 25, 720);
-		add(listPanel);
 		
 		JPanel contentPanel = new JPanel();
 		contentPanel.setBounds(103, 0, 220, 720);
@@ -165,6 +160,35 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		
 		
 		contentPanel.setLayout(gl_contentPanel);
+		
+		shoppingcartIconButton = new JButton(new ImageIcon("img/shoppingcartIcon.png"));
+		shoppingcartIconButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		shoppingcartIconButton.setContentAreaFilled(false);
+		shoppingcartIconButton.setBorder(null);
+		shoppingcartIconButton.setBounds(42, 39, 61, 61);
+	
+		listButton = new JButton();
+		listButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		listButton.setRolloverEnabled(false);
+		listButton.setRequestFocusEnabled(false);
+		listButton.setFocusPainted(false);
+		listButton.setFocusable(false);
+		listButton.setBorder(null);
+		listButton.setBackground(new Color(236, 236, 236));
+		listButton.setBounds(77, 0, 26, 720);
+		
+		minimizeLabelButton = new JButton(new ImageIcon("img/shoppingcartMaximizedLabel.png"));
+		minimizeLabelButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		minimizeLabelButton.setRolloverEnabled(false);
+		minimizeLabelButton.setRequestFocusEnabled(false);
+		minimizeLabelButton.setOpaque(false);
+		minimizeLabelButton.setContentAreaFilled(false);
+		minimizeLabelButton.setBorder(null);
+		minimizeLabelButton.setBounds(81, 283, 16, 154);
+		
+		add(shoppingcartIconButton);
+		add(minimizeLabelButton);
+		add(listButton);
 	}
 	
 	private void updateSummary() {
@@ -184,5 +208,11 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent evt) {
 		updateSummary();
 		updateItemList();
+	}
+	
+	public void addListListener(ActionListener l) {
+		shoppingcartIconButton.addActionListener(l);
+		listButton.addActionListener(l);
+		minimizeLabelButton.addActionListener(l);
 	}
 }
