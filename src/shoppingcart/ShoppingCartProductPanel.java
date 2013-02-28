@@ -1,8 +1,7 @@
-package shoppingcart;
+package shoppingCart;
 
 import javax.swing.JPanel;
 
-import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingItem;
 
 import javax.swing.JLabel;
@@ -12,6 +11,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
@@ -31,12 +31,15 @@ public class ShoppingCartProductPanel extends JPanel {
 	private JButton deleteButton;
 	
 	public ShoppingCartProductPanel(ShoppingItem item) {
-		setSize(new Dimension(455, 50));
-		setPreferredSize(new Dimension(455, 50));
-		setMinimumSize(new Dimension(455, 50));
-		setMaximumSize(new Dimension(455, 50));
+		setSize(new Dimension(220, 30));
+		setPreferredSize(new Dimension(220, 30));
+		setMinimumSize(new Dimension(220, 30));
+		setMaximumSize(new Dimension(220, 30));
+		
+		setLayout(new FlowLayout(FlowLayout.LEFT));
+		
 		double amount = item.getAmount();
-		amountLabel = new JLabel(amount + "st");
+		amountLabel = new JLabel(amount + " " + item.getProduct().getUnit());
 		amountLabel.setFont(new Font("Calibri", Font.PLAIN, 11));
 		productLabel = new JLabel(item.getProduct().getName());
 		productLabel.setFont(new Font("Calibri", Font.PLAIN, 11));
@@ -45,33 +48,6 @@ public class ShoppingCartProductPanel extends JPanel {
 		priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		panel = new JPanel();
-		
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(amountLabel)
-					.addGap(18)
-					.addComponent(productLabel, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(priceLabel)
-					.addContainerGap())
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(amountLabel)
-							.addComponent(productLabel)
-							.addComponent(priceLabel)))
-					.addContainerGap(263, Short.MAX_VALUE))
-		);
 		
 		increaseButton = new JButton("+");
 		increaseButton.setBorder(new EmptyBorder(3, 5, 3, 5));
@@ -92,7 +68,11 @@ public class ShoppingCartProductPanel extends JPanel {
 		deleteButton.setBackground(new Color(211, 130, 114));
 		deleteButton.setActionCommand("-");
 		panel.add(deleteButton);
-		setLayout(groupLayout);
+		
+		add(amountLabel);
+		add(productLabel);
+		add(panel);
+		add(priceLabel);
 		
 	}
 }

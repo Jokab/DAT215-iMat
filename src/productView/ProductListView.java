@@ -18,13 +18,17 @@ public class ProductListView extends JPanel {
 	 * Create the panel.
 	 */
 	public ProductListView() {
-		setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		setOpaque(false);
+		setBorder(null);
 		setLayout(new GridLayout(0, 1, 0, 0));
+		scrollPane.setOpaque(false);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBackground(Color.LIGHT_GRAY);
 		
 		add(scrollPane);
-		viewPanel.setBackground(Color.PINK);
+		viewPanel.setBorder(null);
+		viewPanel.setOpaque(false);
 		
 		scrollPane.setViewportView(viewPanel);
 		viewPanel.setLayout(new GridLayout(0, 1, 0, 0));

@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
+import shoppingCart.ShoppingcartView;
 
 
 public class MainView extends JFrame {
@@ -59,17 +60,19 @@ public class MainView extends JFrame {
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addComponent(layeredPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(layeredPane, GroupLayout.PREFERRED_SIZE, 740, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(layeredPane, GroupLayout.PREFERRED_SIZE, 740, GroupLayout.PREFERRED_SIZE))
 		);
 		
 		// Windowbuttons
-		windowbuttonsPanel.setBounds(this.getWidth() - 80, 15, 52, 14);	
+		windowbuttonsPanel.setBounds(1099, 11, 52, 14);	
 		windowbuttonsPanel.setOpaque(false);
 		windowbuttonsPanel.setMinimumSize(new Dimension(50, 12));
 		windowbuttonsPanel.setLayout(new BorderLayout(7, 0));
@@ -118,6 +121,10 @@ public class MainView extends JFrame {
 		layeredPane.add(contentView, new Integer(1));
 		layeredPane.add(headerView, new Integer(2));
 		layeredPane.add(windowbuttonsPanel, new Integer(5));
+		
+		ShoppingcartView shoppingcartView = new ShoppingcartView();
+		shoppingcartView.setBounds(856, 0, 324, 740);
+		layeredPane.add(shoppingcartView, new Integer(3));
 		
 		// Handle positioning of window
 		headerView.addMouseListener(new MouseAdapter() {

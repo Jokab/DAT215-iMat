@@ -92,7 +92,6 @@ public class ProductListController implements ViewController {
 			if (evt.getSource().getClass().equals(ProductView.class)) {
 				panel = (ProductView) evt.getSource();
 				panel.getStarButton().setVisible(true);
-				panel.getShoppingListBox().setVisible(true);
 			}
 		}
 
@@ -101,7 +100,6 @@ public class ProductListController implements ViewController {
 				return;
 			} else {
 				panel.getStarButton().setVisible(false);
-				panel.getShoppingListBox().setVisible(false);
 			}	
 		}
 

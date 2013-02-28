@@ -8,6 +8,7 @@ public class ContentView extends JPanel {
 	 * Create the panel.
 	 */
 	public ContentView() {
+		setOpaque(false);
 
 	}
 }

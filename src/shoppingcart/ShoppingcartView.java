@@ -1,4 +1,4 @@
-package shoppingcart;
+package shoppingCart;
 
 import java.awt.Color;
 
@@ -24,6 +24,8 @@ import java.awt.Font;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.awt.GridLayout;
+import javax.swing.BoxLayout;
 
 public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 
@@ -42,7 +44,14 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		setOpaque(false);
 		setLayout(null);
 		
+		model = ShoppingCartAdapter.getInstance();
+		model.addListener(this);
+		
 		JPanel listPanel = new JPanel();
+		JLabel iconLabel = new JLabel(new ImageIcon("img/shoppingcartIcon.png"));
+		iconLabel.setBounds(42, 39, 61, 61);
+		add(iconLabel);
+		
 		listPanel.setFocusable(false);
 		listPanel.setBackground(new Color(236, 236, 236));
 		listPanel.setBounds(78, 0, 25, 720);
@@ -50,14 +59,12 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		
 		JPanel contentPanel = new JPanel();
 		contentPanel.setBounds(103, 0, 220, 720);
+		contentPanel.setBackground(new Color(245,245,245));
 		add(contentPanel);
-		
-		JLabel iconLabel = new JLabel(new ImageIcon("img/shoppingcartIcon.png"));
-		iconLabel.setBounds(42, 39, 61, 61);
-		add(iconLabel);
 
 		// Create panels in contentPanel
 		summaryPanel = new JPanel();
+		summaryPanel.setOpaque(false);
 		totalPriceLabel = new JLabel();
 		totalPriceLabel.setFont(new Font("Segoe UI", Font.PLAIN, 24));
 		totalPriceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -68,9 +75,12 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		productListPanel = new JPanel();
+		productListPanel.setOpaque(false);
 		scrollPane.setViewportView(productListPanel);
+		productListPanel.setLayout(new BoxLayout(productListPanel, BoxLayout.PAGE_AXIS));
 		
 		JPanel optionPanel = new JPanel();
+		optionPanel.setOpaque(false);
 		JLabel lblLggTillVaror = new JLabel("L\u00E4gg till varor fr\u00E5n");
 		JComboBox comboBox = new JComboBox();
 		JButton toCounterButton = new JButton("Till kassa");
@@ -155,14 +165,6 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		
 		
 		contentPanel.setLayout(gl_contentPanel);
-	}
-
-	public void setModel(ShoppingCartAdapter model) {
-		if(this.model != null) {
-			this.model.removeListener(this);
-		}
-		this.model = model;
-		this.model.addListener(this);
 	}
 	
 	private void updateSummary() {
