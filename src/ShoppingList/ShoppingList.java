@@ -21,15 +21,17 @@ public class ShoppingList implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<ShoppingItem> list;
 	private String name;
-
-	public ShoppingList(String name) {
-		this(null, name);
+	
+	public ShoppingList(String text) {
+		this(null,text);
 	}
 
 	public ShoppingList(List<ShoppingItem> list, String name) {
 		this.name = name;
 		this.list = list;
 	}
+
+
 
 	/**
 	 * Returns the List&lt;ShoppingList&gt; which contains the ShoppingItems in

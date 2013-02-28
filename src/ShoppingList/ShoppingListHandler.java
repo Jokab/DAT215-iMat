@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import shoppingCart.shoppingCartTest;
+import shoppingcart.shoppingCartTest;
 
 /**
  * A singleton class for managing retrieving, deleting and other useful functionality
@@ -159,6 +159,16 @@ public enum ShoppingListHandler implements Serializable {
 		
 
 		return false;
+	}
+	
+	public ShoppingList getList(String name) {
+		for(ShoppingList list : getShoppingLists()) {
+			if(list.getName().equals(name)) {
+				return list;
+			}
+		}
+		
+		return null;
 	}
 
 	private class ShoppingListHolder implements Serializable {

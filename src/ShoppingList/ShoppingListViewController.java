@@ -17,15 +17,16 @@ import javax.swing.JSeparator;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingItem;
-import shoppingCart.ShoppingCartAdapter;
+import shoppingcart.ShoppingCartAdapter;
 import shoppingcart.ShoppingCartProductPanel;
 
 public class ShoppingListViewController {
 	
-	public ShoppingListView view;
+	private ShoppingListView view;
 	private static final ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
 	private Dimension separatorPanelSize = new Dimension(200000, 5);
-	private ShoppingListEntry activePanel;
+	private ShoppingListEntry activeEntryPanel;
+	private ShoppingCartAdapter cart = ShoppingCartAdapter.getInstance();
 	
 	public ShoppingListViewController() {
 		view = new ShoppingListView();
@@ -33,7 +34,7 @@ public class ShoppingListViewController {
 		updateListView();
 	}
 	
-	public void updateListView() {
+	private void updateListView() {
 		
 		view.getPanel().removeAll();
 		handler.readLists();
@@ -41,7 +42,6 @@ public class ShoppingListViewController {
 		view.getPanel().repaint();
 		
 		IMatDataHandler dm = IMatDataHandler.getInstance();
-		ShoppingCartAdapter cart = ShoppingCartAdapter.getInstance();
 		
 		Product p = dm.getProduct(5);
 		Product p1 = dm.getProduct(6);
@@ -59,7 +59,7 @@ public class ShoppingListViewController {
 		
 		ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
 		
-		handler.readLists(); 
+//		handler.readLists(); 
 //		handler.addShoppingList(list);
 //		handler.addShoppingList(list2);
 //		handler.addShoppingList(list3);
@@ -91,32 +91,17 @@ public class ShoppingListViewController {
 		
 		@Override
 		public void mouseClicked(MouseEvent evt) {
-			ShoppingListViewController.this.activePanel = (ShoppingListEntry)evt.getSource();
-			view.getRemoveButton().setEnabled(true);
-			updateDetailedPanel(ShoppingListViewController.this.activePanel.getShoppingList());
-		}
-
-		private void updateDetailedPanel(ShoppingList shoppingList) {
-			view.getDetailedPanel().removeAll();
-			
-			view.getHeaderNameLabel().setText(ShoppingListViewController.this.activePanel.getShoppingList().getName());
-			JPanel detailedPanel = view.getDetailedPanel();
-			for(ShoppingItem item : shoppingList.getItems()) {
-				detailedPanel.add(new ShoppingCartProductPanel(item));
-			}
-			
-			view.getDetailedPanel().revalidate();
+			ShoppingListViewController.this.activeEntryPanel = (ShoppingListEntry)evt.getSource();
+			checkRemoveButtonEnabled();
+			updateDetailedPanel(ShoppingListViewController.this.activeEntryPanel.getShoppingList());
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {}
-
 		@Override
 		public void mouseReleased(MouseEvent e) {}
-
 		@Override
 		public void mouseEntered(MouseEvent e) {}
-
 		@Override
 		public void mouseExited(MouseEvent e) {	}
 		
@@ -125,16 +110,62 @@ public class ShoppingListViewController {
 	private class RemoveButtonListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			ShoppingList list = ShoppingListViewController.this.activePanel.getShoppingList();
+		public void actionPerformed(ActionEvent e) {	
+			ShoppingList list = ShoppingListViewController.this.activeEntryPanel.getShoppingList();
 			handler.removeShoppingList(list.getName());
-			handler.writeLists();
-			handler.getShoppingLists().size();
+			handler.writeLists();		// necessary to be able to retrieve lists for repaint
+
 			updateListView();
-			System.out.println("UPDATED (IN BUTTON LISTENER)");
+			updateHeaderText(null);
+			view.getRemoveButton().setEnabled(false);
+			view.getDetailedPanel().removeAll();
+			view.getDetailedPanel().repaint();
 		}
 		
+	}
+	
+	private class AddToCartButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			addListToCart();
+		}
+		
+		private void addListToCart() {
+			List<ShoppingItem> list = activeEntryPanel.getShoppingList().getItems();
+			for(ShoppingItem item : list) {
+				cart.addItem(item);
+			}
+		}
+	}
+	
+	private void updateDetailedPanel(ShoppingList shoppingList) {
+		view.getDetailedPanel().removeAll();
+		
+		updateHeaderText(shoppingList);
+		JPanel detailedPanel = view.getDetailedPanel();
+		for(ShoppingItem item : shoppingList.getItems()) {
+			detailedPanel.add(new ShoppingCartProductPanel(item));
+		}
+		
+		view.getDetailedPanel().revalidate();
+	}
+	
+	private void checkRemoveButtonEnabled() {
+		System.out.println(view.getPanel().getComponentCount());
+		if(!(view.getPanel().getComponentCount() <= 1)) {
+			view.getRemoveButton().setEnabled(true);
+		} else {
+			view.getRemoveButton().setEnabled(false);
+		}
+	}
+
+	private void updateHeaderText(ShoppingList list) {
+		if(list == null) {
+			view.getHeaderNameLabel().setText("");
+		} else {
+			view.getHeaderNameLabel().setText(ShoppingListViewController.this.activeEntryPanel.getShoppingList().getName());
+		}
 	}
 	
 	private static class Main extends JFrame {
@@ -152,5 +183,7 @@ public class ShoppingListViewController {
 			new Main();
 		}
 	}
+	
+	
 	
 }

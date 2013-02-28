@@ -11,18 +11,21 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import java.awt.Dimension;
 
 public class OrderListView extends JPanel {
 	private final JPanel panel = new JPanel();
 	private final JSeparator separator = new JSeparator();
 	private final JPanel panel_1 = new JPanel();
 	private final JPanel panel_2 = new JPanel();
-	private final JButton newListButton = new JButton("Ny inköpslista");
-	private final JLabel lblInkpslistor = new JLabel("Inköpslistor");
-	private final JPanel panel_3 = new JPanel();
-	private final JButton btnNewButton = new JButton("Lägg till i kundvagn");
-	private final JButton btnTaBortLista = new JButton("Ta bort lista");
+	private final JLabel lblOrderHistory = new JLabel("Orderhistorik");
+	private final JPanel detailedPanel = new JPanel();
+	private final JButton addToCartBtn = new JButton("Lägg till i kundvagn");
+	private final JButton removeOrderBtn = new JButton("Ta bort order");
 	private final JLabel lblNewLabel = new JLabel("");
+	private final JScrollPane scrollPane = new JScrollPane();
 
 	/**
 	 * Create the panel.
@@ -43,12 +46,12 @@ public class OrderListView extends JPanel {
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(separator, GroupLayout.PREFERRED_SIZE, 498, Short.MAX_VALUE)
-						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(separator, GroupLayout.PREFERRED_SIZE, 499, Short.MAX_VALUE)
+						.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
+						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
@@ -56,15 +59,15 @@ public class OrderListView extends JPanel {
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(btnTaBortLista)
-					.addPreferredGap(ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
-					.addComponent(btnNewButton)
+					.addComponent(removeOrderBtn)
+					.addPreferredGap(ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
+					.addComponent(addToCartBtn)
 					.addContainerGap())
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblNewLabel)
 					.addContainerGap(456, Short.MAX_VALUE))
-				.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+				.addComponent(detailedPanel, GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -72,41 +75,42 @@ public class OrderListView extends JPanel {
 					.addContainerGap()
 					.addComponent(lblNewLabel)
 					.addGap(29)
-					.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 404, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+					.addComponent(detailedPanel, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNewButton)
-						.addComponent(btnTaBortLista))
+						.addComponent(addToCartBtn)
+						.addComponent(removeOrderBtn))
 					.addContainerGap())
 		);
-		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.X_AXIS));
+		removeOrderBtn.setEnabled(false);
+		detailedPanel.setLayout(new BoxLayout(detailedPanel, BoxLayout.PAGE_AXIS));
 		panel_1.setLayout(gl_panel_1);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(21)
-					.addComponent(lblInkpslistor)
-					.addContainerGap(193, Short.MAX_VALUE))
-				.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-					.addContainerGap(154, Short.MAX_VALUE)
-					.addComponent(newListButton)
-					.addContainerGap())
+					.addComponent(lblOrderHistory)
+					.addContainerGap(143, Short.MAX_VALUE))
+				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 289, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(6, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel.createSequentialGroup()
+				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
 					.addGap(6)
-					.addComponent(lblInkpslistor)
+					.addComponent(lblOrderHistory)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(newListButton)
-					.addContainerGap())
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+					.addGap(43))
 		);
-		lblInkpslistor.setFont(new Font("Dialog", Font.BOLD, 18));
-		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		panel_2.setPreferredSize(new Dimension(200, 400));
+		scrollPane.setViewportView(panel_2);
+		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.PAGE_AXIS));
+		lblOrderHistory.setFont(new Font("Dialog", Font.BOLD, 18));
 		panel.setLayout(gl_panel);
 		separator.setOrientation(SwingConstants.VERTICAL);
 		setLayout(groupLayout);
@@ -119,5 +123,11 @@ public class OrderListView extends JPanel {
 	}
 	public JLabel getHeaderNameLabel() {
 		return lblNewLabel;
+	}
+	public JPanel getDetailedPanel() {
+		return detailedPanel;
+	}
+	public JButton getRemoveButton() {
+		return removeOrderBtn;
 	}
 }

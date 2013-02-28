@@ -1,6 +1,8 @@
 package order;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.LinkedList;
@@ -12,15 +14,18 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import se.chalmers.ait.dat215.project.IMatDataHandler;
+import se.chalmers.ait.dat215.project.Order;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingItem;
-import shoppingCart.ShoppingCartAdapter;
+import shoppingcart.ShoppingCartAdapter;
+import shoppingcart.ShoppingCartProductPanel;
 
 public class OrderViewController {
 	
 	public OrderListView view;
-	private static final IMatDataHandler handler = IMatDataHandler.getInstance();
+	private static final IMatDataHandler dm = IMatDataHandler.getInstance();
 	private Dimension separatorPanelSize = new Dimension(200000, 5);
+	private OrderEntry activeEntryPanel;
 	
 	public OrderViewController() {
 		view = new OrderListView();
@@ -28,38 +33,23 @@ public class OrderViewController {
 	}
 	
 	public void updateListView() {
-		handler.readLists();
-		
-		IMatDataHandler dm = IMatDataHandler.getInstance();
-		ShoppingCartAdapter cart = new ShoppingCartAdapter();
+		ShoppingCartAdapter cart = ShoppingCartAdapter.getInstance();
 		
 		Product p = dm.getProduct(5);
 		Product p1 = dm.getProduct(6);
 		
 		cart.addProduct(p,5);
 		cart.addProduct(p1, 10);
-		List<ShoppingItem> listShop = new LinkedList<ShoppingItem>();
-		listShop.add(new ShoppingItem(p));
-		listShop.add(new ShoppingItem(p1));
 		
-		ShoppingList list = new ShoppingList(listShop, "Vardag");
-		ShoppingList list2 = new ShoppingList(listShop, "Lordag");
-		ShoppingList list3 = new ShoppingList(listShop, "Sondag");
-		ShoppingList list4 = new ShoppingList(listShop, "Fest");
+		for(int i = 0; i<20; i++)
+			dm.placeOrder();
 		
-		ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
 		
-		handler.readLists(); 
-		handler.addShoppingList(list);
-		handler.addShoppingList(list2);
-		handler.addShoppingList(list3);
-		handler.addShoppingList(list4);
-//		handler.writeLists();
+		List<Order> orders = dm.getOrders();
 		
-		Set<ShoppingList> lists = handler.getShoppingLists();
-		System.out.println(lists.size());
-		for(ShoppingList l : lists) {
-			OrderEntry entry = new OrderEntry(l);
+		
+		for(Order order : orders) {
+			OrderEntry entry = new OrderEntry(order);
 			entry.addEntryMouseListener(new EntryClickedListener());
 			view.getPanel().add(entry);
 			
@@ -75,11 +65,12 @@ public class OrderViewController {
 	}
 	
 	private class EntryClickedListener implements MouseListener {
-
+		
 		@Override
 		public void mouseClicked(MouseEvent evt) {
-			OrderEntry panel = (OrderEntry)evt.getSource();
-			view.getHeaderNameLabel().setText(panel.getShoppingList().getName());
+			activeEntryPanel = (OrderEntry)evt.getSource();
+			checkRemoveButtonEnabled();
+			updateDetailedPanel(activeEntryPanel.getOrder());
 		}
 
 		@Override
@@ -94,6 +85,53 @@ public class OrderViewController {
 		@Override
 		public void mouseExited(MouseEvent e) {	}
 		
+	}
+	
+	private class RemoveButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {	
+//			Order order = dm.this.activeEntryPanel.getOrder();
+//			handler.removeShoppingList(list.getName());
+//			dm.remove
+//			handler.writeLists();		// necessary to be able to retrieve lists for repaint
+//
+//			updateListView();
+//			updateHeaderText(null);
+//			checkRemoveButtonEnabled();
+//			view.getDetailedPanel().removeAll();
+//			view.getDetailedPanel().repaint();
+		}
+		
+	}
+	
+	private void updateDetailedPanel(Order order) {
+		view.getDetailedPanel().removeAll();
+		
+		updateHeaderText(order);
+		JPanel detailedPanel = view.getDetailedPanel();
+		for(ShoppingItem item  : order.getItems()) {
+			detailedPanel.add(new ShoppingCartProductPanel(item));
+		}
+		
+		view.getDetailedPanel().revalidate();
+	}
+	
+	public void checkRemoveButtonEnabled() {
+		System.out.println(view.getPanel().getComponentCount());
+		if(!(view.getPanel().getComponentCount() <= 1)) {
+			view.getRemoveButton().setEnabled(true);
+		} else {
+			view.getRemoveButton().setEnabled(false);
+		}
+	}
+
+	private void updateHeaderText(Order order) {
+		if(order == null) {
+			view.getHeaderNameLabel().setText("");
+		} else {
+			view.getHeaderNameLabel().setText(activeEntryPanel.getDate());
+		}
 	}
 	
 	private static class Main extends JFrame {
