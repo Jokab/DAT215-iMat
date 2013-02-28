@@ -7,7 +7,9 @@ import se.chalmers.ait.dat215.project.ProductCategory;
 import menu.MenuController;
 
 /**
- * The main controller of the application
+ * The main controller of the application. Initializes the standard controllers
+ * for the application and initializes ViewControllers. Also keeps a history of 
+ * previously added ViewControllers which can be rolled back.
  * @author Sebastian Blomberg
  *
  */
@@ -30,14 +32,23 @@ public class MainController {
 		
 	}
 	
+	/**
+	 * Initializes a <code>ProductListController</code> with the specified settings.
+	 * @param category
+	 */
 	public void initProductListController(String category) {
-		ProductListController productListController = new ProductListController();
+		ProductListController productListController = new ProductListController(this);
 		productListController.filter(category);
 		switchController(productListController);
 	}
 	
+	/**
+	 * Initializes a <code>ProductListController</code> with the specified settings.
+	 * @param category
+	 * @param subcategory
+	 */
 	public void initProductListController(String category, ProductCategory subcategory) {
-		ProductListController productListController = new ProductListController();
+		ProductListController productListController = new ProductListController(this);
 		productListController.filter(category, subcategory);
 		switchController(productListController);
 	}

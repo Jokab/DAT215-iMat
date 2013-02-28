@@ -36,7 +36,7 @@ public class ProductView extends JPanel {
 		setOpaque(false); 
 		IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 		setMaximumSize(new Dimension(800, 150));
-		setPreferredSize(new Dimension(680, 110));
+		setPreferredSize(new Dimension(628, 110));
 		setSize(new Dimension(800, 150));
 		setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(225, 225, 225)));
 		setMinimumSize(new Dimension(800, 150));
@@ -53,16 +53,16 @@ public class ProductView extends JPanel {
 		productPic.setMinimumSize(new Dimension(96, 96));
 		productPic.setIcon(dataHandler.getImageIcon(product, new Dimension(96,96)));
 		
-		JLabel productPrice = new JLabel(product.getPrice() + " " + product.getUnit());
+		JLabel productPrice = new JLabel(product.getPrice() + "");
 		productPrice.setHorizontalAlignment(SwingConstants.RIGHT);
 		productPrice.setHorizontalTextPosition(SwingConstants.RIGHT);
 		productPrice.setForeground(new Color(150, 150, 150));
-		productPrice.setBounds(296, 38, 134, 23);
+		productPrice.setBounds(260, 40, 69, 23);
 		productPrice.setFont(new Font("Calibri Light", Font.PLAIN, 18));
 		
 		JLabel productTitle = new JLabel(product.getName());
 		productTitle.setForeground(new Color(150, 150, 150));
-		productTitle.setBounds(136, 29, 238, 23);
+		productTitle.setBounds(136, 29, 176, 23);
 		productTitle.setMaximumSize(new Dimension(70, 14));
 		productTitle.setFont(new Font("Calibri Light", Font.PLAIN, 15));
 		
@@ -71,14 +71,21 @@ public class ProductView extends JPanel {
 		Random rand = new Random();
 		int num = rand.nextInt(1000);
 		
-		JLabel productUnit = new JLabel(num + "g");
-		productUnit.setBounds(136, 52, 104, 23);
-		productUnit.setFont(new Font("Calibri Light", Font.PLAIN, 12));
-		productUnit.setForeground(new Color(225, 225, 255));
+		JLabel productWeight = new JLabel(num + "g");
+		productWeight.setBounds(136, 52, 104, 23);
+		productWeight.setFont(new Font("Calibri Light", Font.PLAIN, 12));
+		productWeight.setForeground(new Color(195, 195, 195));
+		
+		JLabel productUnit = new JLabel(product.getUnit());
+		productUnit.setHorizontalTextPosition(SwingConstants.RIGHT);
+		productUnit.setHorizontalAlignment(SwingConstants.LEFT);
+		productUnit.setForeground(new Color(150, 150, 150));
+		productUnit.setFont(new Font("Calibri Light", Font.PLAIN, 14));
+		productUnit.setBounds(332, 40, 69, 23);
 		
 		JButton buyButton = new JButton(new ImageIcon("img/buyButton.png"));
 		buyButton.setBorder(null);
-		buyButton.setBounds(589, 37, 46, 25);
+		buyButton.setBounds(540, 39, 46, 25);
 		buyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ShoppingCartAdapter.getInstance().addProduct(product, productAmountPanel.getAmount());
@@ -89,7 +96,7 @@ public class ProductView extends JPanel {
 		ImageIcon starIcon = new ImageIcon(System.getProperty("user.home") + PicURL);
 		
 		starButton = new JButton();
-		starButton.setBounds(640, 11, 30, 32);
+		starButton.setBounds(594, 5, 30, 32);
 		starButton.setBorder(null);
 		starButton.setIcon(starIcon);
 		/*default invisible*/
@@ -98,11 +105,12 @@ public class ProductView extends JPanel {
 		add(productPic);
 		add(productTitle);
 		add(productPrice);
-		add(productUnit);
+		add(productWeight);
 		add(starButton);
-		productAmountPanel.setBounds(453, 39, 80, 20);
+		productAmountPanel.setBounds(425, 41, 80, 20);
 		add(productAmountPanel);
 		add(buyButton);
+		add(productUnit);
 	
 		
 		/* The hover effect */

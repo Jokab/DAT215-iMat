@@ -29,6 +29,7 @@ public class ProductAmountPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public ProductAmountPanel() {
+		setOpaque(false);
 		setPreferredSize(new Dimension(80, 20));
 		NumberFormat amountFormat = NumberFormat.getInstance();
 		amountFormat.setMaximumIntegerDigits(3);
