@@ -6,9 +6,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Comparator;
 import java.util.List;
+
+import ProductCategories.ProductCategories;
 import ProductSearch.ProductFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import core.MainController;
 import core.ViewController;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
@@ -26,10 +30,13 @@ import ProductSearch.ProductSearch;
 public class ProductListController implements ViewController {
 
 	private ProductListView view;
+	private MainController mainController;
+	private String currentCategory;
 	IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 
-	public ProductListController() {
+	public ProductListController(MainController mainController) {
 		this.view = new ProductListView();
+		this.mainController = mainController;
 	}
 
 	private void updateView(List<Product> list) {
@@ -74,11 +81,43 @@ public class ProductListController implements ViewController {
 	}
 
 	public void filter(String category){
-		updateView(ProductFilter.getProductByCategory(category));
+		this.currentCategory = category;
+		updateView(ProductFilter.getProductByCategory(currentCategory));
+		view.setCurrentCategory(currentCategory);
+		view.setSubcategories(ProductCategories.getInstance().getSubcategories(currentCategory), new SidePanelMouseListener());
 	}
 	
 	public void filter(String category, ProductCategory subcategory) {
+		this.currentCategory = category;
 		updateView(ProductFilter.getProductBySubcategory(subcategory));
+		view.setCurrentCategory(currentCategory);
+		view.setSubcategories(ProductCategories.getInstance().getSubcategories(currentCategory), new SidePanelMouseListener(), subcategory);
+	}
+	
+	private class SidePanelMouseListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			ProductSidePanelButton btn = (ProductSidePanelButton) e.getSource();
+			mainController.initProductListController(currentCategory, btn.getSubcategory());
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			((ProductSidePanelButton) e.getSource()).toggle();
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			((ProductSidePanelButton) e.getSource()).toggle();
+		}
+		
 	}
 	
 	private class ViewMouseListener implements MouseListener {

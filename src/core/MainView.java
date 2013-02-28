@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
 import shoppingCart.ShoppingcartView;
+import java.awt.FlowLayout;
 
 
 public class MainView extends JFrame {
@@ -112,10 +113,12 @@ public class MainView extends JFrame {
 		exitButton.setBorder(null);
 		windowbuttonsPanel.add(exitButton, BorderLayout.EAST);
 		exitButton.setIcon(new ImageIcon("img/exitIcon.png"));
+		FlowLayout flowLayout = (FlowLayout) contentView.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
 		contentView.setOpaque(false);
 		
 		
-		contentView.setBounds(0, 184, 1180, 459);
+		contentView.setBounds(64, 184, 1116, 521);
 		headerView.setBounds(0, 0, 1180, 184);
 		
 		layeredPane.add(contentView, new Integer(1));
@@ -123,7 +126,7 @@ public class MainView extends JFrame {
 		layeredPane.add(windowbuttonsPanel, new Integer(5));
 		
 		ShoppingcartView shoppingcartView = new ShoppingcartView();
-		shoppingcartView.setBounds(856, 0, 324, 740);
+		shoppingcartView.setBounds(856, 0, 324, 705);
 		layeredPane.add(shoppingcartView, new Integer(3));
 		
 		// Handle positioning of window

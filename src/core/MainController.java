@@ -31,13 +31,13 @@ public class MainController {
 	}
 	
 	public void initProductListController(String category) {
-		ProductListController productListController = new ProductListController();
+		ProductListController productListController = new ProductListController(this);
 		productListController.filter(category);
 		switchController(productListController);
 	}
 	
 	public void initProductListController(String category, ProductCategory subcategory) {
-		ProductListController productListController = new ProductListController();
+		ProductListController productListController = new ProductListController(this);
 		productListController.filter(category, subcategory);
 		switchController(productListController);
 	}

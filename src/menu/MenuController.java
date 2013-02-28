@@ -47,7 +47,7 @@ public class MenuController {
 		view.setMenuPanel(menu);
 	}
 	
-	private SubmenuPanel createSubmenu(String category) {
+	private SubmenuPanel createSubmenu(final String category) {
 		ProductCategories categories = ProductCategories.getInstance();
 		SubmenuPanel submenu = new SubmenuPanel();
 		
@@ -57,7 +57,7 @@ public class MenuController {
 			button.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					controller.initProductListController(entry.getValue(), entry.getKey());
+					controller.initProductListController(category, entry.getKey());
 				}
 				@Override
 				public void mouseEntered(MouseEvent e) {
