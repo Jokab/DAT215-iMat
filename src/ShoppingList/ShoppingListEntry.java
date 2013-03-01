@@ -90,6 +90,9 @@ public class ShoppingListEntry extends JPanel {
 	public ShoppingList getShoppingList() {
 		return this.list;
 	}
+	public ShoppingListEntryInfo getInfoPanel() {
+		return (ShoppingListEntryInfo)this.shoppingInfoLabel;
+	}
 
 
 }

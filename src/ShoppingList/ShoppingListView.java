@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import java.awt.Dimension;
+import java.awt.Color;
 
 public class ShoppingListView extends JPanel {
 	private final JPanel panel = new JPanel();
@@ -30,11 +31,23 @@ public class ShoppingListView extends JPanel {
 	private final JScrollPane scrollPane = new JScrollPane();
 	private final JLabel lblNewLabel = new JLabel("");
 	private final JButton addToCartButton = new JButton("Lägg till i kundvagn");
+	
+	private final Color SELECTED_BG_COLOR = new Color(177,211,114);
+	private final Color SELECTED_TEXT_COLOR = Color.white;
+	private final Color NORMAL_BG_COLOR = Color.WHITE;
+	private final Color NORMAL_TEXT_COLOR = new Color(144,144,144);
+	private final Color SAVEBUTTON_GRAYED_BG = new Color(235,235,235);
+	private final Color SAVEBUTTON_GRAYED_TEXT = Color.WHITE;
 
 	/**
 	 * Create the panel.
 	 */
 	public ShoppingListView() {
+		newListButton.setBackground(NORMAL_BG_COLOR);
+		newListButton.setForeground(NORMAL_TEXT_COLOR);
+		
+		
+		setBackground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 18));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -48,6 +61,8 @@ public class ShoppingListView extends JPanel {
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 468, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
+		panel.setBackground(Color.WHITE);
+		panel_1.setBackground(Color.WHITE);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -74,6 +89,7 @@ public class ShoppingListView extends JPanel {
 					.addContainerGap())
 				.addComponent(detailedPanel, GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
 		);
+		detailedPanel.setBackground(Color.WHITE);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_1.createSequentialGroup()
@@ -122,6 +138,7 @@ public class ShoppingListView extends JPanel {
 		scrollPane.setSize(new Dimension(200, 400));
 		scrollPane.setPreferredSize(new Dimension(200, 400));
 		scrollPane.setMinimumSize(new Dimension(200, 400));
+		panel_2.setBackground(Color.WHITE);
 		scrollPane.setViewportView(panel_2);
 		panel_2.setMaximumSize(new Dimension(32322, 24512));
 		panel_2.setSize(new Dimension(200, 400));
@@ -148,6 +165,10 @@ public class ShoppingListView extends JPanel {
 	
 	public void addRemoveButtonActionListener(ActionListener listener) {
 		removeListButton.addActionListener(listener);
+	}
+	
+	public void addNewListButtonActionListener(ActionListener listener) {
+		newListButton.addActionListener(listener);
 	}
 
 	public JButton getRemoveButton() {

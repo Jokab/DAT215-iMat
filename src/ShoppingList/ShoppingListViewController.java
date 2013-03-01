@@ -1,6 +1,7 @@
 package ShoppingList;
 
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,8 @@ import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+
+import core.MainController;
 
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
@@ -28,9 +31,19 @@ public class ShoppingListViewController {
 	private ShoppingListEntry activeEntryPanel;
 	private ShoppingCartAdapter cart = ShoppingCartAdapter.getInstance();
 	
-	public ShoppingListViewController() {
-		view = new ShoppingListView();
-		view.addRemoveButtonActionListener(new RemoveButtonListener());
+	private final Color SELECTED_BG_COLOR = new Color(177,211,114);
+	private final Color SELECTED_TEXT_COLOR = Color.white;
+	private final Color NORMAL_BG_COLOR = Color.WHITE;
+	private final Color NORMAL_TEXT_COLOR = new Color(144,144,144);
+	private final Color SAVEBUTTON_GRAYED_BG = new Color(235,235,235);
+	private final Color SAVEBUTTON_GRAYED_TEXT = Color.WHITE;
+	private final MainController mController;
+	
+	public ShoppingListViewController(MainController mController) {
+		this.mController = mController;
+		this.view = new ShoppingListView();
+		this.view.addRemoveButtonActionListener(new RemoveButtonListener());
+		this.view.addNewListButtonActionListener(new NewListButtonListener());
 		updateListView();
 	}
 	
@@ -59,7 +72,7 @@ public class ShoppingListViewController {
 		
 		ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
 		
-//		handler.readLists(); 
+		handler.readLists(); 
 //		handler.addShoppingList(list);
 //		handler.addShoppingList(list2);
 //		handler.addShoppingList(list3);
@@ -72,6 +85,7 @@ public class ShoppingListViewController {
 		for(ShoppingList l : lists) {
 			ShoppingListEntry entry = new ShoppingListEntry(l);
 			entry.addEntryMouseListener(new EntryClickedListener());
+			setNormalColors(entry);
 			view.getPanel().add(entry);
 			
 			JPanel separatorPanel = new JPanel();
@@ -91,7 +105,11 @@ public class ShoppingListViewController {
 		
 		@Override
 		public void mouseClicked(MouseEvent evt) {
+			if(activeEntryPanel != null) {
+				setNormalColors(activeEntryPanel);
+			}
 			ShoppingListViewController.this.activeEntryPanel = (ShoppingListEntry)evt.getSource();
+			setSelectedColors(activeEntryPanel);
 			checkRemoveButtonEnabled();
 			updateDetailedPanel(ShoppingListViewController.this.activeEntryPanel.getShoppingList());
 		}
@@ -139,6 +157,15 @@ public class ShoppingListViewController {
 		}
 	}
 	
+	private class NewListButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			showNewListPopup();
+		}
+		
+	}
+	
 	private void updateDetailedPanel(ShoppingList shoppingList) {
 		view.getDetailedPanel().removeAll();
 		
@@ -151,6 +178,10 @@ public class ShoppingListViewController {
 		view.getDetailedPanel().revalidate();
 	}
 	
+	private void showNewListPopup() {
+		mController.showNewListPopup(new ShoppingListPopupNew());
+	}
+
 	private void checkRemoveButtonEnabled() {
 		System.out.println(view.getPanel().getComponentCount());
 		if(!(view.getPanel().getComponentCount() <= 1)) {
@@ -182,6 +213,22 @@ public class ShoppingListViewController {
 		public static void main(String[] args) {
 			new Main();
 		}
+	}
+	
+	private void setSelectedColors(ShoppingListEntry entry) {
+		entry.setBackground(SELECTED_BG_COLOR);
+		entry.setForeground(SELECTED_TEXT_COLOR);
+		ShoppingListEntryInfo info = entry.getInfoPanel();
+		info.setBackground(SELECTED_BG_COLOR);
+		info.setForeground(SELECTED_TEXT_COLOR);
+	}
+	
+	private void setNormalColors(ShoppingListEntry entry) {
+		entry.setBackground(NORMAL_BG_COLOR);
+		entry.setForeground(NORMAL_TEXT_COLOR);
+		ShoppingListEntryInfo info = entry.getInfoPanel();
+		info.setBackground(NORMAL_BG_COLOR);
+		info.setForeground(NORMAL_TEXT_COLOR);
 	}
 	
 	

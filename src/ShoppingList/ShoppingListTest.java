@@ -38,11 +38,11 @@ public class ShoppingListTest {
 		ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
 		
 //		handler.readLists(); 
-////		handler.addShoppingList(list);
-////		handler.addShoppingList(list2);
-////		handler.addShoppingList(list3);
-////		handler.addShoppingList(list4);
-////		handler.writeLists();	
+//		handler.addShoppingList(list);
+//		handler.addShoppingList(list2);
+//		handler.addShoppingList(list3);
+//		handler.addShoppingList(list4);
+//		handler.writeLists();	
 		
 		Set<ShoppingList> readLists = handler.getShoppingLists();
 		
