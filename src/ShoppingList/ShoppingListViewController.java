@@ -22,8 +22,8 @@ import core.ViewController;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingItem;
-import shoppingcart.ShoppingCartAdapter;
-import shoppingcart.ShoppingCartProductPanel;
+import shoppingCart.ShoppingCartAdapter;
+import shoppingCart.ShoppingCartProductPanel;
 
 public class ShoppingListViewController implements ViewController {
 	
@@ -57,31 +57,10 @@ public class ShoppingListViewController implements ViewController {
 		view.getPanel().repaint();
 		
 		IMatDataHandler dm = IMatDataHandler.getInstance();
-		
-		Product p = dm.getProduct(5);
-		Product p1 = dm.getProduct(6);
-		
-		cart.addProduct(p,5);
-		cart.addProduct(p1, 10);
-		List<ShoppingItem> listShop = new LinkedList<ShoppingItem>();
-		listShop.add(new ShoppingItem(p));
-		listShop.add(new ShoppingItem(p1));
-		
-		ShoppingList list = new ShoppingList(listShop, "Vardag");
-		ShoppingList list2 = new ShoppingList(listShop, "Lordag");
-		ShoppingList list3 = new ShoppingList(listShop, "Sondag");
-		ShoppingList list4 = new ShoppingList(listShop, "Fest");
-		
+
 		ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
 		
 		handler.readLists(); 
-//		handler.addShoppingList(list);
-//		handler.addShoppingList(list2);
-//		handler.addShoppingList(list3);
-//		handler.addShoppingList(list4);
-//		handler.writeLists();
-		System.out.println("read lists");
-		
 		Set<ShoppingList> lists = handler.getShoppingLists();
 
 		for(ShoppingList l : lists) {
@@ -96,11 +75,9 @@ public class ShoppingListViewController implements ViewController {
 			
 			view.getPanel().add(separatorPanel);
 		}
-		System.out.println("added panels");
 		
 		view.getPanel().revalidate();
 		view.getPanel().repaint();
-		System.out.println("revalidated");
 	}
 	
 	private class EntryClickedListener implements MouseListener {
@@ -198,22 +175,6 @@ public class ShoppingListViewController implements ViewController {
 			view.getHeaderNameLabel().setText("");
 		} else {
 			view.getHeaderNameLabel().setText(ShoppingListViewController.this.activeEntryPanel.getShoppingList().getName());
-		}
-	}
-	
-	private static class Main extends JFrame {
-		public Main() {
-			ShoppingListViewController controller = new ShoppingListViewController(null);
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setVisible(true);
-			setPreferredSize(new Dimension(1190,700));
-			
-			add(controller.view);
-			pack();
-		}
-		
-		public static void main(String[] args) {
-			new Main();
 		}
 	}
 	

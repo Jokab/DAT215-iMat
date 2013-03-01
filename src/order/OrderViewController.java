@@ -19,8 +19,8 @@ import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Order;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingItem;
-import shoppingcart.ShoppingCartAdapter;
-import shoppingcart.ShoppingCartProductPanel;
+import shoppingCart.ShoppingCartAdapter;
+import shoppingCart.ShoppingCartProductPanel;
 
 public class OrderViewController implements ViewController {
 	

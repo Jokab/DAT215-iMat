@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import components.SidePanelButton;
 
 import productView.ProductSidePanelButton;
+import java.awt.Dimension;
 
 public class MyAccountSidePanel extends JPanel {
 	private final JLabel headerLabel;
@@ -24,7 +25,10 @@ public class MyAccountSidePanel extends JPanel {
 	 * Create the panel.
 	 */
 	public MyAccountSidePanel(MyAccountEnum activeController) {
-		setOpaque(false);
+		setSize(new Dimension(170, 400));
+		setPreferredSize(new Dimension(170, 400));
+		setMinimumSize(new Dimension(170, 400));
+		setMaximumSize(new Dimension(170, 400));
 		headerLabel = new JLabel("MITT KONTO");
 		headerLabel.setOpaque(false);
 		headerLabel.setBorder(null);
@@ -59,9 +63,9 @@ public class MyAccountSidePanel extends JPanel {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(headerLabel, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-						.addComponent(subcategoriesPanel, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(278, Short.MAX_VALUE))
+						.addComponent(subcategoriesPanel, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+						.addComponent(headerLabel, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -69,7 +73,7 @@ public class MyAccountSidePanel extends JPanel {
 					.addGap(12)
 					.addComponent(headerLabel)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(subcategoriesPanel, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+					.addComponent(subcategoriesPanel, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		setLayout(groupLayout);

@@ -22,10 +22,10 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
-import shoppingcart.ShoppingcartView;
+import shoppingCart.ShoppingcartView;
 import java.awt.FlowLayout;
-import shoppingcart.ShoppingCartMinimizedView;
-import shoppingcart.ShoppingCartSummaryView;
+import shoppingCart.ShoppingCartMinimizedView;
+import shoppingCart.ShoppingCartSummaryView;
 
 
 public class MainView extends JFrame {
@@ -209,6 +209,7 @@ public class MainView extends JFrame {
 	 */
 	public void setContentView(JPanel panel) {
 		contentView.removeAll();
+		contentView.repaint();
 		contentView.add(panel);
 		contentView.revalidate();
 	}

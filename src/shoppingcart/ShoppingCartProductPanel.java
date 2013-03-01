@@ -31,7 +31,7 @@ public class ShoppingCartProductPanel extends JPanel {
 	JLabel amountLabel;
 	JLabel productLabel;
 	JLabel priceLabel;
-	private JPanel panel;
+	private JPanel buttonPanel;
 	private JButton increaseButton;
 	private JButton decreaseButton;
 	private JButton deleteButton;
@@ -39,7 +39,6 @@ public class ShoppingCartProductPanel extends JPanel {
 	
 	public ShoppingCartProductPanel(ShoppingItem item) {
 		this.item = item;
-		
 		setOpaque(false);
 		setSize(new Dimension(220, 30));
 		setPreferredSize(new Dimension(235, 25));
@@ -58,50 +57,74 @@ public class ShoppingCartProductPanel extends JPanel {
 		priceLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		
-		panel = new JPanel();
-		panel.setOpaque(false);
-		panel.setBounds(125, 0, 67, 19);
-		panel.setLayout(null);
-		
+		buttonPanel = new JPanel();
+		buttonPanel.setVisible(false);
+		buttonPanel.setOpaque(false);
+		buttonPanel.setBounds(125, 0, 67, 19);
+		buttonPanel.setLayout(null);
 		ActionListener l = new ShoppingCartButtonListener();
 		
 		increaseButton = new JButton(new ImageIcon("img/plusIcon.png"));
+		buttonPanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				buttonPanel.getParent().getMouseListeners()[0].mouseEntered(e);
+			}
+			public void mouseExited(MouseEvent e) {
+				
+			}
+		});
+		
 		increaseButton.setContentAreaFilled(false);
 		increaseButton.setBounds(0, 0, 19, 19);
 		increaseButton.setBorder(null);
 		increaseButton.addActionListener(l);
-		panel.add(increaseButton);
+		buttonPanel.add(increaseButton);
 		
 		decreaseButton = new JButton(new ImageIcon("img/minusIcon.png"));
 		decreaseButton.setContentAreaFilled(false);
 		decreaseButton.setBounds(19, 0, 19, 19);
 		decreaseButton.setBorder(null);
 		decreaseButton.addActionListener(l);
-		panel.add(decreaseButton);
+		buttonPanel.add(decreaseButton);
 		
 		deleteButton = new JButton(new ImageIcon("img/deleteIcon.png"));
 		deleteButton.setContentAreaFilled(false);
 		deleteButton.setBounds(45, 0, 19, 19);
 		deleteButton.setBorder(null);
 		deleteButton.addActionListener(l);
-		panel.add(deleteButton);
-		
-		panel.setVisible(true);
-		
+		buttonPanel.add(deleteButton);
+
 		setLayout(null);
 		add(amountLabel);
 		add(productLabel);
-		add(panel);
+		add(buttonPanel);
 		add(priceLabel);
-		
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				panel.setVisible(true);
+				buttonPanel.setVisible(true);
 			}
-			@Override 
 			public void mouseExited(MouseEvent e) {
-				panel.setVisible(false);
+				buttonPanel.setVisible(false);
+			}
+		});
+		increaseButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				buttonPanel.getMouseListeners()[0].mouseEntered(e);
+			}
+		});
+		decreaseButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				buttonPanel.getMouseListeners()[0].mouseEntered(e);
+			}
+		});
+		deleteButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				buttonPanel.getMouseListeners()[0].mouseEntered(e);
 			}
 		});
 	}
@@ -119,6 +142,6 @@ public class ShoppingCartProductPanel extends JPanel {
 			}
 			
 		}
-		
 	}
 }
+
