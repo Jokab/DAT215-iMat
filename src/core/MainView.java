@@ -23,6 +23,7 @@ import javax.swing.JLayeredPane;
 import shoppingCart.ShoppingcartView;
 import java.awt.FlowLayout;
 import shoppingCart.ShoppingCartMinimizedView;
+import shoppingCart.ShoppingCartSummaryView;
 
 
 public class MainView extends JFrame {
@@ -127,12 +128,6 @@ public class MainView extends JFrame {
 		shoppingCartView = new ShoppingcartView();
 		shoppingCartView.setBounds(876, 0, 324, 720);
 		
-		// Add to layered pane
-		layeredPane.add(contentView, new Integer(1));
-		layeredPane.add(headerView, new Integer(2));
-		layeredPane.add(windowbuttonsPanel, new Integer(7));
-		layeredPane.add(shoppingCartView, new Integer(4));
-		
 		// Manipulate program to first paint other components behind JPanel and then the JPanel
 		popupBgPanel = new JPanel() {
 			protected void paintComponent(Graphics g)
@@ -146,14 +141,14 @@ public class MainView extends JFrame {
 		ShoppingCartMinimizedView shoppingCartMinimizedView = new ShoppingCartMinimizedView();
 		shoppingCartMinimizedView.setBounds(1075, 0, 125, 720);
 		
+		ShoppingCartSummaryView shoppingCartSummaryView = new ShoppingCartSummaryView();
+		shoppingCartSummaryView.setBounds(949, 11, 231, 149);
 		
 		popupBgPanel.setOpaque(false);
 		popupBgPanel.setBounds(0, 647, 1200, 73);
 		popupBgPanel.setBackground(new Color(0,0,0,60));
 		popupBgPanel.setVisible(false);
-		layeredPane.add(popupBgPanel, new Integer(5));
 		popupBgPanel.setLayout(new BorderLayout(0, 0));
-		layeredPane.add(shoppingCartMinimizedView);
 		
 		// Set detail view of shoppingcart to non-visible.
 		shoppingCartView.setVisible(false);
@@ -177,6 +172,14 @@ public class MainView extends JFrame {
 			}
 		});
 		
+		// Add to layered pane
+		layeredPane.add(contentView, new Integer(1));
+		layeredPane.add(headerView, new Integer(2));
+		layeredPane.add(windowbuttonsPanel, new Integer(7));
+		layeredPane.add(shoppingCartSummaryView);
+		layeredPane.add(shoppingCartView, new Integer(4));
+		layeredPane.add(popupBgPanel, new Integer(5));
+		layeredPane.add(shoppingCartMinimizedView);
 		
 		contentPane.setLayout(gl_contentPane);
 		
