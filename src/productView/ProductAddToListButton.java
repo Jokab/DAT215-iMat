@@ -31,5 +31,8 @@ public class ProductAddToListButton extends JButton {
 		
 
 	}
-
+	
+	public ProductView getButtonParent() {
+		return (ProductView) this.getParent();
+	}
 }

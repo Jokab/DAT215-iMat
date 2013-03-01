@@ -21,8 +21,8 @@ import core.ViewController;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingItem;
-import shoppingCart.ShoppingCartAdapter;
-import shoppingCart.ShoppingCartProductPanel;
+import shoppingcart.ShoppingCartAdapter;
+import shoppingcart.ShoppingCartProductPanel;
 
 public class ShoppingListViewController implements ViewController {
 	
@@ -162,7 +162,7 @@ public class ShoppingListViewController implements ViewController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			showNewListPopup();
+			PopupControllerNew controller = new PopupControllerNew(mainController);
 		}
 		
 	}

@@ -70,4 +70,8 @@ public class MainController {
 		mainView.setPopup(shoppingListPopupNew);
 		
 	}
+	
+	public void removePopup() {
+		mainView.removePopup();
+	}
 }
