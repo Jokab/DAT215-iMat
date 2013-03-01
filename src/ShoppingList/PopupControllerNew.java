@@ -116,7 +116,7 @@ public class PopupControllerNew {
 		@Override
 		public void actionPerformed(ActionEvent evt) {
 			System.out.println("savebutton clicked");
-			saveButtonClicked(selected);
+			saveButtonClicked();
 		}
 	}
 	
@@ -154,37 +154,17 @@ public class PopupControllerNew {
 			handler.removeShoppingList(textField.getText());
 			handler.addShoppingList(new ShoppingList(inputName));
 		}
+		exitPopup();
 	}
 	
 	private void exitPopup() {
 		mainController.removePopup();
 	}
-	
-	private void saveButtonClicked(PopupListEntry entry) {		
-		System.out.println("firing");
-//		pcs.firePropertyChange("Savebutton clicked", null, textField.getText());
-	}
+
 	
 	public void addObserver(PropertyChangeListener l) {
 		pcs.addPropertyChangeListener(l);
 	}
-	
-//	public static class Main extends JFrame {
-//		
-//		public Main() {
-//			ShoppingListPopupNew popup = new ShoppingListPopupNew();
-//			PopupControllerNew controller = new PopupControllerNew(null, popup);
-//			add(popup);
-//			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//			setPreferredSize(new Dimension(600,600));
-//			pack();
-//			setVisible(true);
-//		}
-//		
-//		public static void main(String[] args) {
-//			
-//			new Main();
-//		}
-//	}
+
 	
 }

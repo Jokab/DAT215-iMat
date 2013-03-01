@@ -1,5 +1,8 @@
 package myAccount;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import core.ViewController;
@@ -14,10 +17,9 @@ public class MyAccountController implements ViewController {
 
 	@Override
 	public JPanel getView() {
-		JPanel j = new JPanel();
-		j.setLayout(new BoxLayout(j, BoxLayout.X_AXIS));
-		j.add(sidePanel);
-		j.add(controller.getView());
+		JPanel j = new JPanel(new BorderLayout());
+		j.add(sidePanel, BorderLayout.WEST);
+		j.add(controller.getView(), BorderLayout.CENTER);
 		j.setOpaque(false);
 		return j;
 	}
