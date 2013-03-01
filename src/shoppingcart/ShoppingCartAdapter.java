@@ -1,4 +1,4 @@
-package shoppingcart;
+package shoppingCart;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
