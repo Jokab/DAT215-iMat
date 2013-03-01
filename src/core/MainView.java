@@ -154,9 +154,10 @@ public class MainView extends JFrame {
 		shoppingCartView.setVisible(false);
 		
 		// Add actionlistener for shoppingcart-show event
-		ActionListener l = new ListListener();
-		shoppingCartMinimizedView.addListListener(l);
-		shoppingCartView.addListListener(l); 
+		ActionListener l = new PopoutListener();
+		shoppingCartSummaryView.addPopoutListener(l);
+		shoppingCartMinimizedView.addPopoutListener(l);
+		shoppingCartView.addPopoutListener(l); 
 		
 		// Handle positioning of window
 		headerView.addMouseListener(new MouseAdapter() {
@@ -176,7 +177,7 @@ public class MainView extends JFrame {
 		layeredPane.add(contentView, new Integer(1));
 		layeredPane.add(headerView, new Integer(2));
 		layeredPane.add(windowbuttonsPanel, new Integer(7));
-		layeredPane.add(shoppingCartSummaryView);
+		layeredPane.add(shoppingCartSummaryView, new Integer(3));
 		layeredPane.add(shoppingCartView, new Integer(4));
 		layeredPane.add(popupBgPanel, new Integer(5));
 		layeredPane.add(shoppingCartMinimizedView);
@@ -221,7 +222,7 @@ public class MainView extends JFrame {
 		popupBgPanel.removeAll();
 	}
 	
-	private class ListListener implements ActionListener {
+	private class PopoutListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
