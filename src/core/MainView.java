@@ -22,10 +22,10 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
-import shoppingCart.ShoppingcartView;
 import java.awt.FlowLayout;
 import shoppingCart.ShoppingCartMinimizedView;
 import shoppingCart.ShoppingCartSummaryView;
+import shoppingCart.ShoppingcartView;
 
 
 public class MainView extends JFrame {

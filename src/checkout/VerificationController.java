@@ -33,7 +33,7 @@ public class VerificationController implements ViewController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("clicked cancel");
+			mainController.initPreviousController();
 		}
 	}
 

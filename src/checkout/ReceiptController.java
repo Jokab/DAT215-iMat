@@ -28,10 +28,7 @@ public class ReceiptController implements ViewController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-//			mainController.initCheckoutController(new CheckoutController(
-//					nextController, mainController));
 			PopupControllerNew popup = new PopupControllerNew(mainController);
-			
 		}
 	}
 
@@ -39,7 +36,7 @@ public class ReceiptController implements ViewController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("clicked cancel");
+			mainController.initPreviousController();
 		}
 	}
 

@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
 import se.chalmers.ait.dat215.project.ShoppingCart;
-import shoppingcart.ShoppingCartAdapter;
+import shoppingCart.ShoppingCartAdapter;
 
 import core.MainController;
 import core.ViewController;
@@ -38,7 +38,7 @@ public class InformationController implements ViewController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("clicked cancel");
+			mainController.initPreviousController();
 		}
 	}
 

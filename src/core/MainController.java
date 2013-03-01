@@ -89,6 +89,13 @@ public class MainController {
 		switchController(new CheckoutController(CheckoutEnum.INFORMATION, this));
 	}
 	
+	public void initPreviousController() {
+		if(history.size() > 1) {
+			history.removeLast();
+			mainView.setContentView(history.getLast().getView());
+		}
+	}
+	
 	private void switchController(ViewController controller) {
 		if(history.size() >= DEFAULT_HISTORY_STEP) {
 			history.removeFirst();
