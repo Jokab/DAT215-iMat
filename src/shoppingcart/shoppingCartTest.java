@@ -1,4 +1,4 @@
-package shoppingCart;
+package shoppingcart;
 
 import java.util.Iterator;
 import java.util.List;
@@ -27,7 +27,7 @@ public class shoppingCartTest {
 		Product temp1 = (Product) i.next();
 		
 		ShoppingItem temp2 = new ShoppingItem(temp1);
-		ShoppingCartAdapter cart = new ShoppingCartAdapter();
+		ShoppingCartAdapter cart = ShoppingCartAdapter.getInstance();
 		
 		System.out.println("Starting test 1: adding items to the cart");
 		cart.addItem(new ShoppingItem(temp1));

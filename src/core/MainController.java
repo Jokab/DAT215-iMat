@@ -1,11 +1,20 @@
 package core;
 import java.util.LinkedList;
 
+import javax.swing.JPanel;
+
+import ShoppingList.ShoppingList;
+import ShoppingList.ShoppingListPopupNew;
+
+import productView.ProductListController;
+
 import se.chalmers.ait.dat215.project.ProductCategory;
 import menu.MenuController;
 
 /**
- * The main controller of the application
+ * The main controller of the application. Initializes the standard controllers
+ * for the application and initializes ViewControllers. Also keeps a history of 
+ * previously added ViewControllers which can be rolled back.
  * @author Sebastian Blomberg
  *
  */
@@ -28,14 +37,25 @@ public class MainController {
 		
 	}
 	
+	/**
+	 * Initializes a <code>ProductListController</code> with the specified settings.
+	 * @param category
+	 */
 	public void initProductListController(String category) {
-		//new ProductListController()
-		switchController(null);
+		ProductListController productListController = new ProductListController(this);
+		productListController.filter(category);
+		switchController(productListController);
 	}
 	
-	public void initProductListController(String category, ProductCategory productCategory) {
-		//new ProductListController()
-		switchController(null);
+	/**
+	 * Initializes a <code>ProductListController</code> with the specified settings.
+	 * @param category
+	 * @param subcategory
+	 */
+	public void initProductListController(String category, ProductCategory subcategory) {
+		ProductListController productListController = new ProductListController(this);
+		productListController.filter(category, subcategory);
+		switchController(productListController);
 	}
 	
 	private void switchController(ViewController controller) {
@@ -43,5 +63,11 @@ public class MainController {
 			history.removeFirst();
 		}
 		history.add(controller);
+		mainView.setContentView(controller.getView());
+	}
+
+	public void showPopup(JPanel shoppingListPopupNew) {
+		mainView.setPopup(shoppingListPopupNew);
+		
 	}
 }

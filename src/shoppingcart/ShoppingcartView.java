@@ -20,17 +20,30 @@ import javax.swing.SwingConstants;
 import se.chalmers.ait.dat215.project.ShoppingItem;
 
 import java.awt.Font;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.awt.GridLayout;
+import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import java.awt.Cursor;
+import javax.swing.JSeparator;
 
-public class ShoppingcartView extends JPanel {
+public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 
-	private ShoppingCartAdapter model;
+	private ShoppingCartAdapter model = null;
 	
 	private JPanel productListPanel;
 	private JPanel summaryPanel;
-	
 	private JLabel totalPriceLabel;
 	private JLabel totalAmountLabel;
+	
+	private JButton listButton; 
+	private JButton shoppingcartIconButton;
+	private JButton minimizeLabelButton;
+	
+	private final Color DEFAULT_BACKGROUND = new Color(253, 253, 253);
+	private JLabel lblKundvagn;
 	
 	/**
 	 * Create the panel.
@@ -39,35 +52,28 @@ public class ShoppingcartView extends JPanel {
 		setOpaque(false);
 		setLayout(null);
 		
-		JPanel listPanel = new JPanel();
-		listPanel.setFocusable(false);
-		listPanel.setBackground(new Color(236, 236, 236));
-		listPanel.setBounds(78, 0, 25, 720);
-		add(listPanel);
+		model = ShoppingCartAdapter.getInstance();
+		model.addListener(this);
 		
 		JPanel contentPanel = new JPanel();
-		contentPanel.setBounds(103, 0, 220, 720);
+		contentPanel.setBounds(91, 0, 232, 720);
+		contentPanel.setBackground(DEFAULT_BACKGROUND);
 		add(contentPanel);
-		
-		JLabel iconLabel = new JLabel(new ImageIcon("img/shoppingcartIcon.png"));
-		iconLabel.setBounds(42, 39, 61, 61);
-		add(iconLabel);
 
 		// Create panels in contentPanel
 		summaryPanel = new JPanel();
-		totalPriceLabel = new JLabel();
-		totalPriceLabel.setFont(new Font("Segoe UI", Font.PLAIN, 24));
-		totalPriceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		totalPriceLabel.setForeground(new Color(169, 207, 109));
-		totalAmountLabel = new JLabel();
-		totalAmountLabel.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
-		totalAmountLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		summaryPanel.setOpaque(false);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBorder(null);
+		
 		productListPanel = new JPanel();
 		scrollPane.setViewportView(productListPanel);
+		productListPanel.setLayout(new BoxLayout(productListPanel, BoxLayout.Y_AXIS));
+		productListPanel.setBackground(DEFAULT_BACKGROUND);
 		
 		JPanel optionPanel = new JPanel();
+		optionPanel.setOpaque(false);
 		JLabel lblLggTillVaror = new JLabel("L\u00E4gg till varor fr\u00E5n");
 		JComboBox comboBox = new JComboBox();
 		JButton toCounterButton = new JButton("Till kassa");
@@ -78,46 +84,57 @@ public class ShoppingcartView extends JPanel {
 		});
 		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(summaryPanel, GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
 				.addComponent(optionPanel, GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+				.addComponent(summaryPanel, GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addComponent(summaryPanel, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+					.addComponent(summaryPanel, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 507, GroupLayout.PREFERRED_SIZE)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 471, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(optionPanel, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
 		);
 		
-		GroupLayout gl_summaryPanel = new GroupLayout(summaryPanel);
-		gl_summaryPanel.setHorizontalGroup(
-			gl_summaryPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_summaryPanel.createSequentialGroup()
-					.addGroup(gl_summaryPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_summaryPanel.createSequentialGroup()
-							.addGap(136)
-							.addComponent(totalPriceLabel, GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_summaryPanel.createSequentialGroup()
-							.addContainerGap(160, Short.MAX_VALUE)
-							.addComponent(totalAmountLabel)))
-					.addContainerGap())
-		);
-		gl_summaryPanel.setVerticalGroup(
-			gl_summaryPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_summaryPanel.createSequentialGroup()
-					.addGap(24)
-					.addComponent(totalPriceLabel, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(totalAmountLabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(29, Short.MAX_VALUE))
-		);
-		summaryPanel.setLayout(gl_summaryPanel);
+		// Components in summaryPanel
+		totalPriceLabel = new JLabel("0");
+		totalPriceLabel.setBounds(0, 70, 189, 22);
+		totalPriceLabel.setFont(new Font("Segoe UI", Font.PLAIN, 24));
+		totalPriceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		totalPriceLabel.setForeground(new Color(169, 207, 109));
+		totalAmountLabel = new JLabel("Inga produkter");
+		totalAmountLabel.setBounds(0, 97, 203, 16);
+		totalAmountLabel.setFont(new Font("Segoe UI Light", Font.PLAIN, 12));
+		totalAmountLabel.setForeground(new Color(155, 155, 155));
+		totalAmountLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		lblKundvagn = new JLabel("KUNDVAGN");
+		lblKundvagn.setBounds(76, 44, 127, 25);
+		lblKundvagn.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblKundvagn.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		lblKundvagn.setForeground(new Color(155, 155, 155));
+		
+		JLabel priceUnitLabel = new JLabel("kr");
+		priceUnitLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		priceUnitLabel.setForeground(new Color(155, 155, 155));
+		priceUnitLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		priceUnitLabel.setBounds(189, 76, 14, 16);
+		
+		JSeparator separator = new JSeparator();
+		separator.setForeground(new Color(225, 225, 225));
+		separator.setBackground(new Color(236, 236, 236));
+		separator.setBounds(10, 122, 212, 2);
+		
+		summaryPanel.setLayout(null);
+		summaryPanel.add(totalAmountLabel);
+		summaryPanel.add(lblKundvagn);
+		summaryPanel.add(totalPriceLabel);
+		summaryPanel.add(priceUnitLabel);
+		summaryPanel.add(separator);
 		
 		GroupLayout gl_optionPanel = new GroupLayout(optionPanel);
 		gl_optionPanel.setHorizontalGroup(
@@ -152,15 +169,40 @@ public class ShoppingcartView extends JPanel {
 		
 		
 		contentPanel.setLayout(gl_contentPanel);
-	}
-
-	public void setModel(ShoppingCartAdapter model) {
-		this.model = model;
+		
+		shoppingcartIconButton = new JButton(new ImageIcon("img/shoppingcartIcon.png"));
+		shoppingcartIconButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		shoppingcartIconButton.setContentAreaFilled(false);
+		shoppingcartIconButton.setBorder(null);
+		shoppingcartIconButton.setBounds(30, 39, 61, 61);
+	
+		listButton = new JButton();
+		listButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		listButton.setRolloverEnabled(false);
+		listButton.setRequestFocusEnabled(false);
+		listButton.setFocusPainted(false);
+		listButton.setFocusable(false);
+		listButton.setBorder(null);
+		listButton.setBackground(new Color(236, 236, 236));
+		listButton.setBounds(65, 0, 26, 720);
+		
+		minimizeLabelButton = new JButton(new ImageIcon("img/shoppingcartMaximizedLabel.png"));
+		minimizeLabelButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		minimizeLabelButton.setRolloverEnabled(false);
+		minimizeLabelButton.setRequestFocusEnabled(false);
+		minimizeLabelButton.setOpaque(false);
+		minimizeLabelButton.setContentAreaFilled(false);
+		minimizeLabelButton.setBorder(null);
+		minimizeLabelButton.setBounds(69, 283, 16, 154);
+		
+		add(shoppingcartIconButton);
+		add(minimizeLabelButton);
+		add(listButton);
 	}
 	
 	private void updateSummary() {
-		totalAmountLabel.setText(model.getTotalProductsAmount() + "st varor");
-		totalPriceLabel.setText(model.getTotal() + "kr");
+		totalAmountLabel.setText(model.getTotalProductsAmount() + "st produkter");
+		totalPriceLabel.setText(model.getTotal() + "");
 	}
 	
 	private void updateItemList() {
@@ -169,5 +211,17 @@ public class ShoppingcartView extends JPanel {
 		for(ShoppingItem item : tmpList) {
 			productListPanel.add(new ShoppingCartProductPanel(item));
 		}
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		updateSummary();
+		updateItemList();
+	}
+	
+	public void addPopoutListener(ActionListener l) {
+		shoppingcartIconButton.addActionListener(l);
+		listButton.addActionListener(l);
+		minimizeLabelButton.addActionListener(l);
 	}
 }
