@@ -29,12 +29,26 @@ public class ShoppingListPopupNew extends JPanel {
 	private final JButton cancelButton = new JButton("Avbryt");
 	private final JButton saveButton = new JButton("Spara");
 	private final JTextArea warningLabel = new JTextArea("");
-	private String[] listNames;
+	
+	private final Color SELECTED_BG_COLOR = new Color(177,211,114);
+	private final Color SELECTED_TEXT_COLOR = Color.white;
+	private final Color NORMAL_BG_COLOR = Color.WHITE;
+	private final Color NORMAL_TEXT_COLOR = new Color(144,144,144);
+	private final Color SAVEBUTTON_GRAYED_BG = new Color(235,235,235);
+	private final Color SAVEBUTTON_GRAYED_TEXT = Color.WHITE;
+
 
 	public ShoppingListPopupNew() {
-		handler.readLists();
-		lists = handler.getShoppingLists();
-		storeListNames();
+		setOpaque(false);
+		
+		saveButton.setBackground(SAVEBUTTON_GRAYED_BG);
+		saveButton.setForeground(SAVEBUTTON_GRAYED_TEXT);
+		
+		cancelButton.setBackground(NORMAL_TEXT_COLOR);
+		cancelButton.setForeground(Color.WHITE);
+		
+		lblAngeNamn.setForeground(NORMAL_TEXT_COLOR);
+
 
 		textField.setBounds(12, 32, 307, 19);
 		textField.setColumns(10);
@@ -53,14 +67,10 @@ public class ShoppingListPopupNew extends JPanel {
 
 		add(cancelButton);
 		saveButton.setEnabled(false);
-		saveButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				saveButtonClicked();
-			}
-		});
 		saveButton.setBounds(93, 103, 107, 25);
 
 		add(saveButton);
+		
 		warningLabel.setEditable(false);
 		warningLabel.setLineWrap(true);
 		warningLabel.setOpaque(false);
@@ -69,84 +79,18 @@ public class ShoppingListPopupNew extends JPanel {
 
 		add(warningLabel);
 
-		textField.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {
-				update();
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-				update();
-			}
-
-			public void insertUpdate(DocumentEvent e) {
-				update();
-			}
-
-			public void update() {
-				if (textField.getText().equals("") || textField.getText().isEmpty()) {
-					saveButton.setEnabled(false);
-				} else {
-					saveButton.setEnabled(true);
-				}
-
-				if (getMatchingName() != null) {
-					setWarningLabelText(getMatchingName());
-					warningLabel.setVisible(true);
-				} else {
-					warningLabel.setVisible(false);
-				}
-			}
-		});
 	}
 
-	private void storeListNames() {
-		listNames = new String[lists.size()];
-		int i = 0;
-		for (ShoppingList list : lists) {
-			listNames[i] = list.getName();
-			i++;
-		}
+	public JButton getCancelButton() {
+		return cancelButton;
 	}
-
-	private void setWarningLabelText(String list) {
-		warningLabel
-				.setText("En lista med namnet: "
-						+ list
-						+ "    existerar redan. Välj ett annat namn eller tryck spara för att skriva över.");
+	public JButton getSaveButton() {
+		return saveButton;
 	}
-
-	private String getMatchingName() {
-		for (String s : listNames) {
-			if (textField.getText().equals(s)) {
-				return s;
-			}
-		}
-		return null;
+	public JTextField getTextField() {
+		return textField;
 	}
-	
-	private void saveButtonClicked() {
-		String inputName = textField.getText();
-		
-		if (getMatchingName() == null) {
-			handler.addShoppingList(new ShoppingList(inputName));
-		} else {
-			handler.removeShoppingList(textField.getText());
-			handler.addShoppingList(new ShoppingList(inputName));
-		}
-	}
-
-	private static class Main extends JFrame {
-		public Main() {
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setVisible(true);
-			setPreferredSize(new Dimension(1190, 700));
-
-			add(new ShoppingListPopupNew());
-			pack();
-		}
-
-		public static void main(String[] args) {
-			new Main();
-		}
+	public JTextArea getWarningLabel() {
+		return warningLabel;
 	}
 }

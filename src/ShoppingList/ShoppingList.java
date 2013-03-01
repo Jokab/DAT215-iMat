@@ -90,7 +90,7 @@ public class ShoppingList implements Serializable {
 	 */
 	public void addItem(ShoppingItem item) {
 		if (!this.contains(item)) {
-			addItem(item);
+			list.add(item);
 		} else {
 			ShoppingItem temp = this.getItemReference(item);
 			temp.setAmount(temp.getAmount() + item.getAmount());

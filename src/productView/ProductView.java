@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import java.util.Random;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
-import shoppingCart.ShoppingCartAdapter;
+import shoppingcart.ShoppingCartAdapter;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;

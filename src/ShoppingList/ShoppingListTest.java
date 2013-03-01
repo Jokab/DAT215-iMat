@@ -7,7 +7,7 @@ import java.util.Set;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingItem;
-import shoppingCart.ShoppingCartAdapter;
+import shoppingcart.ShoppingCartAdapter;
 
 
 

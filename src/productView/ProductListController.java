@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Comparator;
 import java.util.List;
 
@@ -11,28 +13,43 @@ import ProductCategories.ProductCategories;
 import ProductSearch.ProductFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import core.MainController;
 import core.ViewController;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ProductCategory;
+import se.chalmers.ait.dat215.project.ShoppingItem;
 import ProductSearch.ProductSearch;
+import ShoppingList.PopupControllerSave;
+import ShoppingList.ShoppingList;
+import ShoppingList.ShoppingListHandler;
+import ShoppingList.ShoppingListPopupSave;
 
 /**
  * A class for controlling the ProductListView, which holds and shows Products
- * found in a search. When the search function is used, updates the view automatically
- * with the results that were found, and sorted if a comparator is specified.
+ * found in a search. When the search function is used, updates the view
+ * automatically with the results that were found, and sorted if a comparator is
+ * specified.
  * 
  * @author Jakob, Sebastian Blomberg
- *
+ * 
  */
-public class ProductListController implements ViewController {
+public class ProductListController implements ViewController,
+		PropertyChangeListener {
 
 	private ProductListView view;
 	private MainController mainController;
 	private String currentCategory;
 	IMatDataHandler dataHandler = IMatDataHandler.getInstance();
+	private ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
+
+	/**
+	 * The active product view which is stored when the popup is opened for
+	 * saving product to list.
+	 **/
+	private ProductView activeProductView;
 
 	public ProductListController(MainController mainController) {
 		this.view = new ProductListView();
@@ -44,69 +61,86 @@ public class ProductListController implements ViewController {
 			ProductView pView = new ProductView(p);
 			pView.addMouseListener(new ViewMouseListener());
 			pView.addActionListener(new StarActionListener());
+			pView.getAddToListButton().addActionListener(
+					new AddToListActionListener(p));
 			view.getViewPanel().add(pView);
 		}
 		view.getViewPanel().revalidate();
 	}
-	
+
 	/**
 	 * Updates the view with products found in search using a name.
 	 * 
-	 * @param name The name to be searched for.
+	 * @param name
+	 *            The name to be searched for.
 	 */
 	public void search(String name) {
 		updateView(new ProductSearch(name).getProducts());
 	}
-	
+
 	/**
-	 * Updates the view with "results" amount of products found in search using a name.
+	 * Updates the view with "results" amount of products found in search using
+	 * a name.
 	 * 
-	 * @param name The name to be searched for.
-	 * @param results The amount of results to return.
+	 * @param name
+	 *            The name to be searched for.
+	 * @param results
+	 *            The amount of results to return.
 	 */
 	public void search(String name, int results) {
 		updateView(new ProductSearch(name, results).getProducts());
 	}
-	
+
 	/**
-	 * Updates the view with "results" amount of products found in search using a name,
-	 * sorted by a comparator. 
+	 * Updates the view with "results" amount of products found in search using
+	 * a name, sorted by a comparator.
 	 * 
-	 * @param name The name to be searched for.
-	 * @param results The amount of results to return.
-	 * @param comp The comparator to be used.
+	 * @param name
+	 *            The name to be searched for.
+	 * @param results
+	 *            The amount of results to return.
+	 * @param comp
+	 *            The comparator to be used.
 	 */
 	public void search(String name, int results, Comparator<Product> comp) {
 		updateView(new ProductSearch(name, results, comp).getProducts());
 	}
 
-	public void filter(String category){
+	public void filter(String category) {
 		this.currentCategory = category;
 		updateView(ProductFilter.getProductByCategory(currentCategory));
 		view.setCurrentCategory(currentCategory);
-		view.setSubcategories(ProductCategories.getInstance().getSubcategories(currentCategory), new SidePanelMouseListener());
+		view.setSubcategories(
+				ProductCategories.getInstance().getSubcategories(
+						currentCategory), new SidePanelMouseListener());
 	}
-	
+
 	public void filter(String category, ProductCategory subcategory) {
 		this.currentCategory = category;
 		updateView(ProductFilter.getProductBySubcategory(subcategory));
 		view.setCurrentCategory(currentCategory);
-		view.setSubcategories(ProductCategories.getInstance().getSubcategories(currentCategory), new SidePanelMouseListener(), subcategory);
+		view.setSubcategories(
+				ProductCategories.getInstance().getSubcategories(
+						currentCategory), new SidePanelMouseListener(),
+				subcategory);
 	}
-	
+
 	private class SidePanelMouseListener implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			ProductSidePanelButton btn = (ProductSidePanelButton) e.getSource();
-			mainController.initProductListController(currentCategory, btn.getSubcategory());
+			mainController.initProductListController(currentCategory,
+					btn.getSubcategory());
 		}
 
 		@Override
-		public void mousePressed(MouseEvent e) {}
+		public void mousePressed(MouseEvent e) {
+		}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {
+		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
@@ -117,14 +151,16 @@ public class ProductListController implements ViewController {
 		public void mouseExited(MouseEvent e) {
 			((ProductSidePanelButton) e.getSource()).toggle();
 		}
-		
+
 	}
-	
+
 	private class ViewMouseListener implements MouseListener {
 
 		private ProductView panel;
+
 		@Override
-		public void mouseClicked(MouseEvent arg0) { }
+		public void mouseClicked(MouseEvent arg0) {
+		}
 
 		@Override
 		public void mouseEntered(MouseEvent evt) {
@@ -141,39 +177,72 @@ public class ProductListController implements ViewController {
 			} else {
 				panel.getStarButton().setVisible(false);
 				panel.getAddToListButton().setVisible(false);
-			}	
+			}
 		}
 
 		@Override
-		public void mousePressed(MouseEvent arg0) { }
+		public void mousePressed(MouseEvent arg0) {
+		}
 
 		@Override
-		public void mouseReleased(MouseEvent arg0) { }
+		public void mouseReleased(MouseEvent arg0) {
+		}
 	}
 
 	private class StarActionListener implements ActionListener {
-		
-		public void actionPerformed(ActionEvent e){
+
+		public void actionPerformed(ActionEvent e) {
 			ProductView panel = (ProductView) e.getSource();
-			
-			if(dataHandler.isFavorite(panel.getProduct())){
+
+			if (dataHandler.isFavorite(panel.getProduct())) {
 				String PicURL = "/.dat215/imat/images/SuperStar.png";
-				ImageIcon starIcon = new ImageIcon(System.getProperty("user.home") + PicURL);
+				ImageIcon starIcon = new ImageIcon(
+						System.getProperty("user.home") + PicURL);
 				panel.getStarButton().setIcon(starIcon);
 				dataHandler.addFavorite(panel.getProduct());
 			} else {
 				String PicURL = "/.dat215/imat/images/SuperStarOfylld.png";
-				ImageIcon starIcon = new ImageIcon(System.getProperty("user.home") + PicURL);
+				ImageIcon starIcon = new ImageIcon(
+						System.getProperty("user.home") + PicURL);
 				panel.getStarButton().setIcon(starIcon);
 				dataHandler.removeFavorite(panel.getProduct());
 			}
 		}
 	}
-	
-	
+
+	private class AddToListActionListener implements ActionListener {
+
+		private Product product;
+		
+		public AddToListActionListener(Product p) {
+			this.product = p;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent evt) {
+			System.out.println(product);
+			PopupControllerSave controller = new PopupControllerSave(
+					this.product, mainController);
+			controller.addObserver(ProductListController.this);
+		}
+	}
 
 	@Override
 	public JPanel getView() {
 		return view;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		ShoppingList list = (ShoppingList) evt.getNewValue();
+		Product p = (Product)evt.getOldValue();
+		list.addItem(new ShoppingItem(p));
+		mainController.removePopup();
+		
+		List<ShoppingItem> items = list.getItems();
+		for(ShoppingItem item : items) {
+			System.out.println(item.getAmount() + " " + item.getProduct());
+		}
+		handler.writeLists();
 	}
 }

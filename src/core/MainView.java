@@ -3,6 +3,8 @@ package core;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,10 +22,10 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
-import shoppingCart.ShoppingcartView;
+import shoppingcart.ShoppingcartView;
 import java.awt.FlowLayout;
-import shoppingCart.ShoppingCartMinimizedView;
-import shoppingCart.ShoppingCartSummaryView;
+import shoppingcart.ShoppingCartMinimizedView;
+import shoppingcart.ShoppingCartSummaryView;
 
 
 public class MainView extends JFrame {
@@ -38,6 +40,9 @@ public class MainView extends JFrame {
 	private final JPanel popupBgPanel;
 	private final ShoppingcartView shoppingCartView;
 	private final JLayeredPane layeredPane = new JLayeredPane();
+	private final GridBagConstraints c = new GridBagConstraints();
+	private final JPanel popupContent = new JPanel(new GridBagLayout());
+	
 	/**
 	 * X-position of window
 	 */
@@ -210,8 +215,11 @@ public class MainView extends JFrame {
 	 * @param panel
 	 */
 	public void setPopup(JPanel panel) {
+		popupContent.setOpaque(false);
+		popupContent.add(panel, c);
 		popupBgPanel.setVisible(true);
-		popupBgPanel.add(panel, BorderLayout.CENTER);
+		popupBgPanel.add(popupContent, BorderLayout.CENTER);
+		popupContent.revalidate();
 	}
 	
 	/**
@@ -220,6 +228,9 @@ public class MainView extends JFrame {
 	public void removePopup() {
 		popupBgPanel.setVisible(false);
 		popupBgPanel.removeAll();
+		
+		popupContent.removeAll();
+		popupContent.revalidate();
 	}
 	
 	private class PopoutListener implements ActionListener {
