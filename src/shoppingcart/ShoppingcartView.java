@@ -45,6 +45,7 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 	private final Color DEFAULT_BACKGROUND = new Color(253, 253, 253);
 	private JLabel lblKundvagn;
 	
+	
 	/**
 	 * Create the panel.
 	 */
@@ -71,11 +72,18 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		scrollPane.setViewportView(productListPanel);
 		productListPanel.setLayout(new BoxLayout(productListPanel, BoxLayout.Y_AXIS));
 		productListPanel.setBackground(DEFAULT_BACKGROUND);
-		
 		JPanel optionPanel = new JPanel();
 		optionPanel.setOpaque(false);
-		JLabel lblLggTillVaror = new JLabel("L\u00E4gg till varor fr\u00E5n");
-		JComboBox comboBox = new JComboBox();
+		final JButton addToCartButton = new JButton();
+		addToCartButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO: MainControll -> make popup
+				
+				
+			}
+		});
+		addToCartButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		addToCartButton.setText("L\u00E4gg till fr\u00E5n ink\u00F6pslista");
 		JButton toCounterButton = new JButton("Till kassa");
 		JButton saveProductListButton = new JButton("Spara Varukorg");
 		saveProductListButton.addActionListener(new ActionListener() {
@@ -139,13 +147,10 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		GroupLayout gl_optionPanel = new GroupLayout(optionPanel);
 		gl_optionPanel.setHorizontalGroup(
 			gl_optionPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_optionPanel.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, gl_optionPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_optionPanel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(Alignment.LEADING, gl_optionPanel.createSequentialGroup()
-							.addComponent(lblLggTillVaror)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(comboBox, 0, 106, Short.MAX_VALUE))
+						.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
 						.addGroup(gl_optionPanel.createSequentialGroup()
 							.addComponent(saveProductListButton, 0, 0, Short.MAX_VALUE)
 							.addGap(18)
@@ -154,12 +159,9 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		);
 		gl_optionPanel.setVerticalGroup(
 			gl_optionPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_optionPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_optionPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblLggTillVaror)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+				.addGroup(Alignment.TRAILING, gl_optionPanel.createSequentialGroup()
+					.addComponent(addToCartButton, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
 					.addGroup(gl_optionPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(toCounterButton)
 						.addComponent(saveProductListButton))
