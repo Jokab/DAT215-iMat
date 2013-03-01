@@ -3,6 +3,8 @@ import java.util.LinkedList;
 
 import javax.swing.JPanel;
 
+import order.OrderViewController;
+
 import ShoppingList.ShoppingList;
 import ShoppingList.ShoppingListPopupNew;
 import ShoppingList.ShoppingListViewController;
@@ -11,6 +13,8 @@ import productView.ProductListController;
 
 import se.chalmers.ait.dat215.project.ProductCategory;
 import menu.MenuController;
+import myAccount.MyAccountController;
+import myAccount.MyAccountEnum;
 
 /**
  * The main controller of the application. Initializes the standard controllers
@@ -29,12 +33,11 @@ public class MainController {
 	
 	private LinkedList<ViewController> history = new LinkedList<ViewController>();
 	private MainView mainView;
-	private MenuController menuController;
 	private final int DEFAULT_HISTORY_STEP = 10;
 	
 	public MainController() {
 		this.mainView = new MainView(); 
-		this.menuController = new MenuController(mainView.getHeaderView(), this);
+		new MenuController(mainView.getHeaderView(), this);
 		
 	}
 	
@@ -59,10 +62,21 @@ public class MainController {
 		switchController(productListController);
 	}
 	
+	/**
+	 * Initializes a new <code>ShoppingListViewController</code> inside the standard 
+	 * <code>MyAccountController</code> to get a side panel for my account.
+	 */
 	public void initShoppingListController() {
-		ShoppingListViewController subcontroller = new ShoppingListViewController(this);
-		switchController(subcontroller);
+		switchController(new MyAccountController(new ShoppingListViewController(this), MyAccountEnum.SHOPPINGLISTS));
 	}
+	
+	/**
+	 * Initializes a new <code>OrderViewController</code> inside the standard 
+	 * <code>MyAccountController</code> to get a side panel for my account.
+	 */
+	public void initOrderHistoryController() {
+		switchController(new MyAccountController(new OrderViewController(), MyAccountEnum.ORDERHISTORY));
+	}	
 	
 	private void switchController(ViewController controller) {
 		if(history.size() >= DEFAULT_HISTORY_STEP) {

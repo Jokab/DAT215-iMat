@@ -1,5 +1,7 @@
 package menu;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map.Entry;
@@ -45,6 +47,9 @@ public class MenuController {
 			});
 		}
 		view.setMenuPanel(menu);
+		
+		view.addActionListenerMyAccountButton(new MyAccountButtonListener());
+		view.addActionListenerShoppingListsButton(new ShoppingListButtonListener());
 	}
 	
 	private SubmenuPanel createSubmenu(final String category) {
@@ -72,6 +77,19 @@ public class MenuController {
 		
 		return submenu;
 		
+	}
+	
+	private class MyAccountButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			controller.initOrderHistoryController();
+		}
+	}
+	private class ShoppingListButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			controller.initShoppingListController();
+		}
 	}
 	
 }

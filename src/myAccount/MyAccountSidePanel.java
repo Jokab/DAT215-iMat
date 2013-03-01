@@ -12,16 +12,20 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Container;
 import javax.swing.JLabel;
 
-public class MyAccountSidePanel extends JPanel {
+import components.SidePanelButton;
 
-	private JLabel headerLabel;
-	private JPanel subcategoriesPanel;
+import productView.ProductSidePanelButton;
+
+public class MyAccountSidePanel extends JPanel {
+	private final JLabel headerLabel;
+	private final JPanel subcategoriesPanel;
+	
 	/**
 	 * Create the panel.
 	 */
-	public MyAccountSidePanel() {
+	public MyAccountSidePanel(MyAccountEnum activeController) {
 		setOpaque(false);
-		headerLabel = new JLabel("Mitt Konto");
+		headerLabel = new JLabel("MITT KONTO");
 		headerLabel.setOpaque(false);
 		headerLabel.setBorder(null);
 		headerLabel.setFont(new Font("Calibri", Font.BOLD, 16));
@@ -29,7 +33,25 @@ public class MyAccountSidePanel extends JPanel {
 		
 		subcategoriesPanel = new JPanel();
 		subcategoriesPanel.setOpaque(false);
+		subcategoriesPanel.setLayout(new BoxLayout(subcategoriesPanel, BoxLayout.PAGE_AXIS));
 		
+		SidePanelButton button = new SidePanelButton("Mina uppgifter");
+		if(activeController == MyAccountEnum.SETTINGS) {
+			button.setActive();
+		}
+		subcategoriesPanel.add(button);
+		
+		button = new SidePanelButton("Orderhistorik");
+		if(activeController == MyAccountEnum.ORDERHISTORY) {
+			button.setActive();
+		}
+		subcategoriesPanel.add(button);
+		
+		button = new SidePanelButton("Inköpslistor");
+		if(activeController == MyAccountEnum.SHOPPINGLISTS) {
+			button.setActive();
+		}
+		subcategoriesPanel.add(button);
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -51,9 +73,6 @@ public class MyAccountSidePanel extends JPanel {
 					.addContainerGap())
 		);
 		setLayout(groupLayout);
-		
-		subcategoriesPanel.setLayout(new BoxLayout(subcategoriesPanel, BoxLayout.PAGE_AXIS));
-
 	}
 
 }

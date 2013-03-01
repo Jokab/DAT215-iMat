@@ -25,6 +25,7 @@ import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.Timer;
+import menu.MenuButton;
 
 
 public class HeaderView extends JPanel {
@@ -32,6 +33,8 @@ public class HeaderView extends JPanel {
 	private SubmenuPanel submenuPanel = new SubmenuPanel();
 	private final JPanel menuPanelWrapper = new JPanel();
 	private final JPanel submenuPanelWrapper = new JPanel();
+	private final MenuButton myAccountButton;
+	private final MenuButton shoppingListsButton;
 
 	/**
 	 * Create the panel.
@@ -56,34 +59,52 @@ public class HeaderView extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel(new ImageIcon("img/greenSquare.png"));
 		
+		myAccountButton = new MenuButton((String) null);
+		myAccountButton.setText("mitt konto");
+		
+		shoppingListsButton = new MenuButton((String) null);
+		shoppingListsButton.setText("ink\u00F6pslistor");
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(82)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(menuPanelWrapper, GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(20)
-							.addComponent(submenuPanelWrapper, GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))))
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
 					.addGap(36)
 					.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(104, Short.MAX_VALUE))
+					.addContainerGap(760, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(102)
+					.addComponent(submenuPanelWrapper, GroupLayout.DEFAULT_SIZE, 1008, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(menuPanelWrapper, GroupLayout.PREFERRED_SIZE, 532, GroupLayout.PREFERRED_SIZE)
+					.addGap(147)
+					.addComponent(myAccountButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
+					.addComponent(shoppingListsButton, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+					.addGap(239))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(26)
+					.addContainerGap(26, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(24)
-							.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(menuPanelWrapper, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(24)
+									.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(menuPanelWrapper, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addComponent(shoppingListsButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+							.addGap(10))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addComponent(myAccountButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)))
 					.addComponent(submenuPanelWrapper, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(120, Short.MAX_VALUE))
 		);
@@ -108,5 +129,13 @@ public class HeaderView extends JPanel {
 		submenuPanelWrapper.add(submenuPanel);
 		submenuPanelWrapper.validate();
 		
+	}
+	
+	public void addActionListenerMyAccountButton(ActionListener l) {
+		myAccountButton.addActionListener(l);
+	}
+	
+	public void addActionListenerShoppingListsButton(ActionListener l) {
+		shoppingListsButton.addActionListener(l);
 	}
 }

@@ -13,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
+import core.ViewController;
+
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Order;
 import se.chalmers.ait.dat215.project.Product;
@@ -20,7 +22,7 @@ import se.chalmers.ait.dat215.project.ShoppingItem;
 import shoppingcart.ShoppingCartAdapter;
 import shoppingcart.ShoppingCartProductPanel;
 
-public class OrderViewController {
+public class OrderViewController implements ViewController {
 	
 	public OrderListView view;
 	private static final IMatDataHandler dm = IMatDataHandler.getInstance();
@@ -150,6 +152,11 @@ public class OrderViewController {
 		public static void main(String[] args) {
 			new Main();
 		}
+	}
+
+	@Override
+	public JPanel getView() {
+		return view;
 	}
 	
 }
