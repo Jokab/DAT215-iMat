@@ -44,7 +44,7 @@ public class ShoppingCartMinimizedView extends JPanel {
 		add(listButton);		
 	}
 	
-	public void addListListener(ActionListener l) {
+	public void addPopoutListener(ActionListener l) {
 		shoppingcartIconButton.addActionListener(l);
 		listButton.addActionListener(l);
 		maximizeLabelButton.addActionListener(l);
