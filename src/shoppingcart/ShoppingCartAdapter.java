@@ -12,7 +12,7 @@ import se.chalmers.ait.dat215.project.ShoppingCartListener;
 import se.chalmers.ait.dat215.project.ShoppingItem;
 /**
  * 
- * @author christoffer
+ * @author christoffer, sebastian
  * A class used to add functionality to the the singleton ShoppingCart class.
  */
 public class ShoppingCartAdapter {

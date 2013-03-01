@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 
 import ShoppingList.ShoppingList;
 import ShoppingList.ShoppingListPopupNew;
+import ShoppingList.ShoppingListViewController;
 
 import productView.ProductListController;
 
@@ -56,6 +57,11 @@ public class MainController {
 		ProductListController productListController = new ProductListController(this);
 		productListController.filter(category, subcategory);
 		switchController(productListController);
+	}
+	
+	public void initShoppingListController() {
+		ShoppingListViewController subcontroller = new ShoppingListViewController(this);
+		switchController(subcontroller);
 	}
 	
 	private void switchController(ViewController controller) {
