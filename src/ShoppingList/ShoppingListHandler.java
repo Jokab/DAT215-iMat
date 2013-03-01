@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import shoppingcart.shoppingCartTest;
+import shoppingCart.shoppingCartTest;
 
 /**
  * A singleton class for managing retrieving, deleting and other useful functionality

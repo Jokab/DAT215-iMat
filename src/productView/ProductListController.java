@@ -131,6 +131,7 @@ public class ProductListController implements ViewController {
 			if (evt.getSource().getClass().equals(ProductView.class)) {
 				panel = (ProductView) evt.getSource();
 				panel.getStarButton().setVisible(true);
+				panel.getAddToListButton().setVisible(true);
 			}
 		}
 
@@ -139,6 +140,7 @@ public class ProductListController implements ViewController {
 				return;
 			} else {
 				panel.getStarButton().setVisible(false);
+				panel.getAddToListButton().setVisible(false);
 			}	
 		}
 
@@ -167,6 +169,8 @@ public class ProductListController implements ViewController {
 			}
 		}
 	}
+	
+	
 
 	@Override
 	public JPanel getView() {

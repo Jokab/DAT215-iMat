@@ -16,14 +16,15 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import core.MainController;
+import core.ViewController;
 
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingItem;
-import shoppingcart.ShoppingCartAdapter;
-import shoppingcart.ShoppingCartProductPanel;
+import shoppingCart.ShoppingCartAdapter;
+import shoppingCart.ShoppingCartProductPanel;
 
-public class ShoppingListViewController {
+public class ShoppingListViewController implements ViewController {
 	
 	private ShoppingListView view;
 	private static final ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
@@ -37,10 +38,10 @@ public class ShoppingListViewController {
 	private final Color NORMAL_TEXT_COLOR = new Color(144,144,144);
 	private final Color SAVEBUTTON_GRAYED_BG = new Color(235,235,235);
 	private final Color SAVEBUTTON_GRAYED_TEXT = Color.WHITE;
-	private final MainController mController;
+	private final MainController mainController;
 	
 	public ShoppingListViewController(MainController mController) {
-		this.mController = mController;
+		this.mainController = mController;
 		this.view = new ShoppingListView();
 		this.view.addRemoveButtonActionListener(new RemoveButtonListener());
 		this.view.addNewListButtonActionListener(new NewListButtonListener());
@@ -179,7 +180,7 @@ public class ShoppingListViewController {
 	}
 	
 	private void showNewListPopup() {
-		mController.showNewListPopup(new ShoppingListPopupNew());
+		mainController.showPopup(new ShoppingListPopupNew());
 	}
 
 	private void checkRemoveButtonEnabled() {
@@ -201,7 +202,7 @@ public class ShoppingListViewController {
 	
 	private static class Main extends JFrame {
 		public Main() {
-			ShoppingListViewController controller = new ShoppingListViewController();
+			ShoppingListViewController controller = new ShoppingListViewController(null);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setVisible(true);
 			setPreferredSize(new Dimension(1190,700));
@@ -229,6 +230,11 @@ public class ShoppingListViewController {
 		ShoppingListEntryInfo info = entry.getInfoPanel();
 		info.setBackground(NORMAL_BG_COLOR);
 		info.setForeground(NORMAL_TEXT_COLOR);
+	}
+
+	@Override
+	public JPanel getView() {
+		return this.view;
 	}
 	
 	

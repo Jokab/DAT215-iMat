@@ -1,6 +1,7 @@
 package productView;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
@@ -28,6 +29,7 @@ public class ProductView extends JPanel {
 	private final ProductAmountPanel productAmountPanel = new ProductAmountPanel();
 	private JButton starButton;
 	private Product product;
+	private final ProductAddToListButton productAddToListBtn = new ProductAddToListButton();
 	
 	/**
 	 * Create the panel.
@@ -35,6 +37,7 @@ public class ProductView extends JPanel {
 	public ProductView(final Product product) {
 		setOpaque(false); 
 		IMatDataHandler dataHandler = IMatDataHandler.getInstance();
+		
 		setMaximumSize(new Dimension(800, 150));
 		setPreferredSize(new Dimension(628, 110));
 		setSize(new Dimension(800, 150));
@@ -91,6 +94,8 @@ public class ProductView extends JPanel {
 				ShoppingCartAdapter.getInstance().addProduct(product, productAmountPanel.getAmount());
 			}
 		});
+		
+		productAddToListBtn.setVisible(false);
 
 		String PicURL = "/.dat215/imat/images/SuperStarOfylld.png";
 		ImageIcon starIcon = new ImageIcon(System.getProperty("user.home") + PicURL);
@@ -111,6 +116,10 @@ public class ProductView extends JPanel {
 		add(productAmountPanel);
 		add(buyButton);
 		add(productUnit);
+		productAddToListBtn.setOpaque(false);
+		productAddToListBtn.setBounds(395, 5, 173, 25);
+		
+		add(productAddToListBtn);
 	
 		
 		/* The hover effect */
@@ -132,5 +141,9 @@ public class ProductView extends JPanel {
 	public void addActionListener(ActionListener starActionListener) {
 		starButton.addActionListener(starActionListener);
 		
+	}
+
+	public ProductAddToListButton getAddToListButton() {
+		return this.productAddToListBtn;
 	}
 }

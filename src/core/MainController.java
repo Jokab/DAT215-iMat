@@ -1,6 +1,11 @@
 package core;
 import java.util.LinkedList;
 
+import javax.swing.JPanel;
+
+import ShoppingList.ShoppingList;
+import ShoppingList.ShoppingListPopupNew;
+
 import productView.ProductListController;
 
 import se.chalmers.ait.dat215.project.ProductCategory;
@@ -59,5 +64,10 @@ public class MainController {
 		}
 		history.add(controller);
 		mainView.setContentView(controller.getView());
+	}
+
+	public void showPopup(JPanel shoppingListPopupNew) {
+		mainView.setPopup(shoppingListPopupNew);
+		
 	}
 }
