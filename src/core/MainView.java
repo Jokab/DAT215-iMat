@@ -145,7 +145,7 @@ public class MainView extends JFrame {
 		shoppingCartSummaryView.setBounds(949, 11, 231, 149);
 		
 		popupBgPanel.setOpaque(false);
-		popupBgPanel.setBounds(0, 647, 1200, 73);
+		popupBgPanel.setBounds(0, 0, 1200, 720);
 		popupBgPanel.setBackground(new Color(0,0,0,60));
 		popupBgPanel.setVisible(false);
 		popupBgPanel.setLayout(new BorderLayout(0, 0));
