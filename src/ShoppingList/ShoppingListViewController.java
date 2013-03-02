@@ -50,9 +50,7 @@ public class ShoppingListViewController implements ViewController {
 			entry.addEntryMouseListener(new EntryClickedListener());
 			view.getPanel().add(entry);
 		}
-		
 		view.getPanel().revalidate();
-		view.getPanel().repaint();
 	}
 	
 	private class EntryClickedListener implements MouseListener {
@@ -94,7 +92,6 @@ public class ShoppingListViewController implements ViewController {
 			updateHeaderText(null);
 			view.getRemoveButton().setEnabled(false);
 			view.getDetailedPanel().removeAll();
-			view.getDetailedPanel().repaint();
 		}
 		
 	}

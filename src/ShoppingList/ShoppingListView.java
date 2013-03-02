@@ -70,8 +70,8 @@ public class ShoppingListView extends JPanel {
 				.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
 				.addGroup(gl_rightPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(removeListButton, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-					.addGap(128)
+					.addComponent(removeListButton, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+					.addGap(185)
 					.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
 					.addContainerGap())
 		);
@@ -83,8 +83,10 @@ public class ShoppingListView extends JPanel {
 					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_rightPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(removeListButton, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_rightPanel.createSequentialGroup()
+							.addComponent(removeListButton, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+							.addGap(11))
+						.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)))
 		);
 		removeListButton.setBorder(null);
 		removeListButton.setContentAreaFilled(false);
@@ -129,8 +131,6 @@ public class ShoppingListView extends JPanel {
 		scrollPane.setMinimumSize(new Dimension(200, 400));
 		scrollPane.setViewportView(panel_2);
 		panel_2.setBackground(Color.WHITE);
-		panel_2.setMinimumSize(new Dimension(0, 0));
-		panel_2.setPreferredSize(new Dimension(0, 0));
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
 		headerLabel.setFont(new Font("Calibri", Font.PLAIN, 18));
 		panel.setLayout(gl_panel);
