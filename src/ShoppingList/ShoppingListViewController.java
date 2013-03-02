@@ -30,15 +30,9 @@ public class ShoppingListViewController implements ViewController {
 	private ShoppingListView view;
 	private static final ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
 	private Dimension separatorPanelSize = new Dimension(200000, 5);
-	private ShoppingListEntry activeEntryPanel;
-	private ShoppingCartAdapter cart = ShoppingCartAdapter.getInstance();
+	private ShoppingListEntry activeEntryPanel = null;
+	private final ShoppingCartAdapter cart = ShoppingCartAdapter.getInstance();
 	
-	private final Color SELECTED_BG_COLOR = new Color(177,211,114);
-	private final Color SELECTED_TEXT_COLOR = Color.white;
-	private final Color NORMAL_BG_COLOR = Color.WHITE;
-	private final Color NORMAL_TEXT_COLOR = new Color(144,144,144);
-	private final Color SAVEBUTTON_GRAYED_BG = new Color(235,235,235);
-	private final Color SAVEBUTTON_GRAYED_TEXT = Color.WHITE;
 	private final MainController mainController;
 	
 	public ShoppingListViewController(MainController mController) {
@@ -53,7 +47,6 @@ public class ShoppingListViewController implements ViewController {
 		
 		view.getPanel().removeAll();
 		handler.readLists();
-		System.out.println("removed all panels");
 		view.getPanel().repaint();
 		
 		IMatDataHandler dm = IMatDataHandler.getInstance();
@@ -66,14 +59,7 @@ public class ShoppingListViewController implements ViewController {
 		for(ShoppingList l : lists) {
 			ShoppingListEntry entry = new ShoppingListEntry(l);
 			entry.addEntryMouseListener(new EntryClickedListener());
-			setNormalColors(entry);
 			view.getPanel().add(entry);
-			
-			JPanel separatorPanel = new JPanel();
-			separatorPanel.setPreferredSize(separatorPanelSize);
-			separatorPanel.setMaximumSize(separatorPanelSize);
-			
-			view.getPanel().add(separatorPanel);
 		}
 		
 		view.getPanel().revalidate();
@@ -85,12 +71,11 @@ public class ShoppingListViewController implements ViewController {
 		@Override
 		public void mouseClicked(MouseEvent evt) {
 			if(activeEntryPanel != null) {
-				setNormalColors(activeEntryPanel);
+				activeEntryPanel.setInactive();
 			}
-			ShoppingListViewController.this.activeEntryPanel = (ShoppingListEntry)evt.getSource();
-			setSelectedColors(activeEntryPanel);
-			checkRemoveButtonEnabled();
-			updateDetailedPanel(ShoppingListViewController.this.activeEntryPanel.getShoppingList());
+			activeEntryPanel = (ShoppingListEntry)evt.getSource();
+			activeEntryPanel.setActive();
+			updateDetailedPanel(activeEntryPanel.getShoppingList());
 		}
 
 		@Override
@@ -98,9 +83,13 @@ public class ShoppingListViewController implements ViewController {
 		@Override
 		public void mouseReleased(MouseEvent e) {}
 		@Override
-		public void mouseEntered(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {
+			((ShoppingListEntry)e.getSource()).toggle();
+		}
 		@Override
-		public void mouseExited(MouseEvent e) {	}
+		public void mouseExited(MouseEvent e) {
+			((ShoppingListEntry)e.getSource()).toggle();
+		}
 		
 	}
 	
@@ -151,23 +140,10 @@ public class ShoppingListViewController implements ViewController {
 		updateHeaderText(shoppingList);
 		JPanel detailedPanel = view.getDetailedPanel();
 		for(ShoppingItem item : shoppingList.getItems()) {
-			detailedPanel.add(new ShoppingCartProductPanel(item));
+			detailedPanel.add(new ShoppingListProductPanel(item));
 		}
-		
+		view.showRightPanel();
 		view.getDetailedPanel().revalidate();
-	}
-	
-	private void showNewListPopup() {
-		mainController.showPopup(new ShoppingListPopupNew());
-	}
-
-	private void checkRemoveButtonEnabled() {
-		System.out.println(view.getPanel().getComponentCount());
-		if(!(view.getPanel().getComponentCount() <= 1)) {
-			view.getRemoveButton().setEnabled(true);
-		} else {
-			view.getRemoveButton().setEnabled(false);
-		}
 	}
 
 	private void updateHeaderText(ShoppingList list) {
@@ -176,22 +152,6 @@ public class ShoppingListViewController implements ViewController {
 		} else {
 			view.getHeaderNameLabel().setText(ShoppingListViewController.this.activeEntryPanel.getShoppingList().getName());
 		}
-	}
-	
-	private void setSelectedColors(ShoppingListEntry entry) {
-		entry.setBackground(SELECTED_BG_COLOR);
-		entry.setForeground(SELECTED_TEXT_COLOR);
-		ShoppingListEntryInfo info = entry.getInfoPanel();
-		info.setBackground(SELECTED_BG_COLOR);
-		info.setForeground(SELECTED_TEXT_COLOR);
-	}
-	
-	private void setNormalColors(ShoppingListEntry entry) {
-		entry.setBackground(NORMAL_BG_COLOR);
-		entry.setForeground(NORMAL_TEXT_COLOR);
-		ShoppingListEntryInfo info = entry.getInfoPanel();
-		info.setBackground(NORMAL_BG_COLOR);
-		info.setForeground(NORMAL_TEXT_COLOR);
 	}
 
 	@Override

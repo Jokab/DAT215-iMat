@@ -1,5 +1,6 @@
 package ShoppingList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -13,77 +14,52 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import java.awt.event.MouseListener;
+import java.awt.Font;
+import javax.swing.border.MatteBorder;
 
 public class ShoppingListEntry extends JPanel {
-	private final JButton btnNewButton = new JButton("+\n");
 	private final JLabel shoppingListName = new JLabel("New label");
-	private final Component horizontalStrut = Box.createHorizontalStrut(20);
-	private final Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-	private final JPanel shoppingInfoLabel;
+	private final ShoppingListEntryInfo shoppingInfoLabel;
+	private final JLabel arrowIcon;
 	private ShoppingList list;
+	
+	private final static ImageIcon greyArrow = new ImageIcon("img/arrowGrey.png");
+	private final static ImageIcon whiteArrow = new ImageIcon("img/arrowWhite.png");
+	private final Color SELECTED_BG_COLOR = new Color(177,211,114);
+	private final Color SELECTED_TEXT_COLOR = Color.white;
+	private final Color NORMAL_BG_COLOR = Color.WHITE;
+	private final Color NORMAL_TEXT_COLOR = new Color(144,144,144);
+
+	
+	private boolean isActive = false;
+	private boolean isToggled = false;
 	/**
 	 * Create the panel.
 	 */
 	public ShoppingListEntry(ShoppingList list) {
-		setBackground(new Color(255, 255, 204));
-		setMinimumSize(new Dimension(280, 45));
-		setMaximumSize(new Dimension(280, 45));
-		setSize(new Dimension(280, 45));
-		setPreferredSize(new Dimension(280, 45));
+		setBackground(NORMAL_BG_COLOR);
+		setMaximumSize(new Dimension(32767, 50));
+		setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(225, 225, 225)));
 		this.list = list;
+		
 		shoppingInfoLabel = new ShoppingListEntryInfo(list);
+		shoppingInfoLabel.setBounds(151, 11, 93, 28);
+		shoppingInfoLabel.setTextColor(NORMAL_TEXT_COLOR);
+		shoppingInfoLabel.setBackground(NORMAL_BG_COLOR);
+		
+		shoppingListName.setBounds(10, 17, 61, 17);
+		shoppingListName.setFont(new Font("Calibri", Font.PLAIN, 14));
+		shoppingListName.setForeground(NORMAL_TEXT_COLOR);
 		shoppingListName.setText(list.getName());
 		
-		btnNewButton.setPreferredSize(new Dimension(50, 25));
-		
-		horizontalStrut_1.setPreferredSize(new Dimension(8, 0));
-		horizontalStrut_1.setMinimumSize(new Dimension(8, 0));
-		
-		horizontalStrut.setMinimumSize(new Dimension(0, 0));
-		horizontalStrut.setPreferredSize(new Dimension(50, 0));
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(5)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(5)
-					.addComponent(horizontalStrut_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(5)
-					.addComponent(shoppingListName)
-					.addGap(5)
-					.addComponent(horizontalStrut, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(shoppingInfoLabel, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
-					.addGap(31))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(5)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(12)
-									.addComponent(horizontalStrut_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(12)
-									.addComponent(horizontalStrut, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(5)
-									.addComponent(shoppingListName))))
-						.addComponent(shoppingInfoLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		setLayout(groupLayout);
+		arrowIcon = new JLabel(greyArrow);
+		arrowIcon.setBounds(247, 17, 15, 17);
+		setLayout(null);
+		add(shoppingListName);
+		add(shoppingInfoLabel);
+		add(arrowIcon);
 	}
 	public void addEntryMouseListener(MouseListener listener) {
-//		shoppingListName.addMouseListener(listener);
-//		shoppingInfoLabel.addMouseListener(listener);
-//		horizontalStrut.addMouseListener(listener);
-//		shoppingListName.addMouseListener(listener);
 		addMouseListener(listener);
 	}
 	
@@ -92,6 +68,41 @@ public class ShoppingListEntry extends JPanel {
 	}
 	public ShoppingListEntryInfo getInfoPanel() {
 		return (ShoppingListEntryInfo)this.shoppingInfoLabel;
+	}
+	
+	/**
+	 * Toggles the panel to be marked or unmarked.
+	 * This method won't affect a panel set to active.
+	 */
+	public void toggle() {
+		if(!isActive) {
+			shoppingListName.setForeground(isToggled? NORMAL_TEXT_COLOR : SELECTED_TEXT_COLOR);
+			setBackground(isToggled? NORMAL_BG_COLOR : SELECTED_BG_COLOR);
+			
+			shoppingInfoLabel.setTextColor(isToggled? NORMAL_TEXT_COLOR : SELECTED_TEXT_COLOR);
+			shoppingInfoLabel.setBackground(isToggled? NORMAL_BG_COLOR : SELECTED_BG_COLOR);
+			
+			arrowIcon.setIcon(isToggled? greyArrow : whiteArrow);
+			
+			isToggled ^= true;
+		}
+	}
+	/**
+	 * Sets the panels background color to green and text to white
+	 */
+	public void setActive() {
+		isToggled = false;
+		toggle();
+		isActive = true;
+	}
+	
+	/**
+	 * Sets the panels background color to white and text to grey
+	 */
+	public void setInactive() {
+		isToggled = true;
+		isActive = false;
+		toggle();
 	}
 
 
