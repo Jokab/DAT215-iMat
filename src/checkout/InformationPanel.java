@@ -61,9 +61,11 @@ public class InformationPanel extends JPanel {
 	private JFormattedTextField YearField;
 	private JFormattedTextField CCVField;
 	private JTextField EmailField;
+	private JButton BeginVerificationButton;
 	
 	private Session session;
 	private UtilDateModel dateModel;
+	private final JButton cancelButton = new JButton("Avbryt");
 	/**
 	 * Create the panel.
 	 */
@@ -83,7 +85,7 @@ public class InformationPanel extends JPanel {
 		
 		NumberFormat cardNumberFormat = NumberFormat.getInstance();
 		cardNumberFormat.setMaximumIntegerDigits(16);
-		cardNumberFormat.setMinimumIntegerDigits(20);
+		cardNumberFormat.setMinimumIntegerDigits(16);
 		cardNumberFormat.setGroupingUsed(false);
 		
 		NumberFormat ZIPFormat = NumberFormat.getInstance();
@@ -229,23 +231,23 @@ public class InformationPanel extends JPanel {
 			}
 		});
 		
-		JButton BeginVerificationButton = new JButton("G\u00E5 till verifiering");
-		BeginVerificationButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				session.put("deliveryday", "" + dateModel.getDay());
-				session.put("deliverymonth", "" + dateModel.getMonth());
-				session.put("deliveryyear", "" + dateModel.getYear());
-				//TODO: Load verification panel.
-				if (session.infoIsOk() && !shoppingCart.getItems().isEmpty()){ 
-					session.saveSession();
-				} else {
-					System.out.println("error");
-					JOptionPane.showMessageDialog(new JFrame("Ajdå"), "Det verkar ha blivit något fel med de uppgifter du matat in.\n Var god se över dessa och försök igen.");
-					//JDialog errorMessage = new JDialog(new JDialog(), "Det verkar vara något fel med de uppgifter som du matat in");
-					//TODO: Pop up som informerar användaren om att denna är dum i huvudet
-				}
-			}
-		});
+		BeginVerificationButton = new JButton("NÃ¤sta");
+//		BeginVerificationButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				session.put("deliveryday", "" + dateModel.getDay());
+//				session.put("deliverymonth", "" + dateModel.getMonth());
+//				session.put("deliveryyear", "" + dateModel.getYear());
+//				//TODO: Load verification panel.
+//				if (session.infoIsOk() && !shoppingCart.getItems().isEmpty()){ 
+//					session.saveSession();
+//				} else {
+//					System.out.println("error");
+//					JOptionPane.showMessageDialog(new JFrame("Ajdï¿½"), "Det verkar ha blivit nï¿½got fel med de uppgifter du matat in.\n Var god se ï¿½ver dessa och fï¿½rsï¿½k igen.");
+//					//JDialog errorMessage = new JDialog(new JDialog(), "Det verkar vara nï¿½got fel med de uppgifter som du matat in");
+//					//TODO: Pop up som informerar anvï¿½ndaren om att denna ï¿½r dum i huvudet
+//				}
+//			}
+//		});
 		
 		JCheckBox saveMyInfoBox = new JCheckBox("Spara mina uppgifter");
 		saveMyInfoBox.setSelected(session.getSaveInfo());
@@ -325,7 +327,7 @@ public class InformationPanel extends JPanel {
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(label)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(YearField, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+									.addComponent(YearField, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 								.addComponent(saveMyInfoBox)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(35)
@@ -338,13 +340,14 @@ public class InformationPanel extends JPanel {
 								.addComponent(LastNameField, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE))))
 					.addPreferredGap(ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(deliveryDateChooser, GroupLayout.PREFERRED_SIZE, 244, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblLeveransdatum))
+						.addComponent(lblLeveransdatum)
+						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+							.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(cancelButton)
+								.addGap(18)
+								.addComponent(BeginVerificationButton))
+							.addComponent(deliveryDateChooser, GroupLayout.PREFERRED_SIZE, 244, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(82, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(681, Short.MAX_VALUE)
-					.addComponent(BeginVerificationButton)
-					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -402,11 +405,25 @@ public class InformationPanel extends JPanel {
 							.addGap(18)
 							.addComponent(saveMyInfoBox))
 						.addComponent(deliveryDateChooser, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE))
-					.addGap(17)
-					.addComponent(BeginVerificationButton)
-					.addContainerGap(58, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(BeginVerificationButton)
+						.addComponent(cancelButton))
+					.addGap(27))
 		);
 		setLayout(groupLayout);
 
+	}
+	
+	public Session getSession() {
+		return this.session;
+	}
+	
+	public void addCancelButtonListener(ActionListener l) {
+		this.cancelButton.addActionListener(l);
+	}
+	
+	public void addNextButtonListener(ActionListener l) {
+		this.BeginVerificationButton.addActionListener(l);
 	}
 }

@@ -22,10 +22,10 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
-import shoppingCart.ShoppingcartView;
 import java.awt.FlowLayout;
 import shoppingCart.ShoppingCartMinimizedView;
 import shoppingCart.ShoppingCartSummaryView;
+import shoppingCart.ShoppingcartView;
 
 
 public class MainView extends JFrame {
@@ -43,6 +43,8 @@ public class MainView extends JFrame {
 	private final GridBagConstraints c = new GridBagConstraints();
 	private final JPanel popupContent = new JPanel(new GridBagLayout());
 	
+	private MainController mainController;
+	
 	/**
 	 * X-position of window
 	 */
@@ -56,12 +58,13 @@ public class MainView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainView() {
+	public MainView(MainController mainController) {
+		this.mainController = mainController;
+		
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setBounds(100, 100, 1200, 720);
-		
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -130,7 +133,7 @@ public class MainView extends JFrame {
 		contentView.setBounds(64, 184, 1116, 521);
 		headerView.setBounds(0, 0, 1180, 184);
 		
-		shoppingCartView = new ShoppingcartView();
+		shoppingCartView = new ShoppingcartView(mainController);
 		shoppingCartView.setBounds(876, 0, 324, 720);
 		
 		// Manipulate program to first paint other components behind JPanel and then the JPanel

@@ -22,9 +22,13 @@ import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingCart;
 import se.chalmers.ait.dat215.project.ShoppingItem;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 
 public class ReceiptPanel extends JPanel {
 	private JPanel contentPanel;
+	private JButton doneButton;
+	private JButton saveToListButton;
+	
 	public ReceiptPanel() {
 		contentPanel = new JPanel();
 		contentPanel.setLayout(new GridLayout(0, 1, 0, 0));
@@ -35,6 +39,7 @@ public class ReceiptPanel extends JPanel {
 		for (int i=0 ; i<shoppingList.size() ; i++){
 			contentPanel.add(new ReceiptProductPanel(shoppingList.get(i)));
 		}
+		
 		JScrollPane scrollPane = new JScrollPane();
 		
 		JLabel thanksLabel = new JLabel("Tack f\u00F6r din best\u00E4llning!");
@@ -52,16 +57,17 @@ public class ReceiptPanel extends JPanel {
 		JLabel addressLabel = new JLabel("Leveransadress: " + session.getValue("address"));
 		addressLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
 		
-		JButton finishedButton = new JButton("Klar");
+		doneButton = new JButton("Klar");
 		
-		JButton saveCartButton = new JButton("Spara handlingslista");
+		saveToListButton = new JButton("Spara handlingslista");
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(0, 0, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(saveCartButton)
+						.addComponent(saveToListButton)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(nameLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -73,7 +79,7 @@ public class ReceiptPanel extends JPanel {
 								.addComponent(scrollPane)
 								.addComponent(thanksLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 					.addGap(18)
-					.addComponent(finishedButton, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+					.addComponent(doneButton, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
 					.addGap(174))
 		);
 		groupLayout.setVerticalGroup(
@@ -96,8 +102,8 @@ public class ReceiptPanel extends JPanel {
 							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 379, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)))
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(saveCartButton)
-						.addComponent(finishedButton))
+						.addComponent(saveToListButton)
+						.addComponent(doneButton))
 					.addContainerGap(21, Short.MAX_VALUE))
 		);
 		
@@ -106,5 +112,13 @@ public class ReceiptPanel extends JPanel {
 		
 		setLayout(groupLayout);
 		
+	}
+	
+	public void addDoneButtonListener(ActionListener l) {
+		this.doneButton.addActionListener(l);
+	}
+	
+	public void addSaveToListListener(ActionListener l) {
+		this.saveToListButton.addActionListener(l);
 	}
 }

@@ -3,6 +3,9 @@ import java.util.LinkedList;
 
 import javax.swing.JPanel;
 
+import checkout.CheckoutController;
+import checkout.CheckoutEnum;
+
 import order.OrderViewController;
 
 import ShoppingList.ShoppingList;
@@ -36,7 +39,7 @@ public class MainController {
 	private final int DEFAULT_HISTORY_STEP = 10;
 	
 	public MainController() {
-		this.mainView = new MainView(); 
+		this.mainView = new MainView(this); 
 		new MenuController(mainView.getHeaderView(), this);
 		
 	}
@@ -77,6 +80,21 @@ public class MainController {
 	public void initOrderHistoryController() {
 		switchController(new MyAccountController(new OrderViewController(), MyAccountEnum.ORDERHISTORY));
 	}	
+	
+	public void initCheckoutController(CheckoutController controller) {
+		switchController(controller);
+	}
+	
+	public void initCheckoutController() {
+		switchController(new CheckoutController(CheckoutEnum.INFORMATION, this));
+	}
+	
+	public void initPreviousController() {
+		if(history.size() > 1) {
+			history.removeLast();
+			mainView.setContentView(history.getLast().getView());
+		}
+	}
 	
 	private void switchController(ViewController controller) {
 		if(history.size() >= DEFAULT_HISTORY_STEP) {

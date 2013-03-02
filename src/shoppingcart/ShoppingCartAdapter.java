@@ -5,6 +5,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.Iterator;
 import java.util.List;
 
+import ShoppingList.ShoppingList;
+
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingCart;
@@ -218,5 +220,12 @@ public class ShoppingCartAdapter {
 	 */
 	public void removeListener(PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(listener);
+	}
+	public void addShoppingList(ShoppingList list){
+		List<ShoppingItem> itemList =list.getItems();
+		Iterator i = itemList.iterator();
+		while(i.hasNext()){
+			this.addItem((ShoppingItem) i.next());
+		}
 	}
 }
