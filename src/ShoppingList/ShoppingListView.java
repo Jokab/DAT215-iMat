@@ -162,10 +162,11 @@ public class ShoppingListView extends JPanel {
 		newListButton.addActionListener(listener);
 	}
 
+	public void addNewAddToCartButtonListener(ActionListener l) {
+		addToCartButton.addActionListener(l);
+	}
+	
 	public JButton getRemoveButton() {
 		return this.removeListButton;
-	}
-	public JButton getAddToCartButton() {
-		return addToCartButton;
 	}
 }

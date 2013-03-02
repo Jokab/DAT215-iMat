@@ -1,9 +1,5 @@
 package ShoppingList;
 
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -11,27 +7,19 @@ import java.awt.event.MouseListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
-
 import core.MainController;
 import core.ViewController;
 
 import se.chalmers.ait.dat215.project.IMatDataHandler;
-import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingItem;
 import shoppingCart.ShoppingCartAdapter;
-import shoppingCart.ShoppingCartProductPanel;
 
 public class ShoppingListViewController implements ViewController {
 	
 	private ShoppingListView view;
 	private static final ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
-	private Dimension separatorPanelSize = new Dimension(200000, 5);
 	private ShoppingListEntry activeEntryPanel = null;
-	private final ShoppingCartAdapter cart = ShoppingCartAdapter.getInstance();
 	
 	private final MainController mainController;
 	
@@ -40,6 +28,7 @@ public class ShoppingListViewController implements ViewController {
 		this.view = new ShoppingListView();
 		this.view.addRemoveButtonActionListener(new RemoveButtonListener());
 		this.view.addNewListButtonActionListener(new NewListButtonListener());
+		this.view.addNewAddToCartButtonListener(new AddToCartButtonListener());
 		updateListView();
 	}
 	
@@ -114,14 +103,9 @@ public class ShoppingListViewController implements ViewController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			addListToCart();
-		}
-		
-		private void addListToCart() {
-			List<ShoppingItem> list = activeEntryPanel.getShoppingList().getItems();
-			for(ShoppingItem item : list) {
-				cart.addItem(item);
-			}
+			ShoppingList list = ShoppingListViewController.this.activeEntryPanel.getShoppingList();
+			ShoppingCartAdapter.getInstance().addItems(list.getItems());
+			
 		}
 	}
 	
