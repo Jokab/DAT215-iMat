@@ -23,6 +23,8 @@ public class ShoppingListViewController implements ViewController {
 	
 	private final MainController mainController;
 	
+	private static final IMatDataHandler dm = IMatDataHandler.getInstance();
+	
 	public ShoppingListViewController(MainController mController) {
 		this.mainController = mController;
 		this.view = new ShoppingListView();
@@ -32,17 +34,11 @@ public class ShoppingListViewController implements ViewController {
 		updateListView();
 	}
 	
-	private void updateListView() {
-		
+	private void updateListView() {		
 		view.getPanel().removeAll();
-		handler.readLists();
-		view.getPanel().repaint();
-		
-		IMatDataHandler dm = IMatDataHandler.getInstance();
+		view.getPanel().repaint();	
 
-		ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
-		
-		handler.readLists(); 
+		handler.readLists();
 		Set<ShoppingList> lists = handler.getShoppingLists();
 
 		for(ShoppingList l : lists) {
@@ -125,6 +121,15 @@ public class ShoppingListViewController implements ViewController {
 		}
 		view.showRightPanel();
 		view.getDetailedPanel().revalidate();
+	}
+
+	// TODO: Is this not used? I don't know.
+	private void checkRemoveButtonEnabled() {
+		if(!(view.getPanel().getComponentCount() <= 1)) {
+			view.getRemoveButton().setEnabled(true);
+		} else {
+			view.getRemoveButton().setEnabled(false);
+		}
 	}
 
 	private void updateHeaderText(ShoppingList list) {

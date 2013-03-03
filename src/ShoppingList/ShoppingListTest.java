@@ -7,7 +7,7 @@ import java.util.Set;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingItem;
-import shoppingcart.ShoppingCartAdapter;
+import shoppingCart.ShoppingCartAdapter;
 
 
 
@@ -30,19 +30,19 @@ public class ShoppingListTest {
 		
 		System.out.println("\n\nSTARTING READING ---------------------");
 
-		ShoppingList list = new ShoppingList(listShop, "Vardag");
-		ShoppingList list2 = new ShoppingList(listShop, "Lordag");
-		ShoppingList list3 = new ShoppingList(listShop, "Sondag");
-		ShoppingList list4 = new ShoppingList(listShop, "Fest");
+		ShoppingList list = new ShoppingList(new LinkedList<ShoppingItem>(), "Vardag");
+		ShoppingList list2 = new ShoppingList(new LinkedList<ShoppingItem>(), "Lordag");
+		ShoppingList list3 = new ShoppingList(new LinkedList<ShoppingItem>(), "Sondag");
+		ShoppingList list4 = new ShoppingList(new LinkedList<ShoppingItem>(), "Fest");
 		
 		ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
-		
+//		
 //		handler.readLists(); 
 //		handler.addShoppingList(list);
 //		handler.addShoppingList(list2);
 //		handler.addShoppingList(list3);
 //		handler.addShoppingList(list4);
-//		handler.writeLists();	
+//		handler.writeLists();
 		
 		Set<ShoppingList> readLists = handler.getShoppingLists();
 		

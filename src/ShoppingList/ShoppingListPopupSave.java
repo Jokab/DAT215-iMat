@@ -45,7 +45,7 @@ public class ShoppingListPopupSave extends JPanel {
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	
 
-	public ShoppingListPopupSave() {
+	public ShoppingListPopupSave(String confirmButtonText) {
 		setSize(new Dimension(350, 300));
 		setPreferredSize(new Dimension(330, 275));
 		setMinimumSize(new Dimension(350, 300));
@@ -56,6 +56,9 @@ public class ShoppingListPopupSave extends JPanel {
 		listPanel.setBackground(Color.WHITE);
 		chooseListLabel.setForeground(NORMAL_TEXT_COLOR);
 		
+		if(confirmButtonText != null && confirmButtonText.length() > 0) {
+			saveButton.setText(confirmButtonText);
+		}
 		saveButton.setBackground(SAVEBUTTON_GRAYED_BG);
 		saveButton.setForeground(SAVEBUTTON_GRAYED_TEXT);
 		
