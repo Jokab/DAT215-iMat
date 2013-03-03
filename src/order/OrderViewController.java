@@ -38,19 +38,7 @@ public class OrderViewController implements ViewController {
 	public void updateListView() {
 		ShoppingCartAdapter cart = ShoppingCartAdapter.getInstance();
 		
-		Product p = dm.getProduct(5);
-		Product p1 = dm.getProduct(6);
-		
-		cart.addProduct(p,5);
-		cart.addProduct(p1, 10);
-		
-		for(int i = 0; i<20; i++)
-			dm.placeOrder();
-		
-		
 		List<Order> orders = dm.getOrders();
-		
-		
 		for(Order order : orders) {
 			OrderEntry entry = new OrderEntry(order);
 			entry.addEntryMouseListener(new EntryClickedListener());
