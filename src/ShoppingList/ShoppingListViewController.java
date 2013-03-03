@@ -41,6 +41,8 @@ public class ShoppingListViewController implements ViewController {
 	private final Color SAVEBUTTON_GRAYED_TEXT = Color.WHITE;
 	private final MainController mainController;
 	
+	private static final IMatDataHandler dm = IMatDataHandler.getInstance();
+	
 	public ShoppingListViewController(MainController mController) {
 		this.mainController = mController;
 		this.view = new ShoppingListView();
@@ -52,15 +54,10 @@ public class ShoppingListViewController implements ViewController {
 	private void updateListView() {
 		
 		view.getPanel().removeAll();
-		handler.readLists();
-		System.out.println("removed all panels");
 		view.getPanel().repaint();
 		
-		IMatDataHandler dm = IMatDataHandler.getInstance();
 
-		ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
-		
-		handler.readLists(); 
+		handler.readLists();
 		Set<ShoppingList> lists = handler.getShoppingLists();
 
 		for(ShoppingList l : lists) {
@@ -162,7 +159,6 @@ public class ShoppingListViewController implements ViewController {
 	}
 
 	private void checkRemoveButtonEnabled() {
-		System.out.println(view.getPanel().getComponentCount());
 		if(!(view.getPanel().getComponentCount() <= 1)) {
 			view.getRemoveButton().setEnabled(true);
 		} else {
