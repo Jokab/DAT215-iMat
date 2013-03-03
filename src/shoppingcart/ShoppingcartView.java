@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
+import se.chalmers.ait.dat215.project.CartEvent;
 import se.chalmers.ait.dat215.project.ShoppingItem;
 
 import java.awt.Font;
@@ -93,6 +94,7 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		toCounterButton.addActionListener(new CheckoutButtonListener());
 		
 		this.saveProductListButton = new JButton("Spara Varukorg");
+		saveProductListButton.setEnabled(false);
 		saveProductListButton.addActionListener(new SaveProductButtonListener());
 
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
@@ -258,6 +260,15 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent evt) {
 		updateSummary();
 		updateItemList();
+		updateSaveToListButton();
+	}
+
+	private void updateSaveToListButton() {
+		if(model.getItems() == null || model.getItems().isEmpty()) {
+			saveProductListButton.setEnabled(false);
+		} else {
+			saveProductListButton.setEnabled(true);
+		}
 	}
 
 	public void addPopoutListener(ActionListener l) {
