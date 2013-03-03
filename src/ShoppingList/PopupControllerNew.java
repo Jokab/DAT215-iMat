@@ -195,8 +195,9 @@ public class PopupControllerNew {
 			handler.addShoppingList(new ShoppingList(new LinkedList<ShoppingItem>(), inputName));
 		}
 		handler.writeLists();
-		pcs.firePropertyChange("popup closed", null, null);
+		
 		exitPopup();
+		pcs.firePropertyChange("popup closed", null, null);
 	}
 	
 	private void exitPopup() {

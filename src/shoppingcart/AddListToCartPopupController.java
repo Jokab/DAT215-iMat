@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
@@ -27,7 +28,7 @@ import ShoppingList.ShoppingListPopupSave;
  * @author Jakob
  *
  */
-public class AddListToCartPopupController implements ViewController {
+public class AddListToCartPopupController implements PropertyChangeListener {
 	
 	private ShoppingListPopupSave popup;
 	private JButton saveButton;
@@ -50,11 +51,12 @@ public class AddListToCartPopupController implements ViewController {
 	private final Color SAVEBUTTON_GRAYED_TEXT = Color.WHITE;
 	
 	private final String CONFIRM_BUTTON_TEXT = "Lägg till";
+	private final String HEADER_TEXT = "Välj en lista att lägga till från:";
 	
 	
 	public AddListToCartPopupController(MainController mainController) {
 		
-		this.popup = new ShoppingListPopupSave(CONFIRM_BUTTON_TEXT);
+		this.popup = new ShoppingListPopupSave(CONFIRM_BUTTON_TEXT, HEADER_TEXT, false);
 		this.mainController = mainController;
 		this.mainController.showPopup(popup);
 		
@@ -64,14 +66,18 @@ public class AddListToCartPopupController implements ViewController {
 		this.cancelButton = popup.getCancelButton();
 		this.cancelButton.addActionListener(new CancelButtonClicked());
 		
-		/** Load the lists. **/
-		handler.readLists();
-		lists = handler.getShoppingLists();
 		initListPanels();
 	}
 	
 	
 	private void initListPanels() {
+		/** Load the shoppinglists. **/
+		handler.readLists();
+		lists = handler.getShoppingLists();
+		popup.getListPanel().removeAll();
+		popup.getListPanel().revalidate();
+
+		
 		for(ShoppingList list : lists) {
 			PopupListEntry entry = new PopupListEntry(list);
 			entry.addOwnMouseListener(new EntryMouseListener());
@@ -94,6 +100,7 @@ public class AddListToCartPopupController implements ViewController {
 			addButtonClicked(selected);
 		}
 	}
+	
 	
 	private class EntryMouseListener implements MouseListener {
 
@@ -130,19 +137,23 @@ public class AddListToCartPopupController implements ViewController {
 	private void exitPopup() {
 		mainController.removePopup();
 	}
-	
+
 	private void addButtonClicked(PopupListEntry entry) {		
 		
 		ShoppingList selectedList = entry.getShoppingList();
-		cart.addShoppingList(selectedList);
+		if(selectedList != null && selectedList.getItems() != null && selectedList.getItems().size() > 0) {
+			cart.addShoppingList(selectedList);
+		}
 		exitPopup();
 	}
 
-
 	@Override
-	public JPanel getView() {
-		return this.popup;
+	public void propertyChange(PropertyChangeEvent evt) {
+		mainController.showPopup(this.popup);
+		initListPanels();
 	}
+	
+	
 
 
 }
