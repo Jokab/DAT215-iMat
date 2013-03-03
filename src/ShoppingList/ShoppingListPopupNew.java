@@ -46,7 +46,10 @@ public class ShoppingListPopupNew extends JPanel {
 	 * @author Jakob
 	 */
 	public ShoppingListPopupNew() {
-		setOpaque(false);
+		setSize(new Dimension(330, 140));
+		setPreferredSize(new Dimension(330, 140));
+		setMinimumSize(new Dimension(330, 140));
+		setMaximumSize(new Dimension(330, 140));
 		
 		saveButton.setBackground(SAVEBUTTON_GRAYED_BG);
 		saveButton.setForeground(SAVEBUTTON_GRAYED_TEXT);
