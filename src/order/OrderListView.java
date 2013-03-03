@@ -1,119 +1,133 @@
 package order;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JSeparator;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
+
+import java.awt.Component;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import java.awt.Dimension;
+import java.awt.Color;
+import javax.swing.border.MatteBorder;
+import java.awt.FlowLayout;
 
 public class OrderListView extends JPanel {
 	private final JPanel panel = new JPanel();
-	private final JSeparator separator = new JSeparator();
-	private final JPanel panel_1 = new JPanel();
+	private final JPanel rightPanel = new JPanel();
 	private final JPanel panel_2 = new JPanel();
-	private final JLabel lblOrderHistory = new JLabel("Orderhistorik");
-	private final JPanel detailedPanel = new JPanel();
-	private final JButton addToCartBtn = new JButton("Lägg till i kundvagn");
-	private final JButton removeOrderBtn = new JButton("Ta bort order");
-	private final JLabel lblNewLabel = new JLabel("");
+	private final JLabel headerLabel = new JLabel("Orderhistorik");
+	private final JButton removeListButton = new JButton(new ImageIcon("img/deleteShoppingListButton.png"));
 	private final JScrollPane scrollPane = new JScrollPane();
+	private final JLabel listNameLabel = new JLabel();
+	private final JButton addToCartButton = new JButton(new ImageIcon("img/addShoppingListToCartButton.png"));
+	private final JPanel detaildPanel;
+	
+	private final Color NORMAL_BG_COLOR = Color.WHITE;
+	private final Color NORMAL_TEXT_COLOR = new Color(144,144,144);
 
 	/**
 	 * Create the panel.
 	 */
 	public OrderListView() {
-		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 18));
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
+		
+		headerLabel.setFont(new Font("Calibri", Font.PLAIN, 18));
+		headerLabel.setForeground(new Color(150, 150 ,150));
+		
+		setBackground(Color.WHITE);
+		listNameLabel.setFont(new Font("Calibri", Font.PLAIN, 18));
+		listNameLabel.setForeground(new Color(150, 150 ,150));
+		panel.setBorder(new MatteBorder(0, 0, 0, 2, (Color) new Color(225, 225, 225)));
+		panel.setBackground(Color.WHITE);
+		rightPanel.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(225, 225, 225)));
+		rightPanel.setOpaque(false);
+		rightPanel.setVisible(false);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBorder(null);
+		GroupLayout gl_rightPanel = new GroupLayout(rightPanel);
+		gl_rightPanel.setHorizontalGroup(
+			gl_rightPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_rightPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 290, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 468, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addComponent(listNameLabel, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(299, Short.MAX_VALUE))
+				.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+				.addGroup(gl_rightPanel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(separator, GroupLayout.PREFERRED_SIZE, 499, Short.MAX_VALUE)
-						.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
-						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addComponent(removeListButton, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+					.addGap(194)
+					.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
 					.addContainerGap())
 		);
-		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(removeOrderBtn)
-					.addPreferredGap(ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
-					.addComponent(addToCartBtn)
-					.addContainerGap())
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblNewLabel)
-					.addContainerGap(456, Short.MAX_VALUE))
-				.addComponent(detailedPanel, GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
-		);
-		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblNewLabel)
-					.addGap(29)
-					.addComponent(detailedPanel, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
+		gl_rightPanel.setVerticalGroup(
+			gl_rightPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_rightPanel.createSequentialGroup()
+					.addComponent(listNameLabel, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(addToCartBtn)
-						.addComponent(removeOrderBtn))
-					.addContainerGap())
+					.addGroup(gl_rightPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_rightPanel.createSequentialGroup()
+							.addComponent(removeListButton, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+							.addGap(11))
+						.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)))
 		);
-		removeOrderBtn.setEnabled(false);
-		detailedPanel.setLayout(new BoxLayout(detailedPanel, BoxLayout.PAGE_AXIS));
-		panel_1.setLayout(gl_panel_1);
+		removeListButton.setBorder(null);
+		removeListButton.setContentAreaFilled(false);
+		addToCartButton.setContentAreaFilled(false);
+		addToCartButton.setBorder(null);
+		
+		detaildPanel = new JPanel();
+		detaildPanel.setBackground(Color.WHITE);
+		scrollPane_1.setViewportView(detaildPanel);
+		detaildPanel.setLayout(new BoxLayout(detaildPanel, BoxLayout.Y_AXIS));
+		rightPanel.setLayout(gl_rightPanel);
+		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
+			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(21)
-					.addComponent(lblOrderHistory)
-					.addContainerGap(143, Short.MAX_VALUE))
-				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 289, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(6, Short.MAX_VALUE))
+					.addContainerGap()
+					.addComponent(headerLabel)
+					.addContainerGap(194, Short.MAX_VALUE))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(3)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
-					.addGap(6)
-					.addComponent(lblOrderHistory)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
-					.addGap(43))
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addComponent(headerLabel)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 410, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(38, Short.MAX_VALUE))
 		);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		panel_2.setBackground(Color.WHITE);
+		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
+		
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		panel_2.setPreferredSize(new Dimension(200, 400));
+		scrollPane.setBorder(null);
+		scrollPane.setSize(new Dimension(200, 400));
+		scrollPane.setPreferredSize(new Dimension(200, 400));
+		scrollPane.setMinimumSize(new Dimension(200, 400));
 		scrollPane.setViewportView(panel_2);
-		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.PAGE_AXIS));
-		lblOrderHistory.setFont(new Font("Dialog", Font.BOLD, 18));
+		
+		headerLabel.setFont(new Font("Calibri", Font.PLAIN, 18));
 		panel.setLayout(gl_panel);
-		separator.setOrientation(SwingConstants.VERTICAL);
-		setLayout(groupLayout);
+		add(panel);
+		add(rightPanel);
 		
 		setVisible(true);
 	}
@@ -122,12 +136,25 @@ public class OrderListView extends JPanel {
 		return panel_2;
 	}
 	public JLabel getHeaderNameLabel() {
-		return lblNewLabel;
+		return listNameLabel;
 	}
 	public JPanel getDetailedPanel() {
-		return detailedPanel;
+		return detaildPanel;
 	}
+	
+	public void showRightPanel() {
+		rightPanel.setVisible(true);
+	}
+	
+	public void addRemoveButtonActionListener(ActionListener listener) {
+		removeListButton.addActionListener(listener);
+	}
+
+	public void addNewAddToCartButtonListener(ActionListener l) {
+		addToCartButton.addActionListener(l);
+	}
+	
 	public JButton getRemoveButton() {
-		return removeOrderBtn;
+		return this.removeListButton;
 	}
 }

@@ -51,11 +51,15 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 	private JLabel lblKundvagn;
 	private MainController mainController;
 
+	
+	
+
 	/**
 	 * Create the panel.
+	 * @param mainController 
 	 */
-    public ShoppingcartView(MainController mainController) {
-        this.mainController = mainController;
+	public ShoppingcartView(MainController mainController) {
+		this.mainController = mainController;
 		setOpaque(false);
 		setLayout(null);
 
@@ -261,10 +265,11 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		listButton.addActionListener(l);
 		minimizeLabelButton.addActionListener(l);
 	}
-
+	
 	public void addCounterButtonListener(ActionListener l) {
 		toCounterButton.addActionListener(l);
 	}
+	
 
 	private class CheckoutButtonListener implements ActionListener {
 

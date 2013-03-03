@@ -90,6 +90,28 @@ public class ShoppingCartAdapter {
 		pcs.firePropertyChange("Items added", null, null);
 		
 	}
+	
+	/**
+	 * Adds a collection of shoppingitems to the shopping cart.
+	 * @param products
+	 */
+	public void addItems(List<ShoppingItem> shoppingitems) {
+		for(ShoppingItem si : shoppingitems) {
+			addItem(si);
+		}
+		pcs.firePropertyChange("Products added", null, null);
+	}
+	
+	/**
+	 * Adds a collection of products to the shopping cart.
+	 * @param products
+	 */
+	public void addProducts(List<Product> products) {
+		for(Product p : products) {
+			addProduct(p);
+		}
+		pcs.firePropertyChange("Products added", null, null);
+	}
 	/**
 	 * 
 	 * @param item the shopping item to find in the cart

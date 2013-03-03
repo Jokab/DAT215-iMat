@@ -13,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
+import ShoppingList.ShoppingListEntry;
+
 import core.ViewController;
 
 import se.chalmers.ait.dat215.project.IMatDataHandler;
@@ -26,7 +28,6 @@ public class OrderViewController implements ViewController {
 	
 	public OrderListView view;
 	private static final IMatDataHandler dm = IMatDataHandler.getInstance();
-	private Dimension separatorPanelSize = new Dimension(200000, 5);
 	private OrderEntry activeEntryPanel;
 	
 	public OrderViewController() {
@@ -54,16 +55,8 @@ public class OrderViewController implements ViewController {
 			OrderEntry entry = new OrderEntry(order);
 			entry.addEntryMouseListener(new EntryClickedListener());
 			view.getPanel().add(entry);
-			
-			JPanel separatorPanel = new JPanel();
-			separatorPanel.setPreferredSize(separatorPanelSize);
-			separatorPanel.setMaximumSize(separatorPanelSize);
-			
-			view.getPanel().add(separatorPanel);
 		}
-		
 		view.getPanel().revalidate();
-		view.getPanel().repaint();
 	}
 	
 	private class EntryClickedListener implements MouseListener {
@@ -71,7 +64,7 @@ public class OrderViewController implements ViewController {
 		@Override
 		public void mouseClicked(MouseEvent evt) {
 			activeEntryPanel = (OrderEntry)evt.getSource();
-			checkRemoveButtonEnabled();
+			activeEntryPanel.setActive();
 			updateDetailedPanel(activeEntryPanel.getOrder());
 		}
 
@@ -82,10 +75,13 @@ public class OrderViewController implements ViewController {
 		public void mouseReleased(MouseEvent e) {}
 
 		@Override
-		public void mouseEntered(MouseEvent e) {}
-
+		public void mouseEntered(MouseEvent e) {
+			((OrderEntry)e.getSource()).toggle();
+		}
 		@Override
-		public void mouseExited(MouseEvent e) {	}
+		public void mouseExited(MouseEvent e) {
+			((OrderEntry)e.getSource()).toggle();
+		}
 		
 	}
 	
@@ -113,9 +109,9 @@ public class OrderViewController implements ViewController {
 		updateHeaderText(order);
 		JPanel detailedPanel = view.getDetailedPanel();
 		for(ShoppingItem item  : order.getItems()) {
-			detailedPanel.add(new ShoppingCartProductPanel(item));
+			detailedPanel.add(new OrderProductPanel(item));
 		}
-		
+		view.showRightPanel();
 		view.getDetailedPanel().revalidate();
 	}
 	
@@ -133,24 +129,6 @@ public class OrderViewController implements ViewController {
 			view.getHeaderNameLabel().setText("");
 		} else {
 			view.getHeaderNameLabel().setText(activeEntryPanel.getDate());
-		}
-	}
-	
-	private static class Main extends JFrame {
-		public Main() {
-			OrderViewController controller = new OrderViewController();
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setVisible(true);
-			setPreferredSize(new Dimension(1190,700));
-			
-			
-			add(controller.view);
-			pack();
-		}
-			
-		
-		public static void main(String[] args) {
-			new Main();
 		}
 	}
 
