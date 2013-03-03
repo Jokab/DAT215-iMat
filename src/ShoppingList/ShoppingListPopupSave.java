@@ -45,7 +45,7 @@ public class ShoppingListPopupSave extends JPanel {
 
 	
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-	private final JButton newListButton = new JButton("Ny lista");
+	private final JButton newListButton = new JButton("Skapa ny lista");
 	
 
 	public ShoppingListPopupSave(String confirmButtonText, String headerText, boolean showNewListButton) {
@@ -95,9 +95,9 @@ public class ShoppingListPopupSave extends JPanel {
 
 	private void initNewListButton() {
 		if(showNewListButton) {
-
-			newListButton.setBounds(230, 8, 89, 23);
-			
+			newListButton.setBounds(202, 8, 115, 23);
+			newListButton.setBackground(SELECTED_BG_COLOR);
+			newListButton.setForeground(SELECTED_TEXT_COLOR);
 			add(newListButton);
 		}
 	}
