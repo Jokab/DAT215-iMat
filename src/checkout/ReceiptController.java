@@ -2,6 +2,7 @@ package checkout;
 
 import javax.swing.JPanel;
 
+import shoppingCart.SaveAsShoppingListPopUpController;
 import shoppingCart.ShoppingCartAdapter;
 
 import ShoppingList.PopupControllerNew;
@@ -31,7 +32,7 @@ public class ReceiptController implements ViewController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			PopupControllerNew popup = new PopupControllerNew(mainController);
+			SaveAsShoppingListPopUpController popup = new SaveAsShoppingListPopUpController(mainController);
 		}
 	}
 		
