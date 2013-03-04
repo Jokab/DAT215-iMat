@@ -44,10 +44,7 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 	private final Color DEFAULT_BACKGROUND = new Color(253, 253, 253);
 	private JLabel lblKundvagn;
 	private MainController mainController;
-
 	
-	
-
 	/**
 	 * Create the panel.
 	 * @param mainController 

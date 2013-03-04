@@ -10,9 +10,16 @@ import java.util.Comparator;
 import java.util.List;
 
 import ProductCategories.ProductCategories;
+import ProductSearch.OrderByNameAscending;
+import ProductSearch.OrderByNameDescending;
+import ProductSearch.OrderByPriceAscending;
+import ProductSearch.OrderByPriceDescending;
 import ProductSearch.ProductFilter;
+import ProductSearch.SearchFilterOption;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -43,9 +50,15 @@ public class ProductListController implements ViewController,
 	private ProductListView view;
 	private MainController mainController;
 	private String currentCategory;
-	IMatDataHandler dataHandler = IMatDataHandler.getInstance();
+	private ProductCategory currentSubcategory = null;
+	private IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 	private ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
 
+	private SearchFilterOption[] comboBoxValues ={new SearchFilterOption(new OrderByNameAscending(), "Namn stigande"), 
+			new SearchFilterOption(new OrderByNameDescending(), "Namn fallande"),
+			new SearchFilterOption(new OrderByPriceAscending(), "Pris stigande"),
+			new SearchFilterOption(new OrderByPriceDescending(), "Pris fallande"),};
+	
 	/**
 	 * The active product view which is stored when the popup is opened for
 	 * saving product to list.
@@ -53,7 +66,7 @@ public class ProductListController implements ViewController,
 	private ProductView activeProductView;
 
 	public ProductListController(MainController mainController) {
-		this.view = new ProductListView();
+		this.view = new ProductListView(comboBoxValues);
 		this.mainController = mainController;
 	}
 
@@ -68,57 +81,30 @@ public class ProductListController implements ViewController,
 		}
 		view.getViewPanel().revalidate();
 	}
-
-	/**
-	 * Updates the view with products found in search using a name.
-	 * 
-	 * @param name
-	 *            The name to be searched for.
-	 */
-	public void search(String name) {
-		updateView(new ProductSearch(name).getProducts());
-	}
-
-	/**
-	 * Updates the view with "results" amount of products found in search using
-	 * a name.
-	 * 
-	 * @param name
-	 *            The name to be searched for.
-	 * @param results
-	 *            The amount of results to return.
-	 */
-	public void search(String name, int results) {
-		updateView(new ProductSearch(name, results).getProducts());
-	}
-
-	/**
-	 * Updates the view with "results" amount of products found in search using
-	 * a name, sorted by a comparator.
-	 * 
-	 * @param name
-	 *            The name to be searched for.
-	 * @param results
-	 *            The amount of results to return.
-	 * @param comp
-	 *            The comparator to be used.
-	 */
-	public void search(String name, int results, Comparator<Product> comp) {
-		updateView(new ProductSearch(name, results, comp).getProducts());
-	}
-
+	
 	public void filter(String category) {
+		filter(category, new OrderByNameAscending());
+	}
+
+	public void filter(String category, Comparator<Product> filter) {
 		this.currentCategory = category;
-		updateView(ProductFilter.getProductByCategory(currentCategory));
+		initComboBox(filter);
+		updateView(ProductFilter.getProductByCategory(currentCategory, filter));
 		view.setCurrentCategory(currentCategory);
 		view.setSubcategories(
 				ProductCategories.getInstance().getSubcategories(
 						currentCategory), new SidePanelMouseListener());
 	}
-
+	
 	public void filter(String category, ProductCategory subcategory) {
+		filter(category, subcategory, new OrderByNameAscending());
+	}
+	
+	public void filter(String category, ProductCategory subcategory, Comparator<Product> filter) {
 		this.currentCategory = category;
-		updateView(ProductFilter.getProductBySubcategory(subcategory));
+		this.currentSubcategory = subcategory;
+		initComboBox(filter);
+		updateView(ProductFilter.getProductBySubcategory(subcategory, filter));
 		view.setCurrentCategory(currentCategory);
 		view.setSubcategories(
 				ProductCategories.getInstance().getSubcategories(
@@ -247,11 +233,31 @@ public class ProductListController implements ViewController,
 		sentItem.setAmount(amount);
 		list.addItem(sentItem);
 		mainController.removePopup();
-		
-		List<ShoppingItem> items = list.getItems();
-		for(ShoppingItem item : items) {
-			System.out.println(item.getAmount() + " " + item.getProduct());
-		}
 		handler.writeLists();
+	}
+	
+	private class ComboBoxListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			SearchFilterOption filter = (SearchFilterOption) ((JComboBox)e.getSource()).getSelectedItem();			
+			if(currentSubcategory != null) {
+				mainController.initProductListController(currentCategory, currentSubcategory, filter.getFilter());
+			} else {
+				mainController.initProductListController(currentCategory, filter.getFilter());
+			}
+		}
+		
+	}
+	
+	private void initComboBox(Comparator<Product> filter) {
+		for(int i = 0; i < comboBoxValues.length; i++) {
+			if(filter.getClass() == comboBoxValues[i].getFilter().getClass()) {
+				view.setSelectedIndexComboBox(i);
+				break;
+			}
+		}
+		
+		view.addComboBoxListener(new ComboBoxListener());
 	}
 }

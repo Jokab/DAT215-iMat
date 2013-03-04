@@ -65,11 +65,32 @@ public class MainController {
 	/**
 	 * Initializes a <code>ProductListController</code> with the specified settings.
 	 * @param category
+	 */
+	public void initProductListController(String category, Comparator<Product> filter) {
+		ProductListController productListController = new ProductListController(this);
+		productListController.filter(category, filter);
+		switchController(productListController);
+	}
+	
+	/**
+	 * Initializes a <code>ProductListController</code> with the specified settings.
+	 * @param category
 	 * @param subcategory
 	 */
 	public void initProductListController(String category, ProductCategory subcategory) {
 		ProductListController productListController = new ProductListController(this);
 		productListController.filter(category, subcategory);
+		switchController(productListController);
+	}
+	
+	/**
+	 * Initializes a <code>ProductListController</code> with the specified settings.
+	 * @param category
+	 * @param subcategory
+	 */
+	public void initProductListController(String category, ProductCategory subcategory, Comparator<Product> filter) {
+		ProductListController productListController = new ProductListController(this);
+		productListController.filter(category, subcategory, filter);
 		switchController(productListController);
 	}
 	

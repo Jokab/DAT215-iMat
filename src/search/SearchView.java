@@ -18,6 +18,11 @@ import javax.swing.BoxLayout;
 import productView.ProductView;
 import javax.swing.JComboBox;
 import javax.swing.border.MatteBorder;
+import javax.swing.SwingConstants;
+
+import ProductSearch.SearchFilterOption;
+
+import java.awt.Component;
 
 public class SearchView extends JPanel {
 
@@ -68,7 +73,7 @@ public class SearchView extends JPanel {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
 						.addComponent(headerLabel))
-					.addContainerGap(30, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -81,8 +86,9 @@ public class SearchView extends JPanel {
 						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addComponent(resultContainer, GroupLayout.PREFERRED_SIZE, 466, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(39, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
+		groupLayout.linkSize(SwingConstants.VERTICAL, new Component[] {comboBox, lblSoteraEfter});
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);

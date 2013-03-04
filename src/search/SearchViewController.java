@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import se.chalmers.ait.dat215.project.Product;
 
 import ProductSearch.*;
-import ProductSearch.ProductSearch;
 
 import core.MainController;
 import core.ViewController;
