@@ -45,7 +45,7 @@ public class ReceiptPanel extends JPanel {
 		JLabel thanksLabel = new JLabel("Tack f\u00F6r din best\u00E4llning!");
 		thanksLabel.setFont(new Font("Verdana", Font.PLAIN, 26));
 		
-		JLabel totalCostLabel = new JLabel("Total kostnad: ");
+		JLabel totalCostLabel = new JLabel("Total kostnad: " + shoppingCart.getTotal() + " kr");
 		totalCostLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
 		
 		JLabel cardNumberLabel = new JLabel("Kortnummer: " + session.getValue("cardnumber"));
@@ -61,7 +61,7 @@ public class ReceiptPanel extends JPanel {
 		
 		saveToListButton = new JButton("Spara handlingslista");
 		
-		JLabel deliveryDateLabel = new JLabel("Leveransdatum: " + session.getValue("deliveryday") +"/"+ session.getValue("deliverymonth") + " - " + session.getValue("deliveryyear"));
+		JLabel deliveryDateLabel = new JLabel("Leveransdatum: " + session.getValue("deliveryday") +"/"+ (Integer.parseInt(session.getValue("deliverymonth"))+1) + " - " + session.getValue("deliveryyear"));
 		deliveryDateLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
 		
 		GroupLayout groupLayout = new GroupLayout(this);
