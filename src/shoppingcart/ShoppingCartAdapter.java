@@ -95,11 +95,13 @@ public class ShoppingCartAdapter {
 	 * Adds a collection of shoppingitems to the shopping cart.
 	 * @param products
 	 */
-	public void addItems(List<ShoppingItem> shoppingitems) {
-		for(ShoppingItem si : shoppingitems) {
-			addItem(si);
+	public void addItems(List<ShoppingItem> shoppingItems) {
+		if(shoppingItems != null && shoppingItems.size() > 0){
+			for(ShoppingItem si : shoppingItems) {
+				addItem(si);
+			}
+			pcs.firePropertyChange("Products added", null, null);
 		}
-		pcs.firePropertyChange("Products added", null, null);
 	}
 	
 	/**
@@ -107,10 +109,12 @@ public class ShoppingCartAdapter {
 	 * @param products
 	 */
 	public void addProducts(List<Product> products) {
-		for(Product p : products) {
-			addProduct(p);
+		if(products != null && products.size() > 0){
+			for(Product p : products) {
+				addProduct(p);
+			}
+			pcs.firePropertyChange("Products added", null, null);
 		}
-		pcs.firePropertyChange("Products added", null, null);
 	}
 	/**
 	 * 
