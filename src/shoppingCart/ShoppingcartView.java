@@ -235,6 +235,9 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		add(shoppingcartIconButton);
 		add(minimizeLabelButton);
 		add(listButton);
+		
+		updateSummary();
+		updateItemList();
 	}
 
 	private void updateSummary() {

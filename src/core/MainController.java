@@ -1,4 +1,6 @@
 package core;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Comparator;
 import java.util.LinkedList;
 
@@ -45,6 +47,7 @@ public class MainController {
 	
 	public MainController() {
 		this.mainView = new MainView(this); 
+		this.mainView.addMainViewWindowListener(new MainFrameWindowListener());
 		new MenuController(mainView.getHeaderView(), this);
 		new SearchController(mainView.getSearchBar(), mainView.getAutoCompleteContainer(), this);
 	}
@@ -128,5 +131,50 @@ public class MainController {
 	
 	public void removePopup() {
 		mainView.removePopup();
+	}
+	
+	private class MainFrameWindowListener implements WindowListener {
+
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			mainView.shutDown();
+		}
+
+		@Override
+		public void windowClosed(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 }
