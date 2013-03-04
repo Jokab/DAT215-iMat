@@ -96,11 +96,16 @@ public class ProductView extends JPanel {
 		});
 		
 		productAddToListBtn.setVisible(false);
-
-		String PicURL = "/.dat215/imat/images/SuperStarOfylld.png";
-		ImageIcon starIcon = new ImageIcon(System.getProperty("user.home") + PicURL);
+		ImageIcon starIcon;
+		
+		if(dataHandler.isFavorite(product)) {
+			starIcon = new ImageIcon("img/starButton.png");
+		} else {
+			starIcon = new ImageIcon("img/starButtonunFiled.png");
+		}
 		
 		starButton = new JButton();
+		starButton.setContentAreaFilled(false);
 		starButton.setBounds(594, 5, 30, 32);
 		starButton.setBorder(null);
 		starButton.setIcon(starIcon);

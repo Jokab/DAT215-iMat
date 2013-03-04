@@ -74,7 +74,7 @@ public class PopupControllerNew {
 		this.cancelButton = popup.getCancelButton();
 		this.cancelButton.addActionListener(new CancelButtonClicked());
 		
-		textField.requestFocus();
+		this.textField.requestFocus();
 		
 		/** Adds a listener for user input, which activates in real-time. **/
 		textField.getDocument().addDocumentListener(new TextFieldListener());

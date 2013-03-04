@@ -60,9 +60,9 @@ public class ProductListController implements ViewController,
 		for (Product p : list) {
 			ProductView pView = new ProductView(p);
 			pView.addMouseListener(new ViewMouseListener());
-			pView.addActionListener(new StarActionListener());
 			pView.getAddToListButton().addActionListener(
 					new AddToListActionListener(p, pView));
+			pView.getStarButton().addActionListener(new StarActionListener(p, pView));
 			view.getViewPanel().add(pView);
 		}
 		view.getViewPanel().revalidate();
@@ -191,21 +191,27 @@ public class ProductListController implements ViewController,
 
 	private class StarActionListener implements ActionListener {
 
-		public void actionPerformed(ActionEvent e) {
-			ProductView panel = (ProductView) e.getSource();
+		private Product product;
+		private ProductView pView;
+		
+		public StarActionListener(Product p, ProductView pView) {
+			this.product = p;
+			this.pView = pView;
+		}
 
-			if (dataHandler.isFavorite(panel.getProduct())) {
+		public void actionPerformed(ActionEvent e) {
+			if (dataHandler.isFavorite(product)) {
 				String PicURL = "/.dat215/imat/images/SuperStar.png";
 				ImageIcon starIcon = new ImageIcon(
 						System.getProperty("user.home") + PicURL);
-				panel.getStarButton().setIcon(starIcon);
-				dataHandler.addFavorite(panel.getProduct());
+				pView.getStarButton().setIcon(starIcon);
+				dataHandler.addFavorite(product);
 			} else {
 				String PicURL = "/.dat215/imat/images/SuperStarOfylld.png";
 				ImageIcon starIcon = new ImageIcon(
 						System.getProperty("user.home") + PicURL);
-				panel.getStarButton().setIcon(starIcon);
-				dataHandler.removeFavorite(panel.getProduct());
+				pView.getStarButton().setIcon(starIcon);
+				dataHandler.removeFavorite(product);
 			}
 		}
 	}
