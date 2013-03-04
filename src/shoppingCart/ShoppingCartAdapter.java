@@ -127,10 +127,12 @@ public class ShoppingCartAdapter {
 	 * @param products
 	 */
 	public void addProducts(List<Product> products) {
-		for (Product p : products) {
-			addProduct(p);
+		if(products != null && products.size() > 0){
+			for(Product p : products) {
+				addProduct(p);
+			}
+			pcs.firePropertyChange("Products added", null, null);
 		}
-		pcs.firePropertyChange("Products added", null, null);
 	}
 
 	/**

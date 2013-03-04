@@ -1,4 +1,5 @@
 package core;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 import javax.swing.JPanel;
@@ -16,7 +17,9 @@ import ShoppingList.ShoppingListViewController;
 
 import productView.ProductListController;
 
+import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ProductCategory;
+import search.SearchViewController;
 import menu.MenuController;
 import myAccount.MyAccountController;
 import myAccount.MyAccountEnum;
@@ -82,6 +85,14 @@ public class MainController {
 	public void initOrderHistoryController() {
 		switchController(new MyAccountController(new OrderViewController(), MyAccountEnum.ORDERHISTORY));
 	}	
+	
+	public void initSearchViewController(String searchString) {
+		switchController(new SearchViewController(searchString, this));
+	}
+	
+	public void initSearchViewController(String searchString, Comparator<Product> filter) {
+		switchController(new SearchViewController(searchString, filter, this));
+	}
 	
 	public void initCheckoutController(CheckoutController controller) {
 		switchController(controller);
