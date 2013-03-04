@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Set;
@@ -24,7 +25,7 @@ import se.chalmers.ait.dat215.project.Product;
  * @author Jakob
  *
  */
-public class PopupControllerSave {
+public class PopupControllerSave implements PropertyChangeListener {
 
 	private final Color SELECTED_BG_COLOR = new Color(177,211,114);
 	private final Color SELECTED_TEXT_COLOR = Color.white;
@@ -34,6 +35,7 @@ public class PopupControllerSave {
 	private final Color SAVEBUTTON_GRAYED_TEXT = Color.WHITE;
 	
 	private final String CONFIRM_BUTTON_TEXT = "Spara";
+	private final String HEADER_TEXT = "Välj en lista att spara i:";
 	
 	private Product attachedProduct;
 	private ShoppingListPopupSave popup;
@@ -47,11 +49,12 @@ public class PopupControllerSave {
 	
 	private ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
 	private Set<ShoppingList> lists;
+	private JButton newListButton;
 	
 	public PopupControllerSave(Product p, MainController mainController) {		
 			
 		this.attachedProduct = p;
-		this.popup = new ShoppingListPopupSave(CONFIRM_BUTTON_TEXT);
+		this.popup = new ShoppingListPopupSave(CONFIRM_BUTTON_TEXT, HEADER_TEXT, true);
 		this.mainController = mainController;
 		this.mainController.showPopup(popup);
 		
@@ -61,13 +64,20 @@ public class PopupControllerSave {
 		this.cancelButton = popup.getCancelButton();
 		this.cancelButton.addActionListener(new CancelButtonClicked());
 		
-		/** Load the shoppinglists. **/
-		handler.readLists();
-		lists = handler.getShoppingLists();
+		this.newListButton = popup.getNewListButton();
+		this.newListButton.addActionListener(new NewListButtonClicked());
 		initListPanels();
+
 	}
 	
 	private void initListPanels() {
+		/** Load the shoppinglists. **/
+		handler.readLists();
+		lists = handler.getShoppingLists();
+		popup.getListPanel().removeAll();
+		popup.getListPanel().revalidate();
+
+		
 		for(ShoppingList list : lists) {
 			PopupListEntry entry = new PopupListEntry(list);
 			entry.addOwnMouseListener(new EntryMouseListener());
@@ -89,6 +99,14 @@ public class PopupControllerSave {
 		public void actionPerformed(ActionEvent evt) {
 			saveButtonClicked(selected);
 		}
+	}
+	
+	private class NewListButtonClicked implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			newListButtonClicked();
+		}	
 	}
 	
 	private class EntryMouseListener implements MouseListener {
@@ -128,7 +146,8 @@ public class PopupControllerSave {
 	}
 	
 	/**
-	 * Send to the controller which created this controller the list that is to be saved to.
+	 * Send to the controller which created this controller the list that is to be saved to,
+	 * as well as which product was selected.
 	 * 
 	 * @param entry The entry containing the selected list.
 	 */
@@ -136,8 +155,21 @@ public class PopupControllerSave {
 		pcs.firePropertyChange("Savebutton clicked", this.attachedProduct, entry.getShoppingList());
 	}
 	
+	private void newListButtonClicked() {
+		mainController.removePopup();
+		PopupControllerNew newController = new PopupControllerNew(mainController);
+		newController.addObserver(this);
+	}
+	
 	public void addObserver(PropertyChangeListener l) {
 		pcs.addPropertyChangeListener(l);
 	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		mainController.showPopup(this.popup);
+		initListPanels();
+	}
+	
 	
 }
