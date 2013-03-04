@@ -1,5 +1,6 @@
 package order;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -11,25 +12,30 @@ import java.awt.FlowLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Color;
+import java.awt.event.MouseListener;
+import java.awt.Font;
+import javax.swing.border.MatteBorder;
 
 import se.chalmers.ait.dat215.project.Order;
 
-import java.awt.Color;
-import java.awt.event.MouseListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 public class OrderEntry extends JPanel {
-	private final JButton btnNewButton = new JButton("+\n");
 	private final JLabel orderDateLabel = new JLabel("New label");
-	private final Component horizontalStrut = Box.createHorizontalStrut(20);
-	private final Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-	private final JPanel orderInfoLabel;
+	private final OrderEntryInfo orderInfoLabel;
+	private final JLabel arrowIcon;
 	private Order order;
 	private String date;
 	
+	private final static ImageIcon greyArrow = new ImageIcon("img/arrowGrey.png");
+	private final static ImageIcon whiteArrow = new ImageIcon("img/arrowWhite.png");
+	private final Color SELECTED_BG_COLOR = new Color(177,211,114);
+	private final Color SELECTED_TEXT_COLOR = Color.white;
+	private final Color NORMAL_BG_COLOR = Color.WHITE;
+	private final Color NORMAL_TEXT_COLOR = new Color(144,144,144);
+
+	
+	private boolean isActive = false;
+	private boolean isToggled = false;
 	/**
 	 * Create the panel.
 	 */
@@ -37,65 +43,30 @@ public class OrderEntry extends JPanel {
 		this.order = order;
 		orderInfoLabel = new OrderEntryInfo(order);
 		date = OrderUtil.convertDateToFormattedString(order.getDate());
+
+		setBackground(NORMAL_BG_COLOR);
+		setMaximumSize(new Dimension(32767, 50));
+		setMinimumSize(new Dimension(10, 50));
+		setPreferredSize(new Dimension(200, 50));
+		setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(225, 225, 225)));
+		
+		orderInfoLabel.setBounds(151, 11, 93, 28);
+		orderInfoLabel.setTextColor(NORMAL_TEXT_COLOR);
+		orderInfoLabel.setBackground(NORMAL_BG_COLOR);
+		
+		orderDateLabel.setBounds(10, 17, 121, 17);
+		orderDateLabel.setFont(new Font("Calibri", Font.PLAIN, 14));
+		orderDateLabel.setForeground(NORMAL_TEXT_COLOR);
 		orderDateLabel.setText(date);
 		
-		setBackground(new Color(255, 255, 204));
-		setMinimumSize(new Dimension(280, 45));
-		setMaximumSize(new Dimension(280, 45));
-		setSize(new Dimension(280, 45));
-		setPreferredSize(new Dimension(305, 45));
-		
-		btnNewButton.setPreferredSize(new Dimension(50, 25));
-		
-		horizontalStrut_1.setPreferredSize(new Dimension(8, 0));
-		horizontalStrut_1.setMinimumSize(new Dimension(8, 0));
-		
-		horizontalStrut.setMinimumSize(new Dimension(0, 0));
-		horizontalStrut.setPreferredSize(new Dimension(50, 0));
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(5)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(5)
-					.addComponent(horizontalStrut_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(5)
-					.addComponent(orderDateLabel)
-					.addGap(5)
-					.addComponent(horizontalStrut, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(orderInfoLabel, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(5)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(12)
-									.addComponent(horizontalStrut_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(5)
-									.addComponent(orderDateLabel))))
-						.addComponent(orderInfoLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(17)
-							.addComponent(horizontalStrut, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		setLayout(groupLayout);
+		arrowIcon = new JLabel(greyArrow);
+		arrowIcon.setBounds(247, 17, 15, 17);
+		setLayout(null);
+		add(orderDateLabel);
+		add(orderInfoLabel);
+		add(arrowIcon);
 	}
-	
 	public void addEntryMouseListener(MouseListener listener) {
-//		shoppingListName.addMouseListener(listener);
-//		shoppingInfoLabel.addMouseListener(listener);
-//		horizontalStrut.addMouseListener(listener);
-//		shoppingListName.addMouseListener(listener);
 		addMouseListener(listener);
 	}
 	
@@ -107,11 +78,40 @@ public class OrderEntry extends JPanel {
 		return this.date;
 	}
 	
+	/**
+	 * Toggles the panel to be marked or unmarked.
+	 * This method won't affect a panel set to active.
+	 */
+	public void toggle() {
+		if(!isActive) {
+			orderDateLabel.setForeground(isToggled? NORMAL_TEXT_COLOR : SELECTED_TEXT_COLOR);
+			setBackground(isToggled? NORMAL_BG_COLOR : SELECTED_BG_COLOR);
+			
+			orderInfoLabel.setTextColor(isToggled? NORMAL_TEXT_COLOR : SELECTED_TEXT_COLOR);
+			orderInfoLabel.setBackground(isToggled? NORMAL_BG_COLOR : SELECTED_BG_COLOR);
+			
+			arrowIcon.setIcon(isToggled? greyArrow : whiteArrow);
+			
+			isToggled ^= true;
+		}
+	}
+	/**
+	 * Sets the panels background color to green and text to white
+	 */
+	public void setActive() {
+		isToggled = false;
+		toggle();
+		isActive = true;
+	}
 	
-//	public String processDate(Date date) {
-//		Calendar cal = Calendar.getInstance();
-//		cal.
-//	}
+	/**
+	 * Sets the panels background color to white and text to grey
+	 */
+	public void setInactive() {
+		isToggled = true;
+		isActive = false;
+		toggle();
+	}
 
 
 }

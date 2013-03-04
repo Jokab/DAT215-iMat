@@ -1,28 +1,37 @@
 package shoppingCart;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import se.chalmers.ait.dat215.project.Product;
+import se.chalmers.ait.dat215.project.ShoppingItem;
 import core.MainController;
+import core.ViewController;
 
 import ShoppingList.PopupListEntry;
 import ShoppingList.ShoppingList;
 import ShoppingList.ShoppingListHandler;
 import ShoppingList.ShoppingListPopupSave;
-import ShoppingList.PopupControllerSave.EntryMouseListener;
 
-public class AddShoppingListPopUp {
+/**
+ * @author Jakob
+ *
+ */
+public class AddListToCartPopupController implements PropertyChangeListener {
 	
 	private ShoppingListPopupSave popup;
-	private JButton addButton;
+	private JButton saveButton;
 	private JButton cancelButton;
 	
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -31,15 +40,44 @@ public class AddShoppingListPopUp {
 	private MainController mainController;
 	
 	private ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
+	private ShoppingCartAdapter cart = ShoppingCartAdapter.getInstance();
 	private Set<ShoppingList> lists;
+
+	private final Color SELECTED_BG_COLOR = new Color(177,211,114);
+	private final Color SELECTED_TEXT_COLOR = Color.white;
+	private final Color NORMAL_BG_COLOR = Color.WHITE;
+	private final Color NORMAL_TEXT_COLOR = new Color(144,144,144);
+	private final Color SAVEBUTTON_GRAYED_BG = new Color(235,235,235);
+	private final Color SAVEBUTTON_GRAYED_TEXT = Color.WHITE;
+	
+	private final String CONFIRM_BUTTON_TEXT = "L�gg till";
+	private final String HEADER_TEXT = "V�lj en lista att l�gga till fr�n:";
 	
 	
-	public AddShoppingListPopUp(){
+	public AddListToCartPopupController(MainController mainController) {
 		
+		this.popup = new ShoppingListPopupSave(CONFIRM_BUTTON_TEXT, HEADER_TEXT, false);
+		this.mainController = mainController;
+		this.mainController.showPopup(popup);
+		
+		this.saveButton = popup.getSaveButton();
+		this.saveButton.addActionListener(new AddButtonClicked());
+		
+		this.cancelButton = popup.getCancelButton();
+		this.cancelButton.addActionListener(new CancelButtonClicked());
+		
+		initListPanels();
 	}
 	
 	
 	private void initListPanels() {
+		/** Load the shoppinglists. **/
+		handler.readLists();
+		lists = handler.getShoppingLists();
+		popup.getListPanel().removeAll();
+		popup.getListPanel().revalidate();
+
+		
 		for(ShoppingList list : lists) {
 			PopupListEntry entry = new PopupListEntry(list);
 			entry.addOwnMouseListener(new EntryMouseListener());
@@ -59,11 +97,10 @@ public class AddShoppingListPopUp {
 	
 		@Override
 		public void actionPerformed(ActionEvent evt) {
-			System.out.println("addbutton clicked");
-			//TODO: Code below but with the selected list as param
-			//ShoppingCartAdapter.getInstance().addShoppingList(selected.getShoppingList())));
+			addButtonClicked(selected);
 		}
 	}
+	
 	
 	private class EntryMouseListener implements MouseListener {
 
@@ -100,13 +137,23 @@ public class AddShoppingListPopUp {
 	private void exitPopup() {
 		mainController.removePopup();
 	}
-	
-	private void saveButtonClicked(PopupListEntry entry) {		
-		System.out.println("firing");
-		pcs.firePropertyChange("Savebutton clicked", this.attachedProduct, entry.getShoppingList());
+
+	private void addButtonClicked(PopupListEntry entry) {		
+		
+		ShoppingList selectedList = entry.getShoppingList();
+		if(selectedList != null && selectedList.getItems() != null && selectedList.getItems().size() > 0) {
+			cart.addShoppingList(selectedList);
+		}
+		exitPopup();
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		mainController.showPopup(this.popup);
+		initListPanels();
 	}
 	
-	public void addObserver(PropertyChangeListener l) {
-		pcs.addPropertyChangeListener(l);
-	}
+	
+
+
 }

@@ -19,10 +19,15 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import core.MainController;
 
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 
+import ProductCategories.ProductCategories;
 import ProductSearch.ProductSearch;
 
 /**
@@ -35,17 +40,31 @@ public class SearchController {
 
 	private IMatDataHandler dh = IMatDataHandler.getInstance();
 	private final SearchBar bar;
-	private final int MAX_RESULTS = 3;
+	private final int MAX_RESULTS = 6;
 	private final Comparator<Product> DEFAULT_COMPARATOR = null;
-
+	private final AutoCompleteContainer resultContainer;
+	private final MainController mainController;
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public SearchController(SearchBar bar) {
+	public SearchController(final SearchBar bar, AutoCompleteContainer resultContainer, MainController mainController) {
 		this.bar = bar;
+		this.resultContainer = resultContainer;
+		this.mainController = mainController;
 		bar.addFocusGainedListener(new BarFocusListener());
 		bar.addBarActionPerformedListener(new BarActionPerformedListener());
-		bar.addMouseListener(new BarMouseListener());
+		
+		this.bar.getSearchField().getDocument().addDocumentListener(new DocumentListener() {
+			  public void changedUpdate(DocumentEvent e) {
+				  updateAutoCompletePanel(SearchController.this.bar.getSearchField());
+			  }
+			  public void removeUpdate(DocumentEvent e) {
+				  updateAutoCompletePanel(SearchController.this.bar.getSearchField());
+			  }
+			  public void insertUpdate(DocumentEvent e) {
+				  updateAutoCompletePanel(SearchController.this.bar.getSearchField());
+			  }
+		});
 	}
 
 	private class BarFocusListener implements FocusListener {
@@ -57,7 +76,7 @@ public class SearchController {
 
 		@Override
 		public void focusLost(FocusEvent arg0) {
-			bar.getPanel().setVisible(false);
+			resultContainer.setVisible(false);
 			bar.getSearchField().setText("Sök produkt...");
 		}
 	}
@@ -68,14 +87,23 @@ public class SearchController {
 		public void actionPerformed(ActionEvent e) {
 
 			updateAutoCompletePanel(bar.getSearchField());
-			bar.getPanel().setVisible(true);
+			resultContainer.setVisible(true);
 		}
 	}
 	
 	private class BarMouseListener implements MouseListener {
 
 		@Override
-		public void mouseClicked(MouseEvent arg0) { }
+		public void mouseClicked(MouseEvent evt) {
+			if(evt.getSource().getClass().equals(AutoCompleteProductsPanel.class)) {
+				Product p = ((AutoCompleteProductsPanel)evt.getSource()).getProduct();
+				mainController.initProductListController(ProductCategories.getInstance().getCategory(p.getCategory()), p.getCategory());
+				resultContainer.setVisible(false);
+				bar.getSearchField().setText("Sök produkt...");
+				bar.getSearchField().setFocusable(false);
+				bar.getSearchField().setFocusable(true);
+			}
+		}
 
 		@Override
 		public void mouseEntered(MouseEvent evt) {
@@ -83,7 +111,7 @@ public class SearchController {
 				AutoCompleteProductsPanel panel = (AutoCompleteProductsPanel)evt.getSource();
 	
 				if(panel.contains(evt.getPoint())) {
-					panel.setBackground(Color.BLUE);
+					panel.setBackground(new Color(250, 250, 250));
 				}
 			}
 		}
@@ -112,28 +140,27 @@ public class SearchController {
 	 */
 	public void updateAutoCompletePanel(JTextField field) {
 		
-		bar.getPanel().removeAll();
-
+		resultContainer.removeAll();
 		String input = bar.getSearchField().getText();
 		ProductSearch ps = new ProductSearch(input, MAX_RESULTS, null);
 		List<Product> list = ps.getProducts();
-		
 		if(list.size() != 0) {
-			System.out.println(list.size());
 			for (Product p : list) {
 				AutoCompleteProductsPanel productPanel = new AutoCompleteProductsPanel(p);
 				productPanel.addAutoCompMouseListener(new BarMouseListener());
-				bar.getPanel().add(productPanel);
-			}		
+				resultContainer.add(productPanel);
+			}
+			resultContainer.add(new AutoCompleteResultButton());
+			resultContainer.setVisible(true);
 		} else {
-			bar.getPanel().removeAll();
-			bar.getPanel().revalidate();
-			bar.getPanel().setVisible(false);
+			resultContainer.setVisible(false);
 		}
+		resultContainer.repaint();
+		resultContainer.revalidate();
 	}
 	
 	public boolean panelHasContent() {
-		Component[] components = bar.getPanel().getComponents();
+		Component[] components = resultContainer.getComponents();
 		if(components != null) {
 			return true;
 		} else {

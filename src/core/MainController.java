@@ -8,6 +8,7 @@ import checkout.CheckoutEnum;
 
 import order.OrderViewController;
 
+import SearchBar.SearchController;
 import ShoppingList.ShoppingList;
 import ShoppingList.ShoppingListPopupNew;
 import ShoppingList.ShoppingListViewController;
@@ -41,7 +42,7 @@ public class MainController {
 	public MainController() {
 		this.mainView = new MainView(this); 
 		new MenuController(mainView.getHeaderView(), this);
-		
+		new SearchController(mainView.getSearchBar(), mainView.getAutoCompleteContainer(), this);
 	}
 	
 	/**

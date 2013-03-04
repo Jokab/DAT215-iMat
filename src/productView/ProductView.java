@@ -137,6 +137,10 @@ public class ProductView extends JPanel {
 	public Product getProduct(){
 		return product;
 	}
+	
+	public double getAmount() {
+		return this.productAmountPanel.getAmount();
+	}
 
 	public void addActionListener(ActionListener starActionListener) {
 		starButton.addActionListener(starActionListener);

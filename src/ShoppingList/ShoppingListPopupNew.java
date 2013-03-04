@@ -38,8 +38,18 @@ public class ShoppingListPopupNew extends JPanel {
 	private final Color SAVEBUTTON_GRAYED_TEXT = Color.WHITE;
 
 
+	/**
+	 * A popup for allowing the user to create a new <code>ShoppingList</code>.
+	 * If the name entered is the name of an existing <code>ShoppingList</code>,
+	 * that <code>ShoppingList</code> is overwritten with an empty one.
+	 * 
+	 * @author Jakob
+	 */
 	public ShoppingListPopupNew() {
-		setOpaque(false);
+		setSize(new Dimension(330, 140));
+		setPreferredSize(new Dimension(330, 140));
+		setMinimumSize(new Dimension(330, 140));
+		setMaximumSize(new Dimension(330, 140));
 		
 		saveButton.setBackground(SAVEBUTTON_GRAYED_BG);
 		saveButton.setForeground(SAVEBUTTON_GRAYED_TEXT);
@@ -49,7 +59,6 @@ public class ShoppingListPopupNew extends JPanel {
 		
 		lblAngeNamn.setForeground(NORMAL_TEXT_COLOR);
 
-
 		textField.setBounds(12, 32, 307, 19);
 		textField.setColumns(10);
 		setLayout(null);
@@ -58,11 +67,7 @@ public class ShoppingListPopupNew extends JPanel {
 		lblAngeNamn.setBounds(12, 12, 74, 15);
 
 		add(lblAngeNamn);
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ShoppingListPopupNew.this.setVisible(false);
-			}
-		});
+		
 		cancelButton.setBounds(212, 103, 107, 25);
 
 		add(cancelButton);
@@ -78,6 +83,7 @@ public class ShoppingListPopupNew extends JPanel {
 		warningLabel.setBounds(12, 53, 307, 37);
 
 		add(warningLabel);
+		setVisible(true);
 
 	}
 

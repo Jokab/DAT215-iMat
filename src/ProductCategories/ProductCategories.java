@@ -1,6 +1,7 @@
 package ProductCategories;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import se.chalmers.ait.dat215.project.ProductCategory;
@@ -65,6 +66,15 @@ public class ProductCategories {
 		}
 		return instance;
 		
+	}
+	
+	public String getCategory(ProductCategory subcategory) {
+		for(Map.Entry<String, Map<ProductCategory, String>> entry: categories.entrySet()) {
+			if(entry.getValue().containsKey(subcategory)) {
+				return entry.getKey();
+			}
+		}
+		return "Kött";
 	}
 	
 	public Set<String> getCategories() {

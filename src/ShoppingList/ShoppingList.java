@@ -1,6 +1,7 @@
 package ShoppingList;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 import se.chalmers.ait.dat215.project.*;
@@ -21,17 +22,19 @@ public class ShoppingList implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<ShoppingItem> list;
 	private String name;
-	
+
 	public ShoppingList(String text) {
-		this(null,text);
+		this(null, text);
 	}
 
 	public ShoppingList(List<ShoppingItem> list, String name) {
 		this.name = name;
-		this.list = list;
+		if (list != null) {
+			this.list = list;
+		} else {
+			list = new LinkedList<ShoppingItem>();
+		}
 	}
-
-
 
 	/**
 	 * Returns the List&lt;ShoppingList&gt; which contains the ShoppingItems in
@@ -40,7 +43,11 @@ public class ShoppingList implements Serializable {
 	 * @return The list of ShoppingItems.
 	 */
 	public List<ShoppingItem> getItems() {
-		return this.list;
+		if (list != null && list.size() >= 1) {
+			return this.list;
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -49,16 +56,16 @@ public class ShoppingList implements Serializable {
 	 * @return The total price.
 	 */
 	public double getTotal() {
-		if (getItems() != null || getItems().size() != 0) {
+		if (getItems() != null && getItems().size() != 0) {
 			double total = 0;
 
 			for (ShoppingItem item : getItems())
 				total += item.getProduct().getPrice() * item.getAmount();
 
 			return total;
-		} else
+		} else {
 			return 0;
-
+		}
 	}
 
 	/**
@@ -67,7 +74,7 @@ public class ShoppingList implements Serializable {
 	 * @return The number of items.
 	 */
 	public int getNbrItems() {
-		if (getItems() != null || getItems().size() != 0) {
+		if (getItems() != null && getItems().size() != 0) {
 			return getItems().size();
 		} else {
 			return 0;
@@ -86,7 +93,8 @@ public class ShoppingList implements Serializable {
 	/**
 	 * Adds an ShoppingItem to the ShoppingList.
 	 * 
-	 * @param item The ShoppingItem to be added.
+	 * @param item
+	 *            The ShoppingItem to be added.
 	 */
 	public void addItem(ShoppingItem item) {
 		if (!this.contains(item)) {
@@ -148,7 +156,11 @@ public class ShoppingList implements Serializable {
 	 * @return true if the item is in cart
 	 */
 	public boolean contains(ShoppingItem item) {
-		return this.contains(item.getProduct());
+		if (list != null && list.size() >= 1) {
+			return this.contains(item.getProduct());
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -158,11 +170,12 @@ public class ShoppingList implements Serializable {
 	 * @return true if the product is in the cart
 	 */
 	public boolean contains(Product prod) {
-
-		for (ShoppingItem item : list) {
-			if (item.getProduct().getName().equals(prod.getName())) {
-				System.out.println("Does exist!");
-				return true;
+		if (list != null && list.size() >= 1) {
+			for (ShoppingItem item : list) {
+				if (item.getProduct().getName().equals(prod.getName())) {
+					System.out.println("Does exist!");
+					return true;
+				}
 			}
 		}
 
@@ -170,10 +183,12 @@ public class ShoppingList implements Serializable {
 	}
 
 	public ShoppingItem getItemReference(ShoppingItem item) {
-		for (ShoppingItem i : this.list) {
-			ShoppingItem temp = i;
-			if (item.getProduct().equals(temp.getProduct())) {
-				return temp;
+		if (list != null && list.size() >= 1) {
+			for (ShoppingItem i : this.list) {
+				ShoppingItem temp = i;
+				if (item.getProduct().equals(temp.getProduct())) {
+					return temp;
+				}
 			}
 		}
 		return null;
@@ -196,13 +211,17 @@ public class ShoppingList implements Serializable {
 	}
 
 	public void removeItem(int index) {
-		list.remove(index);
+		if (list != null && list.size() >= 1) {
+			list.remove(index);
+		}
 	}
 
 	public void removeItem(ShoppingItem item) {
-		for (ShoppingItem i : list) {
-			if (i.equals(item)) {
-				list.remove(i);
+		if (list != null && list.size() >= 1) {
+			for (ShoppingItem i : list) {
+				if (i.equals(item)) {
+					list.remove(i);
+				}
 			}
 		}
 	}
@@ -218,7 +237,9 @@ public class ShoppingList implements Serializable {
 	 *            the item in question
 	 */
 	public void increaseItemAmount(ShoppingItem item) {
-		this.increaseProductAmount(item.getProduct());
+		if (list != null && list.size() >= 1) {
+			this.increaseProductAmount(item.getProduct());
+		}
 	}
 
 	/**
@@ -228,7 +249,9 @@ public class ShoppingList implements Serializable {
 	 *            the item in question
 	 */
 	public void decreaseItemAmount(ShoppingItem item) {
-		this.decreaseProductAmount(item.getProduct());
+		if (list != null && list.size() >= 1) {
+			this.decreaseProductAmount(item.getProduct());
+		}
 	}
 
 	/**
@@ -238,11 +261,13 @@ public class ShoppingList implements Serializable {
 	 *            the product in question
 	 */
 	public void increaseProductAmount(Product prod) {
-		if (!this.contains(prod)) {
-			System.out.println("Item not in list!");
-		} else {
-			ShoppingItem temp = this.getItemReference(prod);
-			temp.setAmount(temp.getAmount() + 1);
+		if (list != null && list.size() >= 1) {
+			if (!this.contains(prod)) {
+				System.out.println("Item not in list!");
+			} else {
+				ShoppingItem temp = this.getItemReference(prod);
+				temp.setAmount(temp.getAmount() + 1);
+			}
 		}
 	}
 
@@ -253,11 +278,13 @@ public class ShoppingList implements Serializable {
 	 *            the product in question
 	 */
 	public void decreaseProductAmount(Product prod) {
-		if (!this.contains(prod)) {
-			System.out.println("Item not in list!");
-		} else {
-			ShoppingItem temp = this.getItemReference(prod);
-			temp.setAmount(temp.getAmount() - 1);
+		if (list != null && list.size() >= 1) {
+			if (!this.contains(prod)) {
+				System.out.println("Item not in list!");
+			} else {
+				ShoppingItem temp = this.getItemReference(prod);
+				temp.setAmount(temp.getAmount() - 1);
+			}
 		}
 	}
 
