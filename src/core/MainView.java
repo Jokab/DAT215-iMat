@@ -192,7 +192,7 @@ public class MainView extends JFrame {
 		
 		// SearchBar
 		searchBar.setBounds(350, 60, 350, 400);
-		autoCompleteContainer.setBounds(350, 90, 350, 450);
+		autoCompleteContainer.setBounds(350, 86, 349, 450);
 		
 		// Add to layered pane
 		layeredPane.add(contentView, new Integer(1));

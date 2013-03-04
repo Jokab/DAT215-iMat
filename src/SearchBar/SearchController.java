@@ -150,10 +150,12 @@ public class SearchController {
 				productPanel.addAutoCompMouseListener(new BarMouseListener());
 				resultContainer.add(productPanel);
 			}
+			resultContainer.add(new AutoCompleteResultButton());
 			resultContainer.setVisible(true);
 		} else {
 			resultContainer.setVisible(false);
 		}
+		resultContainer.repaint();
 		resultContainer.revalidate();
 	}
 	
