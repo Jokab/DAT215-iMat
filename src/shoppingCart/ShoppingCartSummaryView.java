@@ -95,7 +95,8 @@ public class ShoppingCartSummaryView extends JPanel implements
 		lblKr.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		lblKr.setBounds(145, 69, 14, 16);
 		add(lblKr);
-
+		
+		updateSummary();
 	}
 
 	private void toCheckout() {
@@ -104,10 +105,14 @@ public class ShoppingCartSummaryView extends JPanel implements
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		priceLabel.setText(model.getTotal() + "");
-		amountLabel.setText(model.getNbrItems() + "st produkter");
+		updateSummary();
 		updateToCounterButton();
 
+	}
+	
+	private void updateSummary() {
+		priceLabel.setText(model.getTotal() + "");
+		amountLabel.setText(model.getNbrItems() + "st produkter");
 	}
 
 	private void updateToCounterButton() {

@@ -19,16 +19,22 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.WindowListener;
+
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
 
+import checkout.Session;
+
 import SearchBar.AutoCompleteContainer;
 import SearchBar.SearchBar;
 
 import java.awt.FlowLayout;
+
+import se.chalmers.ait.dat215.project.IMatDataHandler;
 import shoppingCart.ShoppingCartMinimizedView;
 import shoppingCart.ShoppingCartSummaryView;
 import shoppingCart.ShoppingcartView;
@@ -50,6 +56,9 @@ public class MainView extends JFrame {
 	private final JPanel popupContent = new JPanel(new GridBagLayout());
 	private final SearchBar searchBar = new SearchBar();
 	private final AutoCompleteContainer autoCompleteContainer = new AutoCompleteContainer();
+	private static final IMatDataHandler dm = IMatDataHandler.getInstance();
+	private static final Session session = Session.getInstance();
+	
 	
 	private MainController mainController;
 	
@@ -124,6 +133,7 @@ public class MainView extends JFrame {
 		
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				shutDown();
 				System.exit(NORMAL);
 			}
 		});
@@ -211,6 +221,15 @@ public class MainView extends JFrame {
 	}
 	
 	/**
+	 * Saves the state of all things that need to be saved. Is called when the
+	 * window closes.
+	 */
+	protected void shutDown() {
+		session.saveSession();
+		dm.shutDown();
+	}
+
+	/**
 	 * Returns a reference to the <code>HeaderView</code>
 	 * @return HeaderView
 	 */
@@ -274,6 +293,9 @@ public class MainView extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			shoppingCartView.setVisible(!shoppingCartView.isVisible());
 		}
-		
+	}
+	
+	public void addMainViewWindowListener(WindowListener listener) {
+		addWindowListener(listener);
 	}
 }

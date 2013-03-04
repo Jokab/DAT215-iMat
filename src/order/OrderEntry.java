@@ -54,7 +54,7 @@ public class OrderEntry extends JPanel {
 		orderInfoLabel.setTextColor(NORMAL_TEXT_COLOR);
 		orderInfoLabel.setBackground(NORMAL_BG_COLOR);
 		
-		orderDateLabel.setBounds(10, 17, 121, 17);
+		orderDateLabel.setBounds(10, 17, 140, 17);
 		orderDateLabel.setFont(new Font("Calibri", Font.PLAIN, 14));
 		orderDateLabel.setForeground(NORMAL_TEXT_COLOR);
 		orderDateLabel.setText(date);
