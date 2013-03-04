@@ -48,7 +48,7 @@ public class ReceiptPanel extends JPanel {
 		JLabel totalCostLabel = new JLabel("Total kostnad: " + shoppingCart.getTotal() + " kr");
 		totalCostLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
 		
-		JLabel cardNumberLabel = new JLabel("Kortnummer: " + "XXXXXXXXXXXX" + session.getValue("cardnumber").substring(12,16));
+		JLabel cardNumberLabel = new JLabel("Kortnummer: " + "XXXXXXXXXXXX" + session.getValue("cardnumber").substring(12));
 		cardNumberLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
 		
 		JLabel nameLabel = new JLabel("Kund: " + session.getValue("firstname") + " " + session.getValue("lastname"));
