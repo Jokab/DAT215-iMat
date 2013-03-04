@@ -29,19 +29,13 @@ import javax.swing.JCheckBox;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.text.NumberFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JFormattedTextField;
-import javax.swing.text.MaskFormatter;
 
-import net.sourceforge.jdatepicker.JDateComponentFactory;
-import net.sourceforge.jdatepicker.JDatePicker;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
-import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 
@@ -68,7 +62,7 @@ public class InformationPanel extends JPanel {
 	private JLabel FirstNameLabel;
 	private Session session;
 	private UtilDateModel dateModel;
-	private final JButton cancelButton = new JButton("Avbryt");
+	private final JButton cancelButton;
 	private JLabel errorLabel;
 	private JLabel deliveryDateLabel;
 	private JLabel LastNameLabel;
@@ -80,10 +74,17 @@ public class InformationPanel extends JPanel {
 	private JLabel ValidThroughLabel;
 	private JLabel PhoneNumberLabel;
 	private JLabel lblSiffror;
+	
+	private final Font DEFAULT_FONT = new Font("Calibri", Font.PLAIN, 12);
+	private final Color DEFAULT_COLOR = new Color(150,150,150);
+	private final Color SELECTED_BG_COLOR = new Color(177,211,114);
+	private final Color SELECTED_TEXT_COLOR = Color.white;
+	private final Color CANCEL_TEXT_COLOR = new Color(144,144,144);
 	/**
 	 * Create the panel.
 	 */
 	public InformationPanel() {
+		setOpaque(false);
 		IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 		final ShoppingCart shoppingCart = dataHandler.getShoppingCart();
 		setPreferredSize(new Dimension(800, 500));
@@ -126,7 +127,7 @@ public class InformationPanel extends JPanel {
 				if(session.getErrorMessages().get("deliverydate")){
 					deliveryDateLabel.setForeground(Color.RED);
 				} else {
-					deliveryDateLabel.setForeground(Color.BLACK);
+					deliveryDateLabel.setForeground(DEFAULT_COLOR);
 				}
 			}
 		});
@@ -135,35 +136,44 @@ public class InformationPanel extends JPanel {
 		
 		LastNameLabel = new JLabel("Efternamn:");
 		LastNameLabel.setToolTipText("Ditt efternamn");
-		LastNameLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		LastNameLabel.setFont(DEFAULT_FONT);
+		LastNameLabel.setForeground(DEFAULT_COLOR);
 		
 		FirstNameLabel = new JLabel("F\u00F6rnamn:");
-		FirstNameLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		FirstNameLabel.setFont(DEFAULT_FONT);
+		FirstNameLabel.setForeground(DEFAULT_COLOR);
 		
 		AdressLabel = new JLabel("Leveransadress:");
-		AdressLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		AdressLabel.setFont(DEFAULT_FONT);
+		AdressLabel.setForeground(DEFAULT_COLOR);
 		
 		ZIPLabel = new JLabel("Postnummer:");
 		ZIPLabel.setToolTipText("Ditt postnummer utan mellanrum");
-		ZIPLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		ZIPLabel.setFont(DEFAULT_FONT);
+		ZIPLabel.setForeground(DEFAULT_COLOR);
 		
 		CityLabel = new JLabel("Stad:");
-		CityLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		CityLabel.setFont(DEFAULT_FONT);
+		CityLabel.setForeground(DEFAULT_COLOR);
 		
 		CardNumberLabel = new JLabel("Kortnummer:");
 		CardNumberLabel.setToolTipText("Ditt kortnummer utan mellanrum och bindestreck");
-		CardNumberLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		CardNumberLabel.setFont(DEFAULT_FONT);
+		CardNumberLabel.setForeground(DEFAULT_COLOR);
 		
 		CCVLabel = new JLabel("CCV:");
 		CCVLabel.setToolTipText("De tre sista siffrorna i koden som st\u00E5r p\u00E5 baksidan av ditt kreditkort");
-		CCVLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		CCVLabel.setFont(DEFAULT_FONT);
+		CCVLabel.setForeground(DEFAULT_COLOR);
 		
 		ValidThroughLabel = new JLabel("Giltligt till:");
 		ValidThroughLabel.setToolTipText("M\u00E5nad och \u00E5r d\u00E5 ditt kreditkort g\u00E5r ut. Anges p\u00E5 formatet mm/\u00E5\u00E5 eller mm/\u00E5\u00E5\u00E5\u00E5");
-		ValidThroughLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		ValidThroughLabel.setFont(DEFAULT_FONT);
+		ValidThroughLabel.setForeground(DEFAULT_COLOR);
 		
 		JLabel CardTypeLabel = new JLabel("Korttyp:");
-		CardTypeLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		CardTypeLabel.setFont(DEFAULT_FONT);
+		CardTypeLabel.setForeground(DEFAULT_COLOR);
 		
 		LastNameField = new JTextField(session.getValue("lastname"));
 		LastNameField.setToolTipText("Ditt efternamn");
@@ -174,7 +184,7 @@ public class InformationPanel extends JPanel {
 				if(session.getErrorMessages().get("lastname")){
 					LastNameLabel.setForeground(Color.RED);
 				} else {
-					LastNameLabel.setForeground(Color.BLACK);
+					LastNameLabel.setForeground(DEFAULT_COLOR);
 				}
 			}
 		});
@@ -188,7 +198,7 @@ public class InformationPanel extends JPanel {
 				if(session.getErrorMessages().get("firstname")){
 					FirstNameLabel.setForeground(Color.RED);
 				} else {
-					FirstNameLabel.setForeground(Color.BLACK);
+					FirstNameLabel.setForeground(DEFAULT_COLOR);
 				}
 			}
 		});
@@ -203,7 +213,7 @@ public class InformationPanel extends JPanel {
 				if(session.getErrorMessages().get("address")){
 					AdressLabel.setForeground(Color.RED);
 				}  else {
-					AdressLabel.setForeground(Color.BLACK);
+					AdressLabel.setForeground(DEFAULT_COLOR);
 				}
 			}
 		});
@@ -217,7 +227,7 @@ public class InformationPanel extends JPanel {
 				if(session.getErrorMessages().get("city")){
 					CityLabel.setForeground(Color.RED);
 				}  else {
-					CityLabel.setForeground(Color.BLACK);
+					CityLabel.setForeground(DEFAULT_COLOR);
 				}
 			}
 		});
@@ -236,7 +246,7 @@ public class InformationPanel extends JPanel {
 					if(session.getErrorMessages().get("zipcode")){
 						ZIPLabel.setForeground(Color.RED);
 					} else {
-						ZIPLabel.setForeground(Color.BLACK);
+						ZIPLabel.setForeground(DEFAULT_COLOR);
 					}
 				}
 		});
@@ -256,7 +266,7 @@ public class InformationPanel extends JPanel {
 				if(session.getErrorMessages().get("validmonth")){
 					ValidThroughLabel.setForeground(Color.RED);
 				} else {
-					ValidThroughLabel.setForeground(Color.BLACK);
+					ValidThroughLabel.setForeground(DEFAULT_COLOR);
 				}
 			}
 		});
@@ -275,7 +285,7 @@ public class InformationPanel extends JPanel {
 				if(session.getErrorMessages().get("cardnumber")){
 					CardNumberLabel.setForeground(Color.RED);
 				} else {
-					CardNumberLabel.setForeground(Color.BLACK);
+					CardNumberLabel.setForeground(DEFAULT_COLOR);
 				}
 			}
 		});
@@ -288,7 +298,7 @@ public class InformationPanel extends JPanel {
 		YearField.setToolTipText("M\u00E5nad och \u00E5r d\u00E5 ditt kreditkort g\u00E5r ut. Anges p\u00E5 formatet mm/\u00E5\u00E5 eller mm/\u00E5\u00E5\u00E5\u00E5");
 		YearField.setText(session.getValue("validyear"));
 		if(YearField.getText().length()==0){
-			YearField.setText("åååå");
+			YearField.setText("ï¿½ï¿½ï¿½ï¿½");
 		}
 		YearField.setColumns(10);
 		YearField.addFocusListener(new FocusAdapter() {
@@ -298,7 +308,7 @@ public class InformationPanel extends JPanel {
 				if(session.getErrorMessages().get("validyear")){
 					ValidThroughLabel.setForeground(Color.RED);
 				}  else {
-					ValidThroughLabel.setForeground(Color.BLACK);
+					ValidThroughLabel.setForeground(DEFAULT_COLOR);
 				}
 			}
 		});
@@ -309,11 +319,11 @@ public class InformationPanel extends JPanel {
 		CardTypeBox.setModel(new DefaultComboBoxModel(new String[] {"Visa", "Mecenat", "American Express", "Mastercard"}));
 		int index = 0;
 		switch (session.getValue("cardtype")){
-		case "Visa": index = 0; break;
-		case "Mecenat": index=1; break;
-		case "American Express": index=2; break;
-		case "Mastercard": index = 3; break;
-		default: index = 0; break;
+			case "Visa": index = 0; break;
+			case "Mecenat": index=1; break;
+			case "American Express": index=2; break;
+			case "Mastercard": index = 3; break;
+			default: index = 0; break;
 		}
 		CardTypeBox.setSelectedIndex(index);
 		CardTypeBox.setFont(new Font("Georgia", Font.PLAIN, 13));
@@ -324,6 +334,8 @@ public class InformationPanel extends JPanel {
 		});
 		
 		BeginVerificationButton = new JButton("NÃ¤sta");
+		BeginVerificationButton.setForeground(SELECTED_TEXT_COLOR);
+		BeginVerificationButton.setBackground(SELECTED_BG_COLOR);
 		BeginVerificationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				((InformationPanel) BeginVerificationButton.getParent()).displayErrorMessage();
@@ -343,8 +355,15 @@ public class InformationPanel extends JPanel {
 //			}
 		});
 		
+		cancelButton = new JButton("Avbryt");
+		cancelButton.setFont(DEFAULT_FONT);
+		cancelButton.setBackground(CANCEL_TEXT_COLOR);
+		cancelButton.setForeground(Color.WHITE);
+		
 		JCheckBox saveMyInfoBox = new JCheckBox("Spara mina uppgifter");
 		saveMyInfoBox.setSelected(session.getSaveInfo());
+		saveMyInfoBox.setFont(DEFAULT_FONT);
+		saveMyInfoBox.setForeground(DEFAULT_COLOR);
 		
 		
 		
@@ -360,17 +379,20 @@ public class InformationPanel extends JPanel {
 				if(session.getErrorMessages().get("ccv")){
 					CCVLabel.setForeground(Color.RED);
 				} else {
-					CCVLabel.setForeground(Color.BLACK);
+					CCVLabel.setForeground(DEFAULT_COLOR);
 				}
 			}
 		});
 		
 		PhoneNumberLabel = new JLabel("Telefonnummer:");
 		PhoneNumberLabel.setToolTipText("Ditt telefonnummer p\u00E5 valfritt format.");
-		PhoneNumberLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		PhoneNumberLabel.setFont(DEFAULT_FONT);
+		PhoneNumberLabel.setForeground(DEFAULT_COLOR);
+		
 		
 		JLabel EmailLabel = new JLabel("Email:");
-		EmailLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		EmailLabel.setFont(DEFAULT_FONT);
+		EmailLabel.setForeground(DEFAULT_COLOR);
 		
 		PhoneNumberField = new JFormattedTextField();
 		PhoneNumberField.setToolTipText("Ditt telefonnummer p\u00E5 valfritt format.");
@@ -381,7 +403,7 @@ public class InformationPanel extends JPanel {
 				if(session.getErrorMessages().get("phonenumber")){
 					PhoneNumberLabel.setForeground(Color.RED);
 				} else {
-					PhoneNumberLabel.setForeground(Color.BLACK);
+					PhoneNumberLabel.setForeground(DEFAULT_COLOR);
 				}
 			}
 		});
@@ -404,11 +426,15 @@ public class InformationPanel extends JPanel {
 		
 		deliveryDateLabel = new JLabel("Leveransdatum");
 		deliveryDateLabel.setToolTipText("Det datum som du vill att dina varor ska levereras");
-		deliveryDateLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		deliveryDateLabel.setFont(DEFAULT_FONT);
+		deliveryDateLabel.setForeground(DEFAULT_COLOR);
 		
 		errorLabel = new JLabel("");
+		errorLabel.setForeground(DEFAULT_COLOR);
 		
 		lblSiffror = new JLabel("(16 siffror)");
+		lblSiffror.setFont(DEFAULT_FONT);
+		lblSiffror.setForeground(DEFAULT_COLOR);
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -552,7 +578,7 @@ public class InformationPanel extends JPanel {
 		Map<String,Boolean> errors = session.getErrorMessages();
 		Set<String> keys = errors.keySet();
 		
-		errorLabel.setText("<html><body>Var vänlig se över följande information:<br>");
+		errorLabel.setText("<html><body>Var vï¿½nlig se ï¿½ver fï¿½ljande information:<br>");
 		errorLabel.setVisible(!session.infoIsOk());
 		
 		Iterator i =keys.iterator();
@@ -561,7 +587,7 @@ public class InformationPanel extends JPanel {
 			// TODO switch case, 
 			if(errors.get(temp)){
 				switch(temp){
-				case("firstname"): temp = "Förnamn"; FirstNameLabel.setForeground(Color.RED); break;
+				case("firstname"): temp = "Fï¿½rnamn"; FirstNameLabel.setForeground(Color.RED); break;
 				case("lastname"): temp = "Efternamn"; LastNameLabel.setForeground(Color.RED); break;
 				case("address"): temp = "Address"; AdressLabel.setForeground(Color.RED);break;
 				case("cardnumber"): temp = "Kortnummer"; CardNumberLabel.setForeground(Color.RED); break;
