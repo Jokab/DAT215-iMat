@@ -29,6 +29,8 @@ import javax.swing.Icon;
 import java.awt.Cursor;
 import javax.swing.JSeparator;
 
+import core.MainController;
+
 public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 
 	private ShoppingCartAdapter model = null;
@@ -44,12 +46,17 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 	
 	private final Color DEFAULT_BACKGROUND = new Color(253, 253, 253);
 	private JLabel lblKundvagn;
+	private MainController mainController;
+	
+	private JButton toCounterButton;
 	
 	
 	/**
 	 * Create the panel.
+	 * @param mainController 
 	 */
-	public ShoppingcartView() {
+	public ShoppingcartView(MainController mainController) {
+		this.mainController = mainController;
 		setOpaque(false);
 		setLayout(null);
 		
@@ -84,7 +91,8 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		});
 		addToCartButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		addToCartButton.setText("L\u00E4gg till fr\u00E5n ink\u00F6pslista");
-		JButton toCounterButton = new JButton("Till kassa");
+		toCounterButton = new JButton("Till kassa");
+		toCounterButton.addActionListener(new CheckoutButtonListener());
 		JButton saveProductListButton = new JButton("Spara Varukorg");
 		saveProductListButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -225,5 +233,22 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		shoppingcartIconButton.addActionListener(l);
 		listButton.addActionListener(l);
 		minimizeLabelButton.addActionListener(l);
+	}
+	
+	public void addCounterButtonListener(ActionListener l) {
+		toCounterButton.addActionListener(l);
+	}
+	
+	private class CheckoutButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			toCheckout();
+		}
+		
+	}
+	
+	public void toCheckout() {
+		this.mainController.initCheckoutController();
 	}
 }

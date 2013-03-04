@@ -28,9 +28,11 @@ public class InformationController implements ViewController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-//			if(Session.getInstance().infoIsOk() && !ShoppingCartAdapter.getInstance().getItems().isEmpty()) {
+			if(Session.getInstance().infoIsOk() && !ShoppingCartAdapter.getInstance().getItems().isEmpty()) {
 				mainController.initCheckoutController(new CheckoutController(nextController, mainController));
-//			}
+			} else if(!Session.getInstance().infoIsOk()){
+				view.displayErrorMessage();
+			}
 		}
 	}
 	
