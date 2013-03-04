@@ -148,7 +148,7 @@ public class MainView extends JFrame {
 		ShoppingCartMinimizedView shoppingCartMinimizedView = new ShoppingCartMinimizedView();
 		shoppingCartMinimizedView.setBounds(1075, 0, 125, 720);
 		
-		ShoppingCartSummaryView shoppingCartSummaryView = new ShoppingCartSummaryView();
+		ShoppingCartSummaryView shoppingCartSummaryView = new ShoppingCartSummaryView(mainController);
 		shoppingCartSummaryView.setBounds(949, 11, 231, 149);
 		
 		

@@ -50,8 +50,8 @@ public class AddListToCartPopupController implements PropertyChangeListener {
 	private final Color SAVEBUTTON_GRAYED_BG = new Color(235,235,235);
 	private final Color SAVEBUTTON_GRAYED_TEXT = Color.WHITE;
 	
-	private final String CONFIRM_BUTTON_TEXT = "Lägg till";
-	private final String HEADER_TEXT = "Välj en lista att lägga till från:";
+	private final String CONFIRM_BUTTON_TEXT = "Lï¿½gg till";
+	private final String HEADER_TEXT = "Vï¿½lj en lista att lï¿½gga till frï¿½n:";
 	
 	
 	public AddListToCartPopupController(MainController mainController) {

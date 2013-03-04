@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import checkout.CheckoutController;
 import checkout.CheckoutEnum;
+import frontPage.FrontPageController;
 
 import order.OrderViewController;
 
@@ -99,6 +100,10 @@ public class MainController {
 	
 	public void initCheckoutController() {
 		switchController(new CheckoutController(CheckoutEnum.INFORMATION, this));
+	}
+	
+	public void initFrontPageController() {
+		switchController(new FrontPageController());
 	}
 	
 	public void initPreviousController() {

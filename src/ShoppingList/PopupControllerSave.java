@@ -50,10 +50,12 @@ public class PopupControllerSave implements PropertyChangeListener {
 	private ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
 	private Set<ShoppingList> lists;
 	private JButton newListButton;
+	private final double amount;
 	
-	public PopupControllerSave(Product p, MainController mainController) {		
+	public PopupControllerSave(Product p, double amount, MainController mainController) {		
 			
 		this.attachedProduct = p;
+		this.amount = amount;
 		this.popup = new ShoppingListPopupSave(CONFIRM_BUTTON_TEXT, HEADER_TEXT, true);
 		this.mainController = mainController;
 		this.mainController.showPopup(popup);
@@ -69,7 +71,7 @@ public class PopupControllerSave implements PropertyChangeListener {
 		initListPanels();
 
 	}
-	
+
 	private void initListPanels() {
 		/** Load the shoppinglists. **/
 		handler.readLists();
@@ -152,7 +154,8 @@ public class PopupControllerSave implements PropertyChangeListener {
 	 * @param entry The entry containing the selected list.
 	 */
 	private void saveButtonClicked(PopupListEntry entry) {		
-		pcs.firePropertyChange("Savebutton clicked", this.attachedProduct, entry.getShoppingList());
+		Object[] productInfo = new Object[]{attachedProduct, amount};
+		pcs.firePropertyChange("Savebutton clicked", productInfo, entry.getShoppingList());
 	}
 	
 	private void newListButtonClicked() {

@@ -45,13 +45,13 @@ public class ReceiptPanel extends JPanel {
 		JLabel thanksLabel = new JLabel("Tack f\u00F6r din best\u00E4llning!");
 		thanksLabel.setFont(new Font("Verdana", Font.PLAIN, 26));
 		
-		JLabel totalCostLabel = new JLabel("Total kostnad: ");
+		JLabel totalCostLabel = new JLabel("Total kostnad: " + shoppingCart.getTotal() + " kr");
 		totalCostLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
 		
-		JLabel cardNumberLabel = new JLabel("Kortnummer: " + session.getValue("cardnumber"));
+		JLabel cardNumberLabel = new JLabel("Kortnummer: " + "XXXXXXXXXXXX" + session.getValue("cardnumber").substring(12,16));
 		cardNumberLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
 		
-		JLabel nameLabel = new JLabel("Kund: " + session.getValue("firstname" + " " + session.getValue("lastname")));
+		JLabel nameLabel = new JLabel("Kund: " + session.getValue("firstname") + " " + session.getValue("lastname"));
 		nameLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
 		
 		JLabel addressLabel = new JLabel("Leveransadress: " + session.getValue("address"));
@@ -61,6 +61,9 @@ public class ReceiptPanel extends JPanel {
 		
 		saveToListButton = new JButton("Spara handlingslista");
 		
+		JLabel deliveryDateLabel = new JLabel("Leveransdatum: " + session.getValue("deliveryday") +"/"+ (Integer.parseInt(session.getValue("deliverymonth"))+1) + " - " + session.getValue("deliveryyear"));
+		deliveryDateLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -69,14 +72,16 @@ public class ReceiptPanel extends JPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(saveToListButton)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(nameLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(addressLabel, GroupLayout.PREFERRED_SIZE, 117, Short.MAX_VALUE)
-								.addComponent(totalCostLabel, GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
-								.addComponent(cardNumberLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(nameLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(addressLabel, GroupLayout.PREFERRED_SIZE, 117, Short.MAX_VALUE)
+									.addComponent(totalCostLabel, GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+									.addComponent(cardNumberLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addComponent(deliveryDateLabel, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(scrollPane)
+								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(thanksLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 					.addGap(18)
 					.addComponent(doneButton, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
@@ -97,14 +102,16 @@ public class ReceiptPanel extends JPanel {
 							.addComponent(nameLabel)
 							.addGap(18)
 							.addComponent(addressLabel)
-							.addGap(270))
+							.addGap(18)
+							.addComponent(deliveryDateLabel)
+							.addGap(238))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 379, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)))
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(saveToListButton)
 						.addComponent(doneButton))
-					.addContainerGap(21, Short.MAX_VALUE))
+					.addContainerGap(18, Short.MAX_VALUE))
 		);
 		
 		

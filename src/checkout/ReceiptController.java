@@ -2,6 +2,9 @@ package checkout;
 
 import javax.swing.JPanel;
 
+import shoppingCart.SaveAsShoppingListPopUpController;
+import shoppingCart.ShoppingCartAdapter;
+
 import ShoppingList.PopupControllerNew;
 import ShoppingList.PopupControllerSave;
 
@@ -16,6 +19,7 @@ public class ReceiptController implements ViewController {
 	private ReceiptPanel view;
 	private CheckoutEnum nextController = CheckoutEnum.RECEIPT;
 	private MainController mainController;
+	private static final ShoppingCartAdapter cart = ShoppingCartAdapter.getInstance();
 
 	public ReceiptController(MainController mainController) {
 		this.mainController = mainController;
@@ -28,15 +32,16 @@ public class ReceiptController implements ViewController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			PopupControllerNew popup = new PopupControllerNew(mainController);
+			SaveAsShoppingListPopUpController popup = new SaveAsShoppingListPopUpController(mainController);
 		}
 	}
-
+		
 	private class DoneButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			mainController.initPreviousController();
+			cart.clear();
+			mainController.initFrontPageController();
 		}
 	}
 

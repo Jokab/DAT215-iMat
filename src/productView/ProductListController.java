@@ -62,7 +62,7 @@ public class ProductListController implements ViewController,
 			pView.addMouseListener(new ViewMouseListener());
 			pView.addActionListener(new StarActionListener());
 			pView.getAddToListButton().addActionListener(
-					new AddToListActionListener(p));
+					new AddToListActionListener(p, pView));
 			view.getViewPanel().add(pView);
 		}
 		view.getViewPanel().revalidate();
@@ -213,16 +213,17 @@ public class ProductListController implements ViewController,
 	private class AddToListActionListener implements ActionListener {
 
 		private Product product;
+		private ProductView pView;
 		
-		public AddToListActionListener(Product p) {
+		public AddToListActionListener(Product p, ProductView pView) {
 			this.product = p;
+			this.pView = pView;
 		}
 		
 		@Override
 		public void actionPerformed(ActionEvent evt) {
-			System.out.println(product);
 			PopupControllerSave controller = new PopupControllerSave(
-					this.product, mainController);
+					this.product, pView.getAmount(),  mainController);
 			controller.addObserver(ProductListController.this);
 		}
 	}
@@ -235,8 +236,12 @@ public class ProductListController implements ViewController,
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		ShoppingList list = (ShoppingList) evt.getNewValue();
-		Product p = (Product)evt.getOldValue();
-		list.addItem(new ShoppingItem(p));
+		Object[] productInfo = (Object[])evt.getOldValue();
+		Product p = (Product)productInfo[0]; 
+		double amount = (double)productInfo[1];
+		ShoppingItem sentItem = new ShoppingItem(p);
+		sentItem.setAmount(amount);
+		list.addItem(sentItem);
 		mainController.removePopup();
 		
 		List<ShoppingItem> items = list.getItems();
