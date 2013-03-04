@@ -31,6 +31,7 @@ import java.awt.Cursor;
 import javax.swing.JSeparator;
 
 import core.MainController;
+import javax.swing.ScrollPaneConstants;
 
 public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 
@@ -77,6 +78,7 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		summaryPanel.setOpaque(false);
 
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(null);
 
 		productListPanel = new JPanel();

@@ -47,7 +47,7 @@ public class SaveAsShoppingListPopUpController implements
 	private final Color SAVEBUTTON_GRAYED_TEXT = Color.WHITE;
 
 	private final String CONFIRM_BUTTON_TEXT = "Spara";
-	private final String HEADER_TEXT = "Välj en lista att spara i:";
+	private final String HEADER_TEXT = "Välj en lista att spara över:";
 	private JButton newListButton;
 
 	public SaveAsShoppingListPopUpController(MainController mainController) {
@@ -167,6 +167,7 @@ public class SaveAsShoppingListPopUpController implements
 		mainController.removePopup();
 		PopupControllerNew newController = new PopupControllerNew(mainController);
 		newController.addObserver(this);
+		
 	}
 
 	@Override

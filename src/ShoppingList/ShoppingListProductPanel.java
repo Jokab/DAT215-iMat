@@ -1,130 +1,154 @@
 package ShoppingList;
 
-import javax.swing.JPanel;
-
-import se.chalmers.ait.dat215.project.ShoppingItem;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.SwingConstants;
-
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
-
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import se.chalmers.ait.dat215.project.ShoppingItem;
 
 public class ShoppingListProductPanel extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	private JLabel amountLabel;
-	private JLabel productLabel;
-	private JLabel priceLabel;
-	private JPanel panel;
+	JLabel amountLabel;
+	JLabel productLabel;
+	JLabel priceLabel;
+	private JPanel buttonPanel;
 	private JButton increaseButton;
 	private JButton decreaseButton;
 	private JButton deleteButton;
 	private ShoppingItem item;
+	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	
-	private final Color NORMAL_TEXT_COLOR = new Color(140,140,140);
-
 	public ShoppingListProductPanel(ShoppingItem item) {
 		this.item = item;
-		
 		setOpaque(false);
-		setPreferredSize(new Dimension(446, 38));
-		setMaximumSize(new Dimension(460, 38));
-		setMinimumSize(new Dimension(460, 38));
-		setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(225, 225, 225)));
+		setSize(new Dimension(220, 30));
+		setPreferredSize(new Dimension(235, 25));
+		setMinimumSize(new Dimension(220, 30));
+		setMaximumSize(new Dimension(220, 30));
 		
 		double amount = this.item.getAmount();
 		amountLabel = new JLabel(amount + " " + this.item.getProduct().getUnit().substring(3));
-		amountLabel.setBounds(10, 13, 57, 14);
+		amountLabel.setBounds(0, 2, 41, 14);
 		amountLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
-		amountLabel.setForeground(NORMAL_TEXT_COLOR);
-		
 		productLabel = new JLabel(this.item.getProduct().getName());
-		productLabel.setBounds(77, 13, 74, 14);
+		productLabel.setBounds(41, 2, 74, 14);
 		productLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
-		productLabel.setForeground(NORMAL_TEXT_COLOR);
-		
 		priceLabel = new JLabel(amount * this.item.getProduct().getPrice() + "kr");
-		priceLabel.setBounds(396, 13, 41, 14);
+		priceLabel.setBounds(189, 2, 41, 14);
 		priceLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		priceLabel.setForeground(NORMAL_TEXT_COLOR);
 		
-		panel = new JPanel();
-		panel.setOpaque(false);
-		panel.setBounds(256, 11, 106, 19);
-		panel.setLayout(null);
-		
-		ActionListener l = new ShoppingCartButtonListener();
+		buttonPanel = new JPanel();
+		buttonPanel.setVisible(false);
+		buttonPanel.setOpaque(false);
+		buttonPanel.setBounds(125, 0, 67, 19);
+		buttonPanel.setLayout(null);
+		ActionListener l = new ShoppingListButtonListener();
 		
 		increaseButton = new JButton(new ImageIcon("img/plusIcon.png"));
+		buttonPanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				buttonPanel.getParent().getMouseListeners()[0].mouseEntered(e);
+			}
+			public void mouseExited(MouseEvent e) {
+				
+			}
+		});
+		
 		increaseButton.setContentAreaFilled(false);
 		increaseButton.setBounds(0, 0, 19, 19);
 		increaseButton.setBorder(null);
 		increaseButton.addActionListener(l);
-		panel.add(increaseButton);
+		buttonPanel.add(increaseButton);
 		
 		decreaseButton = new JButton(new ImageIcon("img/minusIcon.png"));
 		decreaseButton.setContentAreaFilled(false);
 		decreaseButton.setBounds(19, 0, 19, 19);
 		decreaseButton.setBorder(null);
 		decreaseButton.addActionListener(l);
-		panel.add(decreaseButton);
+		buttonPanel.add(decreaseButton);
 		
 		deleteButton = new JButton(new ImageIcon("img/deleteIcon.png"));
 		deleteButton.setContentAreaFilled(false);
-		deleteButton.setBounds(87, 0, 19, 19);
+		deleteButton.setBounds(45, 0, 19, 19);
 		deleteButton.setBorder(null);
 		deleteButton.addActionListener(l);
-		panel.add(deleteButton);
-		
-		panel.setVisible(true);
-		
+		buttonPanel.add(deleteButton);
+
 		setLayout(null);
 		add(amountLabel);
 		add(productLabel);
-		add(panel);
+		add(buttonPanel);
 		add(priceLabel);
-		
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				panel.setVisible(true);
+				buttonPanel.setVisible(true);
 			}
-			@Override 
 			public void mouseExited(MouseEvent e) {
-				panel.setVisible(false);
+				buttonPanel.setVisible(false);
+			}
+		});
+		increaseButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				buttonPanel.getMouseListeners()[0].mouseEntered(e);
+			}
+		});
+		decreaseButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				buttonPanel.getMouseListeners()[0].mouseEntered(e);
+			}
+		});
+		deleteButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				buttonPanel.getMouseListeners()[0].mouseEntered(e);
 			}
 		});
 	}
 	
-	private class ShoppingCartButtonListener implements ActionListener {
+	private class ShoppingListButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == increaseButton) {
+				pcs.firePropertyChange("increased", null, item);
 			} else if(e.getSource() == decreaseButton) {
+				pcs.firePropertyChange("decreased", null, item);
 			} else if(e.getSource() == deleteButton) {
+				pcs.firePropertyChange("removed", null, item);
 			}
-			
 		}
-		
+	}
+	public JButton getDecreaseButton() {
+		return decreaseButton;
+	}
+	public JButton getDeleteButton() {
+		return deleteButton;
+	}
+	public JButton getIncreaseButton() {
+		return increaseButton;
+	}
+	public void addObserver(
+			PropertyChangeListener listener) {
+		pcs.addPropertyChangeListener(listener);
 	}
 }
+
