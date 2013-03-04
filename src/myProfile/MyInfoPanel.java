@@ -32,6 +32,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class MyInfoPanel extends JPanel {
 	private Map<String,Boolean> errors;
@@ -93,7 +95,7 @@ public class MyInfoPanel extends JPanel {
 		
 		NumberFormat monthFormat = NumberFormat.getInstance();
 		monthFormat.setMaximumIntegerDigits(2);
-		monthFormat.setMinimumIntegerDigits(2);
+		monthFormat.setMinimumIntegerDigits(1);
 		monthFormat.setGroupingUsed(false);
 		
 		JLabel lblMinaUppgifter = new JLabel("Mina uppgifter");
@@ -161,6 +163,22 @@ public class MyInfoPanel extends JPanel {
 		if(zipField.getText().length()==0){
 			zipField.setText("nnnnn");
 		}
+		zipField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+					
+				} else {
+					arg0.consume();
+				}
+				if(zipField.getText().length()==5){
+					zipLabel.setForeground(Color.GREEN);
+				} else {
+					zipLabel.setForeground(Color.BLACK);
+				}
+			}
+		});
+		
 		cityField = new JTextField(customer.getPhoneNumber());
 		cityField.setToolTipText("Din postort");
 		cityField.setColumns(10);
@@ -178,10 +196,40 @@ public class MyInfoPanel extends JPanel {
 		if(cardNumberField.getText().length()==0){
 			cardNumberField.setText("nnnnnnnnnnnnnnnn");
 		}
+		cardNumberField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+					
+				} else {
+					arg0.consume();
+				}
+				if(cardNumberField.getText().length()==16){
+					cardNumberLabel.setForeground(Color.GREEN);
+				} else {
+					cardNumberLabel.setForeground(Color.BLACK);
+				}
+			}
+		});
 		
 		ccvField = new JFormattedTextField(CCVFormat);
 		ccvField.setToolTipText("De tre sista siffrorna i koden p\u00E5 baksidan av ditt kontokort");
 		ccvField.setText("" +creditCard.getVerificationCode());
+		ccvField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+					
+				} else {
+					arg0.consume();
+				}
+				if(ccvField.getText().length()==3){
+					ccvLabel.setForeground(Color.GREEN);
+				} else {
+					ccvLabel.setForeground(Color.BLACK);
+				}
+			}
+		});
 		
 		monthField = new JFormattedTextField(monthFormat);
 		monthField.setToolTipText("M\u00E5nad och \u00E5r n\u00E4r ditt kontokort g\u00E5r ut");
@@ -189,6 +237,21 @@ public class MyInfoPanel extends JPanel {
 		if(monthField.getText().length()==0){
 			monthField.setText("mm");
 		}
+		monthField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+					
+				} else {
+					arg0.consume();
+				}
+				if((monthField.getText().length()==1 || monthField.getText().length() == 2) && (yearField.getText().length() == 2 || yearField.getText().length()==4)){
+					validDateLabel.setForeground(Color.GREEN);
+				} else {
+					validDateLabel.setForeground(Color.BLACK);
+				}
+			}
+		});
 		
 		JLabel slashLabel = new JLabel("/");
 		slashLabel.setToolTipText("M\u00E5nad och \u00E5r n\u00E4r ditt kontokort g\u00E5r ut");
@@ -200,6 +263,22 @@ public class MyInfoPanel extends JPanel {
 		if(yearField.getText().length()==0){
 			yearField.setText("ееее");
 		}
+		yearField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+					
+				} else {
+					arg0.consume();
+				}
+				if((monthField.getText().length()==1 || monthField.getText().length() == 2) && (yearField.getText().length() == 2 || yearField.getText().length()==4)){
+					validDateLabel.setForeground(Color.GREEN);
+				} else {
+					validDateLabel.setForeground(Color.BLACK);
+				}
+			}
+		});
+		
 		
 		cardTypeBox = new JComboBox();
 		cardTypeBox.setToolTipText("Korttyp");

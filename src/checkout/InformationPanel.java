@@ -50,6 +50,8 @@ import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 import net.sourceforge.jdatepicker.DateModel;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class InformationPanel extends JPanel {
 	
@@ -114,7 +116,7 @@ public class InformationPanel extends JPanel {
 		
 		NumberFormat monthFormat = NumberFormat.getInstance();
 		monthFormat.setMaximumIntegerDigits(2);
-		monthFormat.setMinimumIntegerDigits(2);
+		monthFormat.setMinimumIntegerDigits(1);
 		monthFormat.setGroupingUsed(false);
 		dateModel = new UtilDateModel();
 		final JDatePanelImpl deliveryDateChooser = new JDatePanelImpl(dateModel);
@@ -223,6 +225,21 @@ public class InformationPanel extends JPanel {
 		});
 		
 		ZIPField = new JFormattedTextField(ZIPFormat);	
+		ZIPField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+					
+				} else {
+					arg0.consume();
+				}
+				if(ZIPField.getText().length() == 5 ){
+					ValidThroughLabel.setForeground(Color.GREEN);
+				} else {
+					ValidThroughLabel.setForeground(Color.RED);
+				}
+			}
+		});
 		ZIPField.setToolTipText("Ditt postnummer utan mellanrum");
 		ZIPField.setText(session.getValue("zipcode"));
 		if(ZIPField.getText().length()==0){
@@ -235,14 +252,29 @@ public class InformationPanel extends JPanel {
 					//TODO:
 					if(session.getErrorMessages().get("zipcode")){
 						ZIPLabel.setForeground(Color.RED);
-					} else {
-						ZIPLabel.setForeground(Color.BLACK);
+					} else if(ZIPLabel.getText().length() == 5){
+						ZIPLabel.setForeground(Color.GREEN);
 					}
 				}
 		});
 		ZIPField.setColumns(10);
 		
 		MonthField = new JFormattedTextField(monthFormat);
+		MonthField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+					
+				} else {
+					arg0.consume();
+				}
+				if((MonthField.getText().length()==2 || MonthField.getText().length()==1) && (YearField.getText().length()==4 || YearField.getText().length()==2) ){
+					ValidThroughLabel.setForeground(Color.GREEN);
+				} else {
+					ValidThroughLabel.setForeground(Color.RED);
+				}
+			}
+		});
 		MonthField.setToolTipText("M\u00E5nad och \u00E5r d\u00E5 ditt kreditkort g\u00E5r ut. Anges p\u00E5 formatet mm/\u00E5\u00E5 eller mm/\u00E5\u00E5\u00E5\u00E5");
 		MonthField.setText(session.getValue("validmonth"));
 		if(MonthField.getText().length()==0){
@@ -255,6 +287,8 @@ public class InformationPanel extends JPanel {
 				session.put("validmonth",MonthField.getText());
 				if(session.getErrorMessages().get("validmonth")){
 					ValidThroughLabel.setForeground(Color.RED);
+				} else if ((MonthField.getText().length()==2 || MonthField.getText().length()==1) && (YearField.getText().length()==4 || YearField.getText().length()==2) ){
+					ValidThroughLabel.setForeground(Color.GREEN);
 				} else {
 					ValidThroughLabel.setForeground(Color.BLACK);
 				}
@@ -262,6 +296,21 @@ public class InformationPanel extends JPanel {
 		});
 		
 		CardNumberField = new JFormattedTextField(cardNumberFormat);
+		CardNumberField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+					
+				} else {
+					arg0.consume();
+				}
+				if(CardNumberField.getText().length()==16){
+					CardNumberLabel.setForeground(Color.GREEN);
+				} else {
+					CardNumberLabel.setForeground(Color.BLACK);
+				}
+			}
+		});
 		CardNumberField.setToolTipText("Ditt kortnummer utan mellanrum och bindestreck");
 		CardNumberField.setText(session.getValue("cardnumber"));
 		if(CardNumberField.getText().length()==0){
@@ -274,6 +323,8 @@ public class InformationPanel extends JPanel {
 				session.put("cardnumber", CardNumberField.getText());
 				if(session.getErrorMessages().get("cardnumber")){
 					CardNumberLabel.setForeground(Color.RED);
+				} else if (CardNumberField.getText().length() == 16){
+					CardNumberLabel.setForeground(Color.GREEN);
 				} else {
 					CardNumberLabel.setForeground(Color.BLACK);
 				}
@@ -290,6 +341,21 @@ public class InformationPanel extends JPanel {
 		if(YearField.getText().length()==0){
 			YearField.setText("ееее");
 		}
+		YearField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+					
+				} else {
+					arg0.consume();
+				}
+				if((MonthField.getText().length()==2 || MonthField.getText().length()==1) && (YearField.getText().length()==4 || YearField.getText().length()==2) ){
+					ValidThroughLabel.setForeground(Color.GREEN);
+				} else {
+					ValidThroughLabel.setForeground(Color.RED);
+				}
+			}
+		});
 		YearField.setColumns(10);
 		YearField.addFocusListener(new FocusAdapter() {
 			@Override
@@ -297,7 +363,9 @@ public class InformationPanel extends JPanel {
 				session.put("validyear", YearField.getText());
 				if(session.getErrorMessages().get("validyear")){
 					ValidThroughLabel.setForeground(Color.RED);
-				}  else {
+				} else if ((MonthField.getText().length()==2 || MonthField.getText().length()==1) && (YearField.getText().length()==4 || YearField.getText().length()==2) ){
+					ValidThroughLabel.setForeground(Color.GREEN);
+				} else {
 					ValidThroughLabel.setForeground(Color.BLACK);
 				}
 			}
@@ -349,6 +417,20 @@ public class InformationPanel extends JPanel {
 		
 		
 		CCVField = new JFormattedTextField(CCVFormat);
+		CCVField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){	
+				} else {
+					arg0.consume();
+				}
+				if(CCVField.getText().length()==3){
+					CCVLabel.setForeground(Color.GREEN);
+				} else {
+					CCVLabel.setForeground(Color.BLACK);
+				}
+			}
+		});
 		CCVField.setToolTipText("De tre sista siffrorna i koden som st\u00E5r p\u00E5 baksidan av ditt kreditkort");
 		CCVField.setText(session.getValue("ccv"));
 		if(CCVField.getText().length()==0){
@@ -360,7 +442,7 @@ public class InformationPanel extends JPanel {
 				if(session.getErrorMessages().get("ccv")){
 					CCVLabel.setForeground(Color.RED);
 				} else {
-					CCVLabel.setForeground(Color.BLACK);
+					CCVLabel.setForeground(Color.GREEN);
 				}
 			}
 		});
