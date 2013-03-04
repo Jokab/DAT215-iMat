@@ -12,6 +12,7 @@ import java.util.List;
 import ProductCategories.ProductCategories;
 import ProductSearch.ProductFilter;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -201,18 +202,15 @@ public class ProductListController implements ViewController,
 
 		public void actionPerformed(ActionEvent e) {
 			if (dataHandler.isFavorite(product)) {
-				String PicURL = "/.dat215/imat/images/SuperStar.png";
-				ImageIcon starIcon = new ImageIcon(
-						System.getProperty("user.home") + PicURL);
-				pView.getStarButton().setIcon(starIcon);
-				dataHandler.addFavorite(product);
-			} else {
-				String PicURL = "/.dat215/imat/images/SuperStarOfylld.png";
-				ImageIcon starIcon = new ImageIcon(
-						System.getProperty("user.home") + PicURL);
-				pView.getStarButton().setIcon(starIcon);
+				ImageIcon starIcon = new ImageIcon("img/starUnfilled.png");
+				this.pView.getStarButton().setIcon(starIcon);
 				dataHandler.removeFavorite(product);
+			} else {
+				ImageIcon starIcon = new ImageIcon("img/starFilled.png");
+				this.pView.getStarButton().setIcon(starIcon);
+				dataHandler.addFavorite(product);
 			}
+			((JButton)e.getSource()).repaint();
 		}
 	}
 

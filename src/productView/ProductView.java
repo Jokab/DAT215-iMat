@@ -99,9 +99,9 @@ public class ProductView extends JPanel {
 		ImageIcon starIcon;
 		
 		if(dataHandler.isFavorite(product)) {
-			starIcon = new ImageIcon("img/starButton.png");
+			starIcon = new ImageIcon("img/starFilled.png");
 		} else {
-			starIcon = new ImageIcon("img/starButtonunFiled.png");
+			starIcon = new ImageIcon("img/starUnfilled.png");
 		}
 		
 		starButton = new JButton();
