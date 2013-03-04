@@ -93,6 +93,7 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		addToCartButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		addToCartButton.setText("L\u00E4gg till fr\u00E5n ink\u00F6pslista");
 		toCounterButton = new JButton("Till kassa");
+		toCounterButton.setEnabled(false);
 		toCounterButton.addActionListener(new CheckoutButtonListener());
 		
 		this.saveProductListButton = new JButton("Spara Varukorg");
@@ -262,14 +263,16 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent evt) {
 		updateSummary();
 		updateItemList();
-		updateSaveToListButton();
+		updateBottomButtons();
 	}
 
-	private void updateSaveToListButton() {
+	private void updateBottomButtons() {
 		if(model.getItems() == null || model.getItems().isEmpty()) {
 			saveProductListButton.setEnabled(false);
+			toCounterButton.setEnabled(false);
 		} else {
 			saveProductListButton.setEnabled(true);
+			toCounterButton.setEnabled(true);
 		}
 	}
 
