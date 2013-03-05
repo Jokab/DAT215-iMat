@@ -34,6 +34,7 @@ import se.chalmers.ait.dat215.project.IMatDataHandler;
 import shoppingCart.ShoppingCartMinimizedView;
 import shoppingCart.ShoppingCartSummaryView;
 import shoppingCart.ShoppingcartView;
+import java.awt.Toolkit;
 
 
 public class MainView extends JFrame {
@@ -78,6 +79,7 @@ public class MainView extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setBounds(100, 100, 1200, 720);
+		setIconImage(Toolkit.getDefaultToolkit().getImage("img/frameIcon.png"));
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
