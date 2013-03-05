@@ -24,6 +24,9 @@ public class MyAccountSidePanel extends JPanel {
 	private final JLabel headerLabel;
 	private final JPanel subcategoriesPanel;
 	
+	private final SidePanelButton settings =  new SidePanelButton("Mina uppgifter"); 
+	private final SidePanelButton orderHistory =  new SidePanelButton("Orderhistorik"); 
+	private final SidePanelButton shoppingLists =  new SidePanelButton("Inköpslistor"); 
 	/**
 	 * Create the panel.
 	 */
@@ -44,23 +47,20 @@ public class MyAccountSidePanel extends JPanel {
 		subcategoriesPanel.setOpaque(false);
 		subcategoriesPanel.setLayout(new BoxLayout(subcategoriesPanel, BoxLayout.PAGE_AXIS));
 		
-		SidePanelButton button = new SidePanelButton("Mina uppgifter");
 		if(activeController == MyAccountEnum.SETTINGS) {
-			button.setActive();
+			settings.setActive();
 		}
-		subcategoriesPanel.add(button);
-		
-		button = new SidePanelButton("Orderhistorik");
+		subcategoriesPanel.add(settings);
+	
 		if(activeController == MyAccountEnum.ORDERHISTORY) {
-			button.setActive();
+			orderHistory.setActive();
 		}
-		subcategoriesPanel.add(button);
+		subcategoriesPanel.add(orderHistory);
 		
-		button = new SidePanelButton("Inköpslistor");
 		if(activeController == MyAccountEnum.SHOPPINGLISTS) {
-			button.setActive();
+			shoppingLists.setActive();
 		}
-		subcategoriesPanel.add(button);
+		subcategoriesPanel.add(shoppingLists);
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -81,5 +81,14 @@ public class MyAccountSidePanel extends JPanel {
 					.addContainerGap(32, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
+	}
+	public SidePanelButton getSettings() {
+		return settings;
+	}
+	public SidePanelButton getOrderHistory() {
+		return orderHistory;
+	}
+	public SidePanelButton getShoppingLists() {
+		return shoppingLists;
 	}
 }

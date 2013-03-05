@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import se.chalmers.ait.dat215.project.ShoppingItem;
+import javax.swing.border.MatteBorder;
+import java.awt.Color;
 
 public class ShoppingListProductPanel extends JPanel {
 
@@ -33,29 +35,33 @@ public class ShoppingListProductPanel extends JPanel {
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	
 	public ShoppingListProductPanel(ShoppingItem item) {
+		setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(225, 225, 225)));
 		this.item = item;
 		setOpaque(false);
 		setSize(new Dimension(220, 30));
-		setPreferredSize(new Dimension(235, 25));
-		setMinimumSize(new Dimension(220, 30));
-		setMaximumSize(new Dimension(220, 30));
+		setPreferredSize(new Dimension(460, 40));
+		setMinimumSize(new Dimension(460, 40));
+		setMaximumSize(new Dimension(460, 40));
 		
 		double amount = this.item.getAmount();
 		amountLabel = new JLabel(amount + " " + this.item.getProduct().getUnit().substring(3));
-		amountLabel.setBounds(0, 2, 41, 14);
+		amountLabel.setForeground(new Color(150, 150, 150));
+		amountLabel.setBounds(10, 12, 61, 14);
 		amountLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		productLabel = new JLabel(this.item.getProduct().getName());
-		productLabel.setBounds(41, 2, 74, 14);
+		productLabel.setForeground(new Color(150, 150, 150));
+		productLabel.setBounds(91, 12, 74, 14);
 		productLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		priceLabel = new JLabel(amount * this.item.getProduct().getPrice() + "kr");
-		priceLabel.setBounds(189, 2, 41, 14);
+		priceLabel.setForeground(new Color(150, 150, 150));
+		priceLabel.setBounds(409, 12, 41, 14);
 		priceLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		buttonPanel = new JPanel();
 		buttonPanel.setVisible(false);
 		buttonPanel.setOpaque(false);
-		buttonPanel.setBounds(125, 0, 67, 19);
+		buttonPanel.setBounds(313, 10, 67, 19);
 		buttonPanel.setLayout(null);
 		ActionListener l = new ShoppingListButtonListener();
 		
