@@ -149,8 +149,8 @@ public class MainView extends JFrame {
 		
 		
 		contentView.setOpaque(false);
-		contentView.setBounds(64, 184, 1116, 521);
-		headerView.setBounds(0, 0, 1180, 184);
+		contentView.setBounds(64, 200, 1116, 535);
+		headerView.setBounds(0, 15, 1180, 184);
 		
 		shoppingCartView = new ShoppingcartView(mainController);
 		shoppingCartView.setBounds(876, 0, 324, 720);
@@ -201,8 +201,8 @@ public class MainView extends JFrame {
 		});
 		
 		// SearchBar
-		searchBar.setBounds(350, 60, 350, 400);
-		autoCompleteContainer.setBounds(350, 86, 349, 450);
+		searchBar.setBounds(370, 85, 350, 400);
+		autoCompleteContainer.setBounds(370, 111, 349, 450);
 		
 		// Add to layered pane
 		layeredPane.add(contentView, new Integer(1));
@@ -297,5 +297,13 @@ public class MainView extends JFrame {
 	
 	public void addMainViewWindowListener(WindowListener listener) {
 		addWindowListener(listener);
+	}
+	
+	public void addBackButtonListener(ActionListener l ){
+		headerView.addBackButtonListener(l);
+	}
+	
+	public void setEnableBackButton(boolean value) {
+		headerView.setEnableBackButton(value);
 	}
 }

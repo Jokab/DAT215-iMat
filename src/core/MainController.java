@@ -1,4 +1,6 @@
 package core;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Comparator;
@@ -48,6 +50,7 @@ public class MainController {
 	public MainController() {
 		this.mainView = new MainView(this); 
 		this.mainView.addMainViewWindowListener(new MainFrameWindowListener());
+		this.mainView.addBackButtonListener(new BackButtonListener());
 		new MenuController(mainView.getHeaderView(), this);
 		new SearchController(mainView.getSearchBar(), mainView.getAutoCompleteContainer(), this);
 	}
@@ -134,6 +137,8 @@ public class MainController {
 		if(history.size() > 1) {
 			history.removeLast();
 			mainView.setContentView(history.getLast().getView());
+		} else {
+			mainView.setEnableBackButton(false);
 		}
 	}
 	
@@ -143,6 +148,9 @@ public class MainController {
 		}
 		history.add(controller);
 		mainView.setContentView(controller.getView());
+		if(history.size() > 1) {
+			mainView.setEnableBackButton(true);
+		}
 	}
 
 	public void showPopup(JPanel shoppingListPopupNew) {
@@ -195,6 +203,15 @@ public class MainController {
 		public void windowDeactivated(WindowEvent e) {
 			// TODO Auto-generated method stub
 			
+		}
+		
+	}
+	
+	private class BackButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			initPreviousController();
 		}
 		
 	}
