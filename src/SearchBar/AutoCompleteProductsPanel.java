@@ -4,7 +4,6 @@ package SearchBar;
 import javax.swing.JPanel;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -15,13 +14,7 @@ import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 import java.awt.Color;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-
-import javax.swing.JSeparator;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.MatteBorder;
-import javax.swing.border.SoftBevelBorder;
 import java.awt.Font;
 
 
@@ -44,7 +37,7 @@ public class AutoCompleteProductsPanel extends JPanel {
 	public AutoCompleteProductsPanel(Product product) {
 		setMinimumSize(new Dimension(10, 60));
 		setMaximumSize(new Dimension(32767, 60));
-		setBorder(new MatteBorder(0, 1, 1, 1, (Color) new Color(204, 204, 204)));
+		setBorder(new MatteBorder(0, 1, 1, 1, new Color(204, 204, 204)));
 		setBackground(Color.WHITE);
 		
 		this.product = product;

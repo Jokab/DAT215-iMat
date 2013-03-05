@@ -173,7 +173,6 @@ public class ShoppingList implements Serializable {
 		if (list != null && list.size() >= 1) {
 			for (ShoppingItem item : list) {
 				if (item.getProduct().getName().equals(prod.getName())) {
-					System.out.println("Does exist!");
 					return true;
 				}
 			}
@@ -263,7 +262,6 @@ public class ShoppingList implements Serializable {
 	public void increaseProductAmount(Product prod) {
 		if (list != null && list.size() >= 1) {
 			if (!this.contains(prod)) {
-				System.out.println("Item not in list!");
 			} else {
 				ShoppingItem temp = this.getItemReference(prod);
 				temp.setAmount(temp.getAmount() + 1);
@@ -280,7 +278,6 @@ public class ShoppingList implements Serializable {
 	public void decreaseProductAmount(Product prod) {
 		if (list != null && list.size() >= 1) {
 			if (!this.contains(prod)) {
-				System.out.println("Item not in list!");
 			} else {
 				ShoppingItem temp = this.getItemReference(prod);
 				temp.setAmount(temp.getAmount() - 1);

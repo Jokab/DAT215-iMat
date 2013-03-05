@@ -13,6 +13,7 @@ public class SearchFilterOption {
 		this.name = name;
 	}
 	
+	@Override
 	public String toString() {
 		return name;
 	}

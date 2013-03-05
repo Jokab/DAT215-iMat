@@ -1,25 +1,16 @@
 package checkout;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JSlider;
-import java.awt.Component;
-import javax.swing.Box;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
-import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 
-import se.chalmers.ait.dat215.project.CreditCard;
-import se.chalmers.ait.dat215.project.Customer;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.ShoppingCart;
 
@@ -42,8 +33,9 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
-import net.sourceforge.jdatepicker.DateModel;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class InformationPanel extends JPanel {
 	
@@ -115,11 +107,12 @@ public class InformationPanel extends JPanel {
 		
 		NumberFormat monthFormat = NumberFormat.getInstance();
 		monthFormat.setMaximumIntegerDigits(2);
-		monthFormat.setMinimumIntegerDigits(2);
+		monthFormat.setMinimumIntegerDigits(1);
 		monthFormat.setGroupingUsed(false);
 		dateModel = new UtilDateModel();
 		final JDatePanelImpl deliveryDateChooser = new JDatePanelImpl(dateModel);
 		deliveryDateChooser.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				session.put("deliveryday", "" + dateModel.getDay());
 				session.put("deliverymonth", "" + dateModel.getMonth());
@@ -233,6 +226,21 @@ public class InformationPanel extends JPanel {
 		});
 		
 		ZIPField = new JFormattedTextField(ZIPFormat);	
+		ZIPField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+					
+				} else {
+					arg0.consume();
+				}
+				if(ZIPField.getText().length() == 5 ){
+					ValidThroughLabel.setForeground(Color.GREEN);
+				} else {
+					ValidThroughLabel.setForeground(Color.RED);
+				}
+			}
+		});
 		ZIPField.setToolTipText("Ditt postnummer utan mellanrum");
 		ZIPField.setText(session.getValue("zipcode"));
 		if(ZIPField.getText().length()==0){
@@ -245,6 +253,8 @@ public class InformationPanel extends JPanel {
 					//TODO:
 					if(session.getErrorMessages().get("zipcode")){
 						ZIPLabel.setForeground(Color.RED);
+					} else if(ZIPLabel.getText().length() == 5){
+						ZIPLabel.setForeground(Color.GREEN);
 					} else {
 						ZIPLabel.setForeground(DEFAULT_COLOR);
 					}
@@ -253,6 +263,21 @@ public class InformationPanel extends JPanel {
 		ZIPField.setColumns(10);
 		
 		MonthField = new JFormattedTextField(monthFormat);
+		MonthField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+					
+				} else {
+					arg0.consume();
+				}
+				if((MonthField.getText().length()==2 || MonthField.getText().length()==1) && (YearField.getText().length()==4 || YearField.getText().length()==2) ){
+					ValidThroughLabel.setForeground(Color.GREEN);
+				} else {
+					ValidThroughLabel.setForeground(Color.RED);
+				}
+			}
+		});
 		MonthField.setToolTipText("M\u00E5nad och \u00E5r d\u00E5 ditt kreditkort g\u00E5r ut. Anges p\u00E5 formatet mm/\u00E5\u00E5 eller mm/\u00E5\u00E5\u00E5\u00E5");
 		MonthField.setText(session.getValue("validmonth"));
 		if(MonthField.getText().length()==0){
@@ -265,6 +290,8 @@ public class InformationPanel extends JPanel {
 				session.put("validmonth",MonthField.getText());
 				if(session.getErrorMessages().get("validmonth")){
 					ValidThroughLabel.setForeground(Color.RED);
+				} else if ((MonthField.getText().length()==2 || MonthField.getText().length()==1) && (YearField.getText().length()==4 || YearField.getText().length()==2) ){
+					ValidThroughLabel.setForeground(Color.GREEN);
 				} else {
 					ValidThroughLabel.setForeground(DEFAULT_COLOR);
 				}
@@ -272,6 +299,21 @@ public class InformationPanel extends JPanel {
 		});
 		
 		CardNumberField = new JFormattedTextField(cardNumberFormat);
+		CardNumberField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+					
+				} else {
+					arg0.consume();
+				}
+				if(CardNumberField.getText().length()==16){
+					CardNumberLabel.setForeground(Color.GREEN);
+				} else {
+					CardNumberLabel.setForeground(Color.BLACK);
+				}
+			}
+		});
 		CardNumberField.setToolTipText("Ditt kortnummer utan mellanrum och bindestreck");
 		CardNumberField.setText(session.getValue("cardnumber"));
 		if(CardNumberField.getText().length()==0){
@@ -284,6 +326,8 @@ public class InformationPanel extends JPanel {
 				session.put("cardnumber", CardNumberField.getText());
 				if(session.getErrorMessages().get("cardnumber")){
 					CardNumberLabel.setForeground(Color.RED);
+				} else if (CardNumberField.getText().length() == 16){
+					CardNumberLabel.setForeground(Color.GREEN);
 				} else {
 					CardNumberLabel.setForeground(DEFAULT_COLOR);
 				}
@@ -300,6 +344,21 @@ public class InformationPanel extends JPanel {
 		if(YearField.getText().length()==0){
 			YearField.setText("����");
 		}
+		YearField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+					
+				} else {
+					arg0.consume();
+				}
+				if((MonthField.getText().length()==2 || MonthField.getText().length()==1) && (YearField.getText().length()==4 || YearField.getText().length()==2) ){
+					ValidThroughLabel.setForeground(Color.GREEN);
+				} else {
+					ValidThroughLabel.setForeground(Color.RED);
+				}
+			}
+		});
 		YearField.setColumns(10);
 		YearField.addFocusListener(new FocusAdapter() {
 			@Override
@@ -307,7 +366,9 @@ public class InformationPanel extends JPanel {
 				session.put("validyear", YearField.getText());
 				if(session.getErrorMessages().get("validyear")){
 					ValidThroughLabel.setForeground(Color.RED);
-				}  else {
+				} else if ((MonthField.getText().length()==2 || MonthField.getText().length()==1) && (YearField.getText().length()==4 || YearField.getText().length()==2) ){
+					ValidThroughLabel.setForeground(Color.GREEN);
+				} else {
 					ValidThroughLabel.setForeground(DEFAULT_COLOR);
 				}
 			}
@@ -328,6 +389,7 @@ public class InformationPanel extends JPanel {
 		CardTypeBox.setSelectedIndex(index);
 		CardTypeBox.setFont(new Font("Georgia", Font.PLAIN, 13));
 		CardTypeBox.addFocusListener(new FocusAdapter() {
+			@Override
 			public void focusLost(FocusEvent e){
 				session.put("cardtype", (String) CardTypeBox.getSelectedItem());
 			}
@@ -337,6 +399,7 @@ public class InformationPanel extends JPanel {
 		BeginVerificationButton.setForeground(SELECTED_TEXT_COLOR);
 		BeginVerificationButton.setBackground(SELECTED_BG_COLOR);
 		BeginVerificationButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				((InformationPanel) BeginVerificationButton.getParent()).displayErrorMessage();
 			}
@@ -368,17 +431,33 @@ public class InformationPanel extends JPanel {
 		
 		
 		CCVField = new JFormattedTextField(CCVFormat);
+		CCVField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){	
+				} else {
+					arg0.consume();
+				}
+				if(CCVField.getText().length()==3){
+					CCVLabel.setForeground(Color.GREEN);
+				} else {
+					CCVLabel.setForeground(Color.BLACK);
+				}
+			}
+		});
 		CCVField.setToolTipText("De tre sista siffrorna i koden som st\u00E5r p\u00E5 baksidan av ditt kreditkort");
 		CCVField.setText(session.getValue("ccv"));
 		if(CCVField.getText().length()==0){
 			CCVField.setText("nnn");
 		}
 		CCVField.addFocusListener(new FocusAdapter() {
+			@Override
 			public void focusLost(FocusEvent e){
 				session.put("ccv", CCVField.getText());
 				if(session.getErrorMessages().get("ccv")){
 					CCVLabel.setForeground(Color.RED);
 				} else {
+					CCVLabel.setForeground(Color.GREEN);
 					CCVLabel.setForeground(DEFAULT_COLOR);
 				}
 			}
@@ -398,6 +477,7 @@ public class InformationPanel extends JPanel {
 		PhoneNumberField.setToolTipText("Ditt telefonnummer p\u00E5 valfritt format.");
 		PhoneNumberField.setText(session.getValue("phonenumber"));
 		PhoneNumberField.addFocusListener(new FocusAdapter() {
+			@Override
 			public void focusLost(FocusEvent e){
 				session.put("phonenumber", PhoneNumberField.getText());
 				if(session.getErrorMessages().get("phonenumber")){
@@ -411,12 +491,14 @@ public class InformationPanel extends JPanel {
 		EmailField = new JTextField(session.getValue("email"));
 		EmailField.setColumns(10);
 		EmailField.addFocusListener(new FocusAdapter() {
+			@Override
 			public void focusLost(FocusEvent e){
 				session.put("email", EmailField.getText());
 			}
 		});
 		
 		saveMyInfoBox.addItemListener(new ItemListener() {
+			@Override
 			public void itemStateChanged(ItemEvent e) {
 				session.setSaveInfo(e.getStateChange() == ItemEvent.SELECTED);
 			}

@@ -4,17 +4,13 @@ import javax.swing.JPanel;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JPasswordField;
@@ -55,39 +51,39 @@ public class VerificationPanel extends JPanel {
 		vbVisaLabel.setMaximumSize(d);
 		vbVisaLabel.setMinimumSize(d);
 		
-		JLabel pleaseLabel = new JLabel("Please submit your verification password associated with your credit card.");
+		JLabel pleaseLabel = new JLabel("Var god skriv in lösenordet för verifikation associerat med ditt kort.");
 		pleaseLabel.setFont(DEFAULT_FONT);
 		pleaseLabel.setForeground(DEFAULT_COLOR);
 		
-		JLabel retailLabel = new JLabel("Retailer:");
+		JLabel retailLabel = new JLabel("Säljare: ");
 		retailLabel.setFont(DEFAULT_FONT);
 		retailLabel.setForeground(DEFAULT_COLOR);
 		
-		JLabel amountLabel = new JLabel("Amount: ");
+		JLabel amountLabel = new JLabel("Totalt: ");
 		amountLabel.setFont(DEFAULT_FONT);
 		amountLabel.setForeground(DEFAULT_COLOR);
 		
-		JLabel dateLabel = new JLabel("Date: ");
+		JLabel dateLabel = new JLabel("Datum: ");
 		dateLabel.setFont(DEFAULT_FONT);
 		dateLabel.setForeground(DEFAULT_COLOR);
 		
-		JLabel cardNumberLabel = new JLabel("Card number:");
+		JLabel cardNumberLabel = new JLabel("Kortnummer:");
 		cardNumberLabel.setFont(DEFAULT_FONT);
 		cardNumberLabel.setForeground(DEFAULT_COLOR);
 		
-		JLabel passwordLabel = new JLabel("Password:");
+		JLabel passwordLabel = new JLabel("Lösenord:");
 		passwordLabel.setFont(DEFAULT_FONT);
 		passwordLabel.setForeground(DEFAULT_COLOR);
 		
 		passwordField = new JPasswordField();
 		passwordField.setColumns(10);
 		
-		submitButton = new JButton("Submit");
+		submitButton = new JButton("Bekräfta köp");
 		submitButton.setFont(DEFAULT_FONT);
 		submitButton.setBackground(SELECTED_BG_COLOR);
 		submitButton.setForeground(SELECTED_TEXT_COLOR);
 		
-		cancelButton = new JButton("Cancel");
+		cancelButton = new JButton("Tillbaka");
 		cancelButton.setFont(DEFAULT_FONT);
 		cancelButton.setBackground(CANCEL_TEXT_COLOR);
 		cancelButton.setForeground(Color.WHITE);

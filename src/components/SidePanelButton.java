@@ -2,11 +2,8 @@ package components;
 
 import javax.swing.JButton;
 
-import se.chalmers.ait.dat215.project.ProductCategory;
-
 import java.awt.Color;
 import java.awt.Font;
-import java.util.Locale;
 
 public class SidePanelButton extends JButton {
 

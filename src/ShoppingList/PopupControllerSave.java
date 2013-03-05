@@ -11,8 +11,6 @@ import java.beans.PropertyChangeSupport;
 import java.util.Set;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
-
 import core.MainController;
 
 import se.chalmers.ait.dat215.project.Product;

@@ -1,11 +1,7 @@
 package menu;
 
 import java.awt.FlowLayout;
-import java.util.Map;
-
 import javax.swing.JPanel;
-
-import se.chalmers.ait.dat215.project.ProductCategory;
 
 /**
  * A Specialized menu panel

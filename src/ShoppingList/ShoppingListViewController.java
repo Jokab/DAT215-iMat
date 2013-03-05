@@ -10,8 +10,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
-
 import javax.swing.JPanel;
 import core.MainController;
 import core.ViewController;

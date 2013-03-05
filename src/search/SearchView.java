@@ -41,7 +41,7 @@ public class SearchView extends JPanel {
 		
 		JPanel resultContainer = new JPanel();
 		resultContainer.setOpaque(false);
-		resultContainer.setBorder(new MatteBorder(1, 0, 0, 0, (Color) new Color(225, 225, 225)));
+		resultContainer.setBorder(new MatteBorder(1, 0, 0, 0, new Color(225, 225, 225)));
 		
 		resultList = new JPanel();
 		resultList.setBackground(Color.WHITE);

@@ -1,17 +1,9 @@
 package order;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import java.awt.Component;
-import javax.swing.Box;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import java.awt.event.MouseListener;
 import java.awt.Font;
@@ -48,7 +40,7 @@ public class OrderEntry extends JPanel {
 		setMaximumSize(new Dimension(32767, 50));
 		setMinimumSize(new Dimension(10, 50));
 		setPreferredSize(new Dimension(200, 50));
-		setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(225, 225, 225)));
+		setBorder(new MatteBorder(0, 0, 1, 0, new Color(225, 225, 225)));
 		
 		orderInfoLabel.setBounds(151, 11, 93, 28);
 		orderInfoLabel.setTextColor(NORMAL_TEXT_COLOR);

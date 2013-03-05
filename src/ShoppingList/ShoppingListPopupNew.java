@@ -1,23 +1,13 @@
 package ShoppingList;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JButton;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.text.NumberFormat;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class ShoppingListPopupNew extends JPanel {
 

@@ -83,7 +83,7 @@ public class ReceiptPanel extends JPanel {
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(177, Short.MAX_VALUE)
+					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -91,16 +91,16 @@ public class ReceiptPanel extends JPanel {
 									.addComponent(nameLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addComponent(addressLabel, GroupLayout.PREFERRED_SIZE, 117, Short.MAX_VALUE)
 									.addComponent(totalCostLabel, GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
-									.addComponent(cardNumberLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+									.addComponent(cardNumberLabel))
 								.addComponent(deliveryDateLabel, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(thanksLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+								.addComponent(thanksLabel)))
 						.addComponent(saveToListButton, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addComponent(doneButton)
-					.addGap(163))
+					.addContainerGap(381, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -126,7 +126,7 @@ public class ReceiptPanel extends JPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(saveToListButton, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
 						.addComponent(doneButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(57, Short.MAX_VALUE))
+					.addContainerGap(124, Short.MAX_VALUE))
 		);
 		groupLayout.linkSize(SwingConstants.VERTICAL, new Component[] {doneButton, saveToListButton});
 		

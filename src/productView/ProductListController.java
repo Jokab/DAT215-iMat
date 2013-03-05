@@ -21,19 +21,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import core.MainController;
 import core.ViewController;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ProductCategory;
 import se.chalmers.ait.dat215.project.ShoppingItem;
-import ProductSearch.ProductSearch;
 import ShoppingList.PopupControllerSave;
 import ShoppingList.ShoppingList;
 import ShoppingList.ShoppingListHandler;
-import ShoppingList.ShoppingListPopupSave;
 
 /**
  * A class for controlling the ProductListView, which holds and shows Products
@@ -143,7 +139,7 @@ public class ProductListController implements ViewController,
 
 	private class ViewMouseListener implements MouseListener {
 
-		private ProductView panel;
+		private ProductView pView;
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
@@ -152,18 +148,24 @@ public class ProductListController implements ViewController,
 		@Override
 		public void mouseEntered(MouseEvent evt) {
 			if (evt.getSource().getClass().equals(ProductView.class)) {
-				panel = (ProductView) evt.getSource();
-				panel.getStarButton().setVisible(true);
-				panel.getAddToListButton().setVisible(true);
+				pView = (ProductView) evt.getSource();
+				pView.getStarButton().setVisible(true);
+				pView.getAddToListButton().setVisible(true);
 			}
 		}
 
+		@Override
 		public void mouseExited(MouseEvent evt) {
-			if (panel.contains(evt.getPoint())) {
-				return;
+			if (pView.contains(evt.getPoint())) {
+				evt.consume();
 			} else {
-				panel.getStarButton().setVisible(false);
-				panel.getAddToListButton().setVisible(false);
+				if(!(dataHandler.isFavorite(pView.getProduct()))) {
+					System.out.println(pView.getProduct().getName() + " " + dataHandler.isFavorite(pView.getProduct()));
+					pView.getStarButton().setVisible(false);
+				} else {
+					pView.getStarButton().setVisible(true);
+				}
+				pView.getAddToListButton().setVisible(false);
 			}
 		}
 
@@ -186,6 +188,7 @@ public class ProductListController implements ViewController,
 			this.pView = pView;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (dataHandler.isFavorite(product)) {
 				ImageIcon starIcon = new ImageIcon("img/starUnfilled.png");
@@ -225,6 +228,8 @@ public class ProductListController implements ViewController,
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+		
+		// Ugliest code ever
 		ShoppingList list = (ShoppingList) evt.getNewValue();
 		Object[] productInfo = (Object[])evt.getOldValue();
 		Product p = (Product)productInfo[0]; 

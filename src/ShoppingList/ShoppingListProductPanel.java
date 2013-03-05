@@ -35,7 +35,7 @@ public class ShoppingListProductPanel extends JPanel {
 	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	
 	public ShoppingListProductPanel(ShoppingItem item) {
-		setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(225, 225, 225)));
+		setBorder(new MatteBorder(0, 0, 1, 0, new Color(225, 225, 225)));
 		this.item = item;
 		setOpaque(false);
 		setSize(new Dimension(220, 30));
@@ -71,6 +71,7 @@ public class ShoppingListProductPanel extends JPanel {
 			public void mouseEntered(MouseEvent e) {
 				buttonPanel.getParent().getMouseListeners()[0].mouseEntered(e);
 			}
+			@Override
 			public void mouseExited(MouseEvent e) {
 				
 			}
@@ -106,6 +107,7 @@ public class ShoppingListProductPanel extends JPanel {
 			public void mouseEntered(MouseEvent e) {
 				buttonPanel.setVisible(true);
 			}
+			@Override
 			public void mouseExited(MouseEvent e) {
 				buttonPanel.setVisible(false);
 			}

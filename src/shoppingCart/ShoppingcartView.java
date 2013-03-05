@@ -24,6 +24,7 @@ import javax.swing.JSeparator;
 
 import core.MainController;
 import javax.swing.ScrollPaneConstants;
+import java.awt.Component;
 
 public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 
@@ -42,12 +43,18 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 	private JButton addToCartButton;
 
 	private final Color DEFAULT_BACKGROUND = new Color(253, 253, 253);
+	private final Font DEFAULT_FONT = new Font("Calibri", Font.PLAIN, 12);
+	private final Color DEFAULT_COLOR = new Color(150,150,150);
+	private final Color SELECTED_BG_COLOR = new Color(177,211,114);
+	private final Color SELECTED_TEXT_COLOR = Color.white;
+	private final Color CANCEL_TEXT_COLOR = new Color(144,144,144);
 	private JLabel lblKundvagn;
 	private MainController mainController;
-	
+
 	/**
 	 * Create the panel.
-	 * @param mainController 
+	 * 
+	 * @param mainController
 	 */
 	public ShoppingcartView(MainController mainController) {
 		this.mainController = mainController;
@@ -67,7 +74,8 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		summaryPanel.setOpaque(false);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(null);
 
 		productListPanel = new JPanel();
@@ -77,17 +85,28 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		productListPanel.setBackground(DEFAULT_BACKGROUND);
 		JPanel optionPanel = new JPanel();
 		optionPanel.setOpaque(false);
+		
 		addToCartButton = new JButton();
 		addToCartButton.addActionListener(new AddListToCartListener());
-		addToCartButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		addToCartButton.setFont(DEFAULT_FONT);
+		addToCartButton.setBackground(DEFAULT_BACKGROUND);
+		addToCartButton.setForeground(Color.BLACK);
 		addToCartButton.setText("L\u00E4gg till fr\u00E5n ink\u00F6pslista");
+		
 		toCounterButton = new JButton("Till kassa");
 		toCounterButton.setEnabled(false);
 		toCounterButton.addActionListener(new CheckoutButtonListener());
-		
-		this.saveProductListButton = new JButton("Spara Varukorg");
+		toCounterButton.setFont(DEFAULT_FONT);
+		toCounterButton.setBackground(SELECTED_BG_COLOR);
+		toCounterButton.setForeground(Color.black);
+
+		this.saveProductListButton = new JButton("Spara inköpslista");
+		saveProductListButton.setFont(new Font("Calibri", Font.PLAIN, 11));
+		saveProductListButton.setBackground(DEFAULT_BACKGROUND);
+		saveProductListButton.setForeground(Color.BLACK);
 		saveProductListButton.setEnabled(false);
-		saveProductListButton.addActionListener(new SaveProductButtonListener());
+		saveProductListButton
+				.addActionListener(new SaveProductButtonListener());
 
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(gl_contentPanel
@@ -148,54 +167,29 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		summaryPanel.add(separator);
 
 		GroupLayout gl_optionPanel = new GroupLayout(optionPanel);
-		gl_optionPanel
-				.setHorizontalGroup(gl_optionPanel
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								Alignment.TRAILING,
-								gl_optionPanel
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												gl_optionPanel
-														.createParallelGroup(
-																Alignment.TRAILING)
-														.addComponent(
-																addToCartButton,
-																GroupLayout.DEFAULT_SIZE,
-																212,
-																Short.MAX_VALUE)
-														.addGroup(
-																gl_optionPanel
-																		.createSequentialGroup()
-																		.addComponent(
-																				saveProductListButton,
-																				0,
-																				0,
-																				Short.MAX_VALUE)
-																		.addGap(18)
-																		.addComponent(
-																				toCounterButton)))
-										.addContainerGap()));
-		gl_optionPanel.setVerticalGroup(gl_optionPanel.createParallelGroup(
-				Alignment.LEADING)
-				.addGroup(
-						Alignment.TRAILING,
-						gl_optionPanel
-								.createSequentialGroup()
-								.addComponent(addToCartButton,
-										GroupLayout.PREFERRED_SIZE, 34,
-										GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED,
-										45, Short.MAX_VALUE)
-								.addGroup(
-										gl_optionPanel
-												.createParallelGroup(
-														Alignment.BASELINE)
-												.addComponent(toCounterButton)
-												.addComponent(
-														saveProductListButton))
-								.addContainerGap()));
+		gl_optionPanel.setHorizontalGroup(
+			gl_optionPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_optionPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_optionPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+						.addGroup(gl_optionPanel.createSequentialGroup()
+							.addComponent(saveProductListButton, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(toCounterButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
+		);
+		gl_optionPanel.setVerticalGroup(
+			gl_optionPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_optionPanel.createSequentialGroup()
+					.addComponent(addToCartButton, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+					.addGroup(gl_optionPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(saveProductListButton)
+						.addComponent(toCounterButton))
+					.addContainerGap())
+		);
+		gl_optionPanel.linkSize(SwingConstants.VERTICAL, new Component[] {toCounterButton, saveProductListButton});
 		optionPanel.setLayout(gl_optionPanel);
 
 		contentPanel.setLayout(gl_contentPanel);
@@ -232,7 +226,7 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		add(shoppingcartIconButton);
 		add(minimizeLabelButton);
 		add(listButton);
-		
+
 		updateSummary();
 		updateItemList();
 		updateBottomButtons();
@@ -260,11 +254,16 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 	}
 
 	private void updateBottomButtons() {
-		if(model.getItems() == null || model.getItems().isEmpty()) {
+		if (model.getItems() == null || model.getItems().isEmpty()) {
+			saveProductListButton.setForeground(DEFAULT_COLOR);
 			saveProductListButton.setEnabled(false);
+			toCounterButton.setBackground(Color.white);
 			toCounterButton.setEnabled(false);
 		} else {
+			saveProductListButton.setForeground(Color.BLACK);
 			saveProductListButton.setEnabled(true);
+			toCounterButton.setBackground(SELECTED_BG_COLOR);
+			toCounterButton.setForeground(Color.BLACK);
 			toCounterButton.setEnabled(true);
 		}
 	}
@@ -274,11 +273,10 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		listButton.addActionListener(l);
 		minimizeLabelButton.addActionListener(l);
 	}
-	
+
 	public void addCounterButtonListener(ActionListener l) {
 		toCounterButton.addActionListener(l);
 	}
-	
 
 	private class CheckoutButtonListener implements ActionListener {
 
@@ -288,23 +286,23 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		}
 
 	}
-	
+
 	private class SaveProductButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			createSaveAsListPopup();
 		}
-		
+
 	}
-	
+
 	private class AddListToCartListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			createAddListToCartPopup();
 		}
-		
+
 	}
 
 	public void toCheckout() {
@@ -312,10 +310,12 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 	}
 
 	public void createAddListToCartPopup() {
-		AddListToCartPopupController controller = new AddListToCartPopupController(mainController);
+		AddListToCartPopupController controller = new AddListToCartPopupController(
+				mainController);
 	}
 
 	public void createSaveAsListPopup() {
-		SaveAsShoppingListPopUpController controller = new SaveAsShoppingListPopUpController(mainController);
+		SaveAsShoppingListPopUpController controller = new SaveAsShoppingListPopUpController(
+				mainController);
 	}
 }

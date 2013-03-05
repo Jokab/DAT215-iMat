@@ -2,9 +2,7 @@ package productView;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.awt.Color;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.BoxLayout;
-import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.Map;
@@ -19,10 +17,6 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JComboBox;
 
-import ProductSearch.OrderByNameAscending;
-import ProductSearch.OrderByNameDescending;
-import ProductSearch.OrderByPriceAscending;
-import ProductSearch.OrderByPriceDescending;
 import ProductSearch.SearchFilterOption;
 
 
@@ -41,7 +35,7 @@ public class ProductListView extends JPanel {
 		scrollPane.setBorder(null);
 		
 		productSidePanel = new ProductSidePanel();
-		productSidePanel.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(225, 225, 225)));
+		productSidePanel.setBorder(new MatteBorder(0, 0, 0, 1, new Color(225, 225, 225)));
 		
 		JLabel label = new JLabel("Sotera efter");
 		label.setForeground(new Color(150, 150, 150));

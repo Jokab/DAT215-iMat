@@ -1,7 +1,6 @@
 package ProductCategories;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import se.chalmers.ait.dat215.project.ProductCategory;

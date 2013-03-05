@@ -4,20 +4,15 @@ package SearchBar;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -64,13 +59,16 @@ public class SearchController {
 		bar.addSearchButtonListener(l);
 		
 		this.bar.getSearchField().getDocument().addDocumentListener(new DocumentListener() {
-			  public void changedUpdate(DocumentEvent e) {
+			  @Override
+			public void changedUpdate(DocumentEvent e) {
 				  updateAutoCompletePanel(SearchController.this.bar.getSearchField());
 			  }
-			  public void removeUpdate(DocumentEvent e) {
+			  @Override
+			public void removeUpdate(DocumentEvent e) {
 				  updateAutoCompletePanel(SearchController.this.bar.getSearchField());
 			  }
-			  public void insertUpdate(DocumentEvent e) {
+			  @Override
+			public void insertUpdate(DocumentEvent e) {
 				  updateAutoCompletePanel(SearchController.this.bar.getSearchField());
 			  }
 		});

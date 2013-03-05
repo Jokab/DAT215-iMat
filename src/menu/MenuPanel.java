@@ -1,6 +1,5 @@
 package menu;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 /**

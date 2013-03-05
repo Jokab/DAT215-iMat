@@ -15,8 +15,6 @@ import frontPage.FrontPageController;
 import order.OrderViewController;
 
 import SearchBar.SearchController;
-import ShoppingList.ShoppingList;
-import ShoppingList.ShoppingListPopupNew;
 import ShoppingList.ShoppingListViewController;
 
 import productView.ProductListController;

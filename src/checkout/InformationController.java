@@ -5,9 +5,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
-import se.chalmers.ait.dat215.project.ShoppingCart;
-import shoppingCart.ShoppingCartAdapter;
-
 import core.MainController;
 import core.ViewController;
 

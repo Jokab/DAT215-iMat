@@ -1,16 +1,13 @@
 package myAccount;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import components.SidePanelButton;
 
-import menu.MenuButton;
 import core.MainController;
 import core.ViewController;
 

@@ -1,19 +1,14 @@
 package ShoppingList;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.LinkedList;
 import java.util.Set;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -21,7 +16,6 @@ import javax.swing.event.DocumentListener;
 
 import core.MainController;
 
-import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ShoppingItem;
 
 /**
@@ -86,14 +80,17 @@ public class PopupControllerNew {
 	}
 	
 	private class TextFieldListener implements DocumentListener {
+		@Override
 		public void changedUpdate(DocumentEvent e) {
 			update();
 		}
 
+		@Override
 		public void removeUpdate(DocumentEvent e) {
 			update();
 		}
 
+		@Override
 		public void insertUpdate(DocumentEvent e) {
 			update();
 		}
