@@ -13,16 +13,28 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLabel;
+
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.WindowListener;
+
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
+
+import checkout.Session;
+
+import SearchBar.AutoCompleteContainer;
+import SearchBar.SearchBar;
+
 import java.awt.FlowLayout;
+
+import se.chalmers.ait.dat215.project.IMatDataHandler;
 import shoppingCart.ShoppingCartMinimizedView;
 import shoppingCart.ShoppingCartSummaryView;
 import shoppingCart.ShoppingcartView;
@@ -42,6 +54,11 @@ public class MainView extends JFrame {
 	private final JLayeredPane layeredPane = new JLayeredPane();
 	private final GridBagConstraints c = new GridBagConstraints();
 	private final JPanel popupContent = new JPanel(new GridBagLayout());
+	private final SearchBar searchBar = new SearchBar();
+	private final AutoCompleteContainer autoCompleteContainer = new AutoCompleteContainer();
+	private static final IMatDataHandler dm = IMatDataHandler.getInstance();
+	private static final Session session = Session.getInstance();
+	
 	
 	private MainController mainController;
 	
@@ -70,6 +87,7 @@ public class MainView extends JFrame {
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(null);
 		setContentPane(contentPane);
+		layeredPane.setBorder(null);
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -82,7 +100,6 @@ public class MainView extends JFrame {
 					.addComponent(layeredPane, GroupLayout.PREFERRED_SIZE, 740, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
-		layeredPane.setBorder(null);
 		
 		// Windowbuttons
 		windowbuttonsPanel.setBounds(1099, 11, 52, 14);	
@@ -116,6 +133,7 @@ public class MainView extends JFrame {
 		
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				shutDown();
 				System.exit(NORMAL);
 			}
 		});
@@ -125,38 +143,24 @@ public class MainView extends JFrame {
 		exitButton.setBorder(null);
 		windowbuttonsPanel.add(exitButton, BorderLayout.EAST);
 		exitButton.setIcon(new ImageIcon("img/exitIcon.png"));
+		
 		FlowLayout flowLayout = (FlowLayout) contentView.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
+		
+		
 		contentView.setOpaque(false);
-		
-		
-		contentView.setBounds(64, 184, 1116, 521);
-		headerView.setBounds(0, 0, 1180, 184);
+		contentView.setBounds(64, 200, 1116, 535);
+		headerView.setBounds(0, 15, 1180, 184);
 		
 		shoppingCartView = new ShoppingcartView(mainController);
 		shoppingCartView.setBounds(876, 0, 324, 720);
 		
-		// Manipulate program to first paint other components behind JPanel and then the JPanel
-		popupBgPanel = new JPanel() {
-			protected void paintComponent(Graphics g)
-		    {
-		        g.setColor( getBackground() );
-		        g.fillRect(0, 0, getWidth(), getHeight());
-		        super.paintComponent(g);
-		    }
-		};
-		
 		ShoppingCartMinimizedView shoppingCartMinimizedView = new ShoppingCartMinimizedView();
 		shoppingCartMinimizedView.setBounds(1075, 0, 125, 720);
 		
-		ShoppingCartSummaryView shoppingCartSummaryView = new ShoppingCartSummaryView();
+		ShoppingCartSummaryView shoppingCartSummaryView = new ShoppingCartSummaryView(mainController);
 		shoppingCartSummaryView.setBounds(949, 11, 231, 149);
 		
-		popupBgPanel.setOpaque(false);
-		popupBgPanel.setBounds(0, 0, 1200, 720);
-		popupBgPanel.setBackground(new Color(0,0,0,60));
-		popupBgPanel.setVisible(false);
-		popupBgPanel.setLayout(new BorderLayout(0, 0));
 		
 		// Set detail view of shoppingcart to non-visible.
 		shoppingCartView.setVisible(false);
@@ -166,6 +170,21 @@ public class MainView extends JFrame {
 		shoppingCartSummaryView.addPopoutListener(l);
 		shoppingCartMinimizedView.addPopoutListener(l);
 		shoppingCartView.addPopoutListener(l); 
+		
+		// Popup: Manipulate program to first paint other components behind JPanel and then the JPanel
+		popupBgPanel = new JPanel() {
+			protected void paintComponent(Graphics g)
+		    {
+		        g.setColor( getBackground() );
+		        g.fillRect(0, 0, getWidth(), getHeight());
+		        super.paintComponent(g);
+		    }
+		};
+		popupBgPanel.setOpaque(false);
+		popupBgPanel.setBounds(0, 0, 1200, 720);
+		popupBgPanel.setBackground(new Color(0,0,0,60));
+		popupBgPanel.setVisible(false);
+		popupBgPanel.setLayout(new BorderLayout(0, 0));		
 		
 		// Handle positioning of window
 		headerView.addMouseListener(new MouseAdapter() {
@@ -181,20 +200,35 @@ public class MainView extends JFrame {
 			}
 		});
 		
+		// SearchBar
+		searchBar.setBounds(370, 85, 350, 400);
+		autoCompleteContainer.setBounds(370, 111, 349, 450);
+		
 		// Add to layered pane
 		layeredPane.add(contentView, new Integer(1));
 		layeredPane.add(headerView, new Integer(2));
 		layeredPane.add(windowbuttonsPanel, new Integer(7));
 		layeredPane.add(shoppingCartSummaryView, new Integer(3));
 		layeredPane.add(shoppingCartView, new Integer(4));
-		layeredPane.add(popupBgPanel, new Integer(5));
-		layeredPane.add(shoppingCartMinimizedView);
+		layeredPane.add(popupBgPanel, new Integer(6));
+		layeredPane.add(shoppingCartMinimizedView, new Integer(4));
+		layeredPane.add(searchBar, new Integer(5));
+		layeredPane.add(autoCompleteContainer, new Integer(5));
 		
 		contentPane.setLayout(gl_contentPane);
 		
 		setVisible(true);
 	}
 	
+	/**
+	 * Saves the state of all things that need to be saved. Is called when the
+	 * window closes.
+	 */
+	protected void shutDown() {
+		session.saveSession();
+		dm.shutDown();
+	}
+
 	/**
 	 * Returns a reference to the <code>HeaderView</code>
 	 * @return HeaderView
@@ -237,12 +271,39 @@ public class MainView extends JFrame {
 		popupContent.revalidate();
 	}
 	
+	/**
+	 * Returns a reference to the search bar.
+	 * @return
+	 */
+	public SearchBar getSearchBar() {
+		return searchBar;
+	}
+	
+	/**
+	 * Returns a reference to the auto complete result container.
+	 * @return
+	 */
+	public AutoCompleteContainer getAutoCompleteContainer() {
+		return autoCompleteContainer;
+	}
+	
 	private class PopoutListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			shoppingCartView.setVisible(!shoppingCartView.isVisible());
 		}
-		
+	}
+	
+	public void addMainViewWindowListener(WindowListener listener) {
+		addWindowListener(listener);
+	}
+	
+	public void addBackButtonListener(ActionListener l ){
+		headerView.addBackButtonListener(l);
+	}
+	
+	public void setEnableBackButton(boolean value) {
+		headerView.setEnableBackButton(value);
 	}
 }

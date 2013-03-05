@@ -1,12 +1,7 @@
 package productView;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -14,18 +9,15 @@ import java.util.Random;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 import shoppingCart.ShoppingCartAdapter;
-
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseListener;
-import javax.swing.JComboBox;
 import javax.swing.border.MatteBorder;
 import javax.swing.SwingConstants;
 
 
 public class ProductView extends JPanel {
-	private int nbrOfProd;
 	private final ProductAmountPanel productAmountPanel = new ProductAmountPanel();
 	private JButton starButton;
 	private Product product;
@@ -35,6 +27,7 @@ public class ProductView extends JPanel {
 	 * Create the panel.
 	 */
 	public ProductView(final Product product) {
+		this.product = product;
 		setOpaque(false); 
 		IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 		
@@ -43,10 +36,6 @@ public class ProductView extends JPanel {
 		setSize(new Dimension(800, 150));
 		setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(225, 225, 225)));
 		setMinimumSize(new Dimension(800, 150));
-		
-		/* the start amount of nbrOfProd...*/
-		nbrOfProd = 1;
-		
 		/* Adding the image */
 		
 		JLabel productPic = new JLabel();
@@ -96,16 +85,25 @@ public class ProductView extends JPanel {
 		});
 		
 		productAddToListBtn.setVisible(false);
+		ImageIcon starIcon;
+		
 
-		String PicURL = "/.dat215/imat/images/SuperStarOfylld.png";
-		ImageIcon starIcon = new ImageIcon(System.getProperty("user.home") + PicURL);
 		
 		starButton = new JButton();
+		starButton.setContentAreaFilled(false);
 		starButton.setBounds(594, 5, 30, 32);
 		starButton.setBorder(null);
+		
+		if(dataHandler.isFavorite(product)) {
+			starIcon = new ImageIcon("img/starFilled.png");
+			starButton.setVisible(true);
+		} else {
+			starIcon = new ImageIcon("img/starUnfilled.png");
+			starButton.setVisible(false);
+		}
 		starButton.setIcon(starIcon);
-		/*default invisible*/
-		starButton.setVisible(false);
+		
+
 		setLayout(null);
 		add(productPic);
 		add(productTitle);
@@ -136,6 +134,10 @@ public class ProductView extends JPanel {
 	
 	public Product getProduct(){
 		return product;
+	}
+	
+	public double getAmount() {
+		return this.productAmountPanel.getAmount();
 	}
 
 	public void addActionListener(ActionListener starActionListener) {

@@ -19,10 +19,12 @@ public class Session {
 	private static boolean firstTime = true;
 	private static Session singleton;
 	private Map<String,String> userInfo;
+	private Map<String,Boolean> errorMessage;
 	private boolean saveInfo = true;
 	private Session(){
 		firstTime = false;
 		userInfo = new HashMap<String,String>();
+		errorMessage = new HashMap<String,Boolean>();
 		userInfo.put("firstname", customer.getFirstName());
 		userInfo.put("lastname", customer.getLastName());
 		userInfo.put("phonenumber", customer.getPhoneNumber());
@@ -45,6 +47,7 @@ public class Session {
 	}
 	public void put(String s1, String s2){
 		userInfo.put(s1, s2);
+		infoIsOk();
 	}
 	public String getValue(String s1){
 		return userInfo.get(s1);
@@ -68,78 +71,91 @@ public class Session {
 	public boolean infoIsOk(){
 		// TODO: Tester så att systemet inte pajar
 				try {
+					errorMessage.put("ccv", false);
 					Integer.parseInt(this.getValue("ccv"));
 				} catch (Exception e){
-					System.out.println("CCV");
-					return false;
+					errorMessage.put("ccv", true);
 				}
 				try {
+					errorMessage.put("cardnumber", false);
 					Double.parseDouble(this.getValue("cardnumber"));
 				} catch (Exception e){
-					System.out.println("Cardnumber");
-					return false;
+					errorMessage.put("cardnumber",true);
+				}
+				try {
+					errorMessage.put("zipcode", false);
+					Integer.parseInt(this.getValue("zipcode"));
+				} catch (Exception e){
+					errorMessage.put("zipcode", true);
 				}
 				
 				try {
+					errorMessage.put("validyear", false);
 					Integer.parseInt(this.getValue("validyear"));
 				} catch (Exception e){
-					System.out.println("Yearfield");
-					return false;
+					errorMessage.put("validyear", true);
 				}
 				try {
+					errorMessage.put("validmonth", false);
 					Integer.parseInt(this.getValue("validmonth"));
 				} catch (Exception e){
-					System.out.println("Monthfield");
-					return false;
+					errorMessage.put("validmonth", true);
 				}
+				errorMessage.put("firstname", false);
+				errorMessage.put("lastname", false);
+				errorMessage.put("address", false);
+				errorMessage.put("city", false);
+				errorMessage.put("phonenumber", false);
+				errorMessage.put("deliverydate", false);
 				if (this.getValue("firstname").length()==0){
-					System.out.println("Firstname");
-					return false;
-				} else if (this.getValue("lastname").length()==0){
-					System.out.println("lastname");
-					return false;
-				} else if (this.getValue("address").length()==0){
-					System.out.println("address");
-					return false;
-				} else if (this.getValue("city").length()==0){
-					System.out.println("city");
-					return false;
-				} else if (this.getValue("phonenumber").length()==0){
-					System.out.println("phone");
-					return false;
+					errorMessage.put("firstname", true);
+				} 
+				if (this.getValue("lastname").length()==0){
+					errorMessage.put("lastname", true);
 				}
-				int deliveryyear = Integer.parseInt(this.getValue("deliveryyear"));
-				int deliverymonth = Integer.parseInt(this.getValue("deliverymonth"));
-				int deliveryday = Integer.parseInt(this.getValue("deliveryday"));
-				Calendar calendar = Calendar.getInstance();
-				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-				System.out.println(dateFormat.format((calendar.getTime())));
-				String[] split = dateFormat.format(calendar.getTime()).split("/");
-				for (int i=0 ; i<split.length ; i++){
-					System.out.println(split[i]);
+				if (this.getValue("address").length()==0){
+					errorMessage.put("address", true);
 				}
-				int currentyear = Integer.parseInt(split[0]);
-				int currentmonth = Integer.parseInt(split[1]);
-				int currentday = Integer.parseInt(split[2]);
-				
-				if (deliveryyear<currentyear){
-					return false;
-				} else if (deliveryyear==currentyear){
-					if(deliverymonth<currentmonth){
-						return false;
-					} else if (deliverymonth<currentmonth){
-						return(!(deliveryday<currentday));
+				if (this.getValue("city").length()==0){
+					errorMessage.put("city", true);
+				} 
+				if (this.getValue("phonenumber").length()==0){
+					errorMessage.put("phonenumber", true);
+				}
+				try {
+					int deliveryyear = Integer.parseInt(this.getValue("deliveryyear"));
+					int deliverymonth = Integer.parseInt(this.getValue("deliverymonth"))+1;
+					int deliveryday = Integer.parseInt(this.getValue("deliveryday"));
+					Calendar calendar = Calendar.getInstance();
+					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+					String[] split = dateFormat.format(calendar.getTime()).split("/");
+					int currentyear = Integer.parseInt(split[0]);
+					int currentmonth = Integer.parseInt(split[1]);
+					int currentday = Integer.parseInt(split[2]);
+					if (deliveryyear<currentyear){
+						System.out.println("a");
+						errorMessage.put("deliverydate", true);
+					} else if (deliveryyear==currentyear){
+						if(deliverymonth<currentmonth){
+							System.out.println("b");
+							errorMessage.put("deliverydate", true);
+						} else if (deliverymonth==currentmonth){
+							errorMessage.put("deliverydate", deliveryday<currentday);
+						}
 					}
+				} catch (Exception e){
+					errorMessage.put("deliverydate", true);
 				}
-				//else if (this.getValue("deliveryyear"))
-				//else if(this.getValue("deliveryday"))
-				return true;
+				return !(errorMessage.containsValue(true));
 	}
 	public boolean getSaveInfo(){
 		return saveInfo;
 	}
 	public void setSaveInfo(boolean b){
 		saveInfo=b;
+	}
+	public Map<String,Boolean> getErrorMessages(){
+		return errorMessage;
 	}
 
 }

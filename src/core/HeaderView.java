@@ -9,6 +9,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -26,6 +28,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.Timer;
 import menu.MenuButton;
+import javax.swing.SwingConstants;
 
 
 public class HeaderView extends JPanel {
@@ -35,13 +38,17 @@ public class HeaderView extends JPanel {
 	private final JPanel submenuPanelWrapper = new JPanel();
 	private final MenuButton myAccountButton;
 	private final MenuButton shoppingListsButton;
-
+	private final JButton backButton; 
+	private final ImageIcon backButtonEnabled = new ImageIcon("img/backButton.png");
+	private final ImageIcon backButtonDisabled = new ImageIcon("img/backButtonDeactivated.png");
+	
 	/**
 	 * Create the panel.
 	 */
 	public HeaderView() {
 		setOpaque(false);
 		setBackground(Color.white);		
+		logoPanel.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		// To fix click and drag issue
 		logoPanel.addMouseListener(new MouseAdapter() {
@@ -61,40 +68,55 @@ public class HeaderView extends JPanel {
 		
 		myAccountButton = new MenuButton((String) null);
 		myAccountButton.setText("mitt konto");
+		myAccountButton.addMouseListener(new HoverLinkListener());
 		
 		shoppingListsButton = new MenuButton((String) null);
 		shoppingListsButton.setText("ink\u00F6pslistor");
+		shoppingListsButton.addMouseListener(new HoverLinkListener());
+		
+		backButton = new JButton(backButtonDisabled);
+		backButton.setHorizontalAlignment(SwingConstants.LEFT);
+		backButton.setContentAreaFilled(false);
+		backButton.setBorder(null);
+		backButton.setToolTipText("Återvänd till föregående sida");
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
+			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-					.addGap(36)
-					.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(760, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(65)
+							.addComponent(submenuPanelWrapper, GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+							.addGap(38)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE)
+								.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
+							.addGap(75)))
+					.addContainerGap())
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(102)
-					.addComponent(submenuPanelWrapper, GroupLayout.DEFAULT_SIZE, 1008, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(menuPanelWrapper, GroupLayout.PREFERRED_SIZE, 532, GroupLayout.PREFERRED_SIZE)
-					.addGap(147)
+					.addGap(53)
+					.addComponent(menuPanelWrapper, GroupLayout.PREFERRED_SIZE, 470, GroupLayout.PREFERRED_SIZE)
+					.addGap(198)
 					.addComponent(myAccountButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(10)
-					.addComponent(shoppingListsButton, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
-					.addGap(239))
+					.addComponent(shoppingListsButton, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(75, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(26, Short.MAX_VALUE)
+					.addContainerGap(17, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(24)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(menuPanelWrapper, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
@@ -106,8 +128,9 @@ public class HeaderView extends JPanel {
 							.addComponent(myAccountButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(10)))
 					.addComponent(submenuPanelWrapper, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(120, Short.MAX_VALUE))
+					.addGap(120))
 		);
+		
 		FlowLayout flowLayout = (FlowLayout) menuPanelWrapper.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		menuPanelWrapper.setOpaque(false);
@@ -137,5 +160,35 @@ public class HeaderView extends JPanel {
 	
 	public void addActionListenerShoppingListsButton(ActionListener l) {
 		shoppingListsButton.addActionListener(l);
+	}
+	
+	public void addBackButtonListener(ActionListener l) {
+		backButton.addActionListener(l);
+	}
+	
+	public void setEnableBackButton(boolean value) {
+		backButton.setIcon(value?backButtonEnabled:backButtonDisabled);
+	}
+	
+	private class HoverLinkListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {}
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			((MenuButton) e.getSource()).toggle();
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			((MenuButton) e.getSource()).toggle();
+		}
 	}
 }

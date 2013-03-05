@@ -6,9 +6,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+
 import javax.swing.JPanel;
 import core.MainController;
 import core.ViewController;
@@ -43,13 +46,21 @@ public class ShoppingListViewController implements ViewController,
 
 		handler.readLists();
 		Set<ShoppingList> lists = handler.getShoppingLists();
+		List<ShoppingList> sortedList = sortSetAsList(lists);
 
-		for (ShoppingList l : lists) {
+		for (ShoppingList l : sortedList) {
 			ShoppingListEntry entry = new ShoppingListEntry(l);
 			entry.addEntryMouseListener(new EntryClickedListener());
 			view.getPanel().add(entry);
 		}
 		view.getPanel().revalidate();
+	}
+	
+	private List<ShoppingList> sortSetAsList(Set<ShoppingList> set) {
+		List<ShoppingList> listsList = new LinkedList<ShoppingList>();
+		listsList.addAll(set);
+		Collections.sort(listsList, new OrderShoppingListsAlphabetically());
+		return listsList;
 	}
 
 	private class EntryClickedListener implements MouseListener {
@@ -61,6 +72,7 @@ public class ShoppingListViewController implements ViewController,
 			}
 			activeEntryPanel = (ShoppingListEntry) evt.getSource();
 			activeEntryPanel.setActive();
+			checkRemoveButtonEnabled();
 			updateDetailedPanel(activeEntryPanel.getShoppingList());
 		}
 
@@ -98,6 +110,7 @@ public class ShoppingListViewController implements ViewController,
 			updateHeaderText(null);
 			view.getRemoveButton().setEnabled(false);
 			view.getDetailedPanel().removeAll();
+			view.getDetailedPanel().repaint();
 		}
 
 	}
@@ -126,13 +139,17 @@ public class ShoppingListViewController implements ViewController,
 
 	private void updateDetailedPanel(ShoppingList shoppingList) {
 		view.getDetailedPanel().removeAll();
+		view.getDetailedPanel().repaint();
 
 		updateHeaderText(shoppingList);
 		JPanel detailedPanel = view.getDetailedPanel();
 		List<ShoppingItem> items = shoppingList.getItems();
 		if (items != null && items.size() > 0) {
 			for (ShoppingItem item : items) {
-				detailedPanel.add(new ShoppingListProductPanel(item));
+				ShoppingListProductPanel productPanel = new ShoppingListProductPanel(
+						item);
+				productPanel.addObserver(ShoppingListViewController.this);
+				detailedPanel.add(productPanel);
 			}
 		} else {
 			// TODO: Add a panel that says "list is empty"
@@ -141,9 +158,8 @@ public class ShoppingListViewController implements ViewController,
 		view.getDetailedPanel().revalidate();
 	}
 
-	// TODO: Is this not used? I don't know.
 	private void checkRemoveButtonEnabled() {
-		if (!(view.getPanel().getComponentCount() <= 1)) {
+		if (!(view.getPanel().getComponentCount() <= 0)) {
 			view.getRemoveButton().setEnabled(true);
 		} else {
 			view.getRemoveButton().setEnabled(false);
@@ -167,11 +183,35 @@ public class ShoppingListViewController implements ViewController,
 
 	/*
 	 * Listens to PopupControllerNew to see if content has been saved, if so
-	 * update the list
+	 * update the list.
+	 * 
+	 * Also listens to the associated ShoppingListProductPanelfor increasing and
+	 * removing products from a list, taking appropriate action depending on
+	 * which was clicked.
 	 */
 	@Override
-	public void propertyChange(PropertyChangeEvent arg0) {
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (activeEntryPanel != null) {
+			ShoppingList activeShoppingList = activeEntryPanel
+					.getShoppingList();
+			if (evt.getPropertyName().equals("increased")) {
+				activeShoppingList.increaseItemAmount((ShoppingItem) evt
+						.getNewValue());
+			}
+			if (evt.getPropertyName().equals("decreased")) {
+				activeShoppingList.decreaseItemAmount((ShoppingItem) evt
+						.getNewValue());
+			}
+			if (evt.getPropertyName().equals("removed")) {
+				activeShoppingList.removeItem((ShoppingItem) evt.getNewValue());
+			}
+			updateDetailedPanel(activeShoppingList);
+		}
+
+		handler.writeLists();
+
 		updateListView();
+
 	}
 
 }
