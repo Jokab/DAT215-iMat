@@ -30,7 +30,7 @@ import javax.swing.JButton;
 
 public class SearchBar extends JPanel {
 	private final JTextField searchField = new JTextField();
-	
+	private final JButton searchButton = new JButton(new ImageIcon("img/searchButton.png"));
 	private SearchController controller;
 
 	/**
@@ -39,16 +39,15 @@ public class SearchBar extends JPanel {
 	public SearchBar() {
 		setOpaque(false);
 		
-		JButton button = new JButton(new ImageIcon("img/searchButton.png"));
-		button.setContentAreaFilled(false);
-		button.setBounds(309, 0, 40, 26);
-		button.setBorder(new MatteBorder(1, 0, 1, 1, (Color) new Color(204, 204, 204)));
-		add(button);
+		searchButton.setContentAreaFilled(false);
+		searchButton.setBounds(309, 0, 40, 26);
+		searchButton.setBorder(new MatteBorder(1, 0, 1, 1, (Color) new Color(204, 204, 204)));
+		add(searchButton);
 		
 		searchField.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(204, 204, 204)));
 		searchField.setFont(new Font("Calibri", Font.PLAIN, 12));
 		searchField.setBounds(0, 0, 310, 26);
-		searchField.setText("  S\u00F6k produkt...");
+		searchField.setText("S\u00F6k produkt...");
 		searchField.setColumns(10);
 		searchField.setForeground(new Color(125, 125, 125));
 		setLayout(null);
@@ -64,5 +63,9 @@ public class SearchBar extends JPanel {
 	
 	public JTextField getSearchField() {
 		return this.searchField;
+	}
+	
+	public void addSearchButtonListener(ActionListener l) {
+		searchButton.addActionListener(l);
 	}
 }

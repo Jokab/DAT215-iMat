@@ -5,28 +5,20 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import java.awt.Dimension;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
-
-import se.chalmers.ait.dat215.project.CartEvent;
 import se.chalmers.ait.dat215.project.ShoppingItem;
-
 import java.awt.Font;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
-import java.awt.GridLayout;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import java.awt.Cursor;
 import javax.swing.JSeparator;
 
@@ -52,10 +44,7 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 	private final Color DEFAULT_BACKGROUND = new Color(253, 253, 253);
 	private JLabel lblKundvagn;
 	private MainController mainController;
-
 	
-	
-
 	/**
 	 * Create the panel.
 	 * @param mainController 
@@ -93,6 +82,7 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		addToCartButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		addToCartButton.setText("L\u00E4gg till fr\u00E5n ink\u00F6pslista");
 		toCounterButton = new JButton("Till kassa");
+		toCounterButton.setEnabled(false);
 		toCounterButton.addActionListener(new CheckoutButtonListener());
 		
 		this.saveProductListButton = new JButton("Spara Varukorg");
@@ -242,6 +232,10 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		add(shoppingcartIconButton);
 		add(minimizeLabelButton);
 		add(listButton);
+		
+		updateSummary();
+		updateItemList();
+		updateBottomButtons();
 	}
 
 	private void updateSummary() {
@@ -262,14 +256,16 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent evt) {
 		updateSummary();
 		updateItemList();
-		updateSaveToListButton();
+		updateBottomButtons();
 	}
 
-	private void updateSaveToListButton() {
+	private void updateBottomButtons() {
 		if(model.getItems() == null || model.getItems().isEmpty()) {
 			saveProductListButton.setEnabled(false);
+			toCounterButton.setEnabled(false);
 		} else {
 			saveProductListButton.setEnabled(true);
+			toCounterButton.setEnabled(true);
 		}
 	}
 

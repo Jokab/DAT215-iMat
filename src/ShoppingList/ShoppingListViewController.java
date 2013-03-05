@@ -6,9 +6,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+
 import javax.swing.JPanel;
 import core.MainController;
 import core.ViewController;
@@ -43,13 +46,21 @@ public class ShoppingListViewController implements ViewController,
 
 		handler.readLists();
 		Set<ShoppingList> lists = handler.getShoppingLists();
+		List<ShoppingList> sortedList = sortSetAsList(lists);
 
-		for (ShoppingList l : lists) {
+		for (ShoppingList l : sortedList) {
 			ShoppingListEntry entry = new ShoppingListEntry(l);
 			entry.addEntryMouseListener(new EntryClickedListener());
 			view.getPanel().add(entry);
 		}
 		view.getPanel().revalidate();
+	}
+	
+	private List<ShoppingList> sortSetAsList(Set<ShoppingList> set) {
+		List<ShoppingList> listsList = new LinkedList<ShoppingList>();
+		listsList.addAll(set);
+		Collections.sort(listsList, new OrderShoppingListsAlphabetically());
+		return listsList;
 	}
 
 	private class EntryClickedListener implements MouseListener {

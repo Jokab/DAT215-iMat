@@ -27,7 +27,6 @@ public class OrderListView extends JPanel {
 	private final JPanel rightPanel = new JPanel();
 	private final JPanel panel_2 = new JPanel();
 	private final JLabel headerLabel = new JLabel("Orderhistorik");
-	private final JButton removeListButton = new JButton(new ImageIcon("img/deleteShoppingListButton.png"));
 	private final JScrollPane scrollPane = new JScrollPane();
 	private final JLabel listNameLabel = new JLabel();
 	private final JButton addToCartButton = new JButton(new ImageIcon("img/addShoppingListToCartButton.png"));
@@ -61,12 +60,10 @@ public class OrderListView extends JPanel {
 				.addGroup(gl_rightPanel.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(listNameLabel, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(299, Short.MAX_VALUE))
-				.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+					.addContainerGap(301, Short.MAX_VALUE))
+				.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
 				.addGroup(gl_rightPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(removeListButton, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-					.addGap(194)
+					.addGap(278)
 					.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
 					.addContainerGap())
 		);
@@ -77,14 +74,9 @@ public class OrderListView extends JPanel {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_rightPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_rightPanel.createSequentialGroup()
-							.addComponent(removeListButton, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-							.addGap(11))
-						.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)))
+					.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+					.addContainerGap())
 		);
-		removeListButton.setBorder(null);
-		removeListButton.setContentAreaFilled(false);
 		addToCartButton.setContentAreaFilled(false);
 		addToCartButton.setBorder(null);
 		
@@ -146,15 +138,14 @@ public class OrderListView extends JPanel {
 		rightPanel.setVisible(true);
 	}
 	
-	public void addRemoveButtonActionListener(ActionListener listener) {
-		removeListButton.addActionListener(listener);
-	}
 
 	public void addNewAddToCartButtonListener(ActionListener l) {
 		addToCartButton.addActionListener(l);
 	}
-	
-	public JButton getRemoveButton() {
-		return this.removeListButton;
+	public JPanel getRightPanel() {
+		return rightPanel;
+	}
+	public JButton getAddToCartButton() {
+		return addToCartButton;
 	}
 }

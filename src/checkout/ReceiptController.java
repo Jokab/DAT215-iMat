@@ -2,6 +2,10 @@ package checkout;
 
 import javax.swing.JPanel;
 
+import se.chalmers.ait.dat215.project.IMatDataHandler;
+import shoppingCart.SaveAsShoppingListPopUpController;
+import shoppingCart.ShoppingCartAdapter;
+
 import ShoppingList.PopupControllerNew;
 import ShoppingList.PopupControllerSave;
 
@@ -16,6 +20,8 @@ public class ReceiptController implements ViewController {
 	private ReceiptPanel view;
 	private CheckoutEnum nextController = CheckoutEnum.RECEIPT;
 	private MainController mainController;
+	private static final ShoppingCartAdapter cart = ShoppingCartAdapter.getInstance();
+	private static final IMatDataHandler dm = IMatDataHandler.getInstance();
 
 	public ReceiptController(MainController mainController) {
 		this.mainController = mainController;
@@ -28,15 +34,17 @@ public class ReceiptController implements ViewController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			PopupControllerNew popup = new PopupControllerNew(mainController);
+			SaveAsShoppingListPopUpController popup = new SaveAsShoppingListPopUpController(mainController);
 		}
 	}
-
+		
 	private class DoneButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			mainController.initPreviousController();
+			dm.placeOrder();
+			cart.clear();
+			mainController.initFrontPageController();
 		}
 	}
 
