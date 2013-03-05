@@ -82,7 +82,7 @@ public class MenuController {
 	private class MyAccountButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			controller.initOrderHistoryController();
+			controller.initMyInfoController();
 		}
 	}
 	private class ShoppingListButtonListener implements ActionListener {

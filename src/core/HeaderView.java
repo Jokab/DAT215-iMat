@@ -32,7 +32,7 @@ import javax.swing.SwingConstants;
 
 
 public class HeaderView extends JPanel {
-	private final JLabel logoPanel = new JLabel();
+	private final JButton logoButton = new JButton();
 	private SubmenuPanel submenuPanel = new SubmenuPanel();
 	private final JPanel menuPanelWrapper = new JPanel();
 	private final JPanel submenuPanelWrapper = new JPanel();
@@ -48,21 +48,15 @@ public class HeaderView extends JPanel {
 	public HeaderView() {
 		setOpaque(false);
 		setBackground(Color.white);		
-		logoPanel.setHorizontalAlignment(SwingConstants.LEFT);
-		
-		// To fix click and drag issue
-		logoPanel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				e.consume();
-			}
-		});
+		logoButton.setContentAreaFilled(false);
+		logoButton.setBorder(null);
+		logoButton.setHorizontalAlignment(SwingConstants.LEFT);
 
 		// Set logo image
-		logoPanel.setIcon(new ImageIcon("img/logo.png"));
-		logoPanel.setMinimumSize(new Dimension(259, 50));
-		logoPanel.setMaximumSize(new Dimension(259, 50));
-		logoPanel.setSize(new Dimension(259, 50));
+		logoButton.setIcon(new ImageIcon("img/logo.png"));
+		logoButton.setMinimumSize(new Dimension(259, 50));
+		logoButton.setMaximumSize(new Dimension(259, 50));
+		logoButton.setSize(new Dimension(259, 50));
 		
 		JLabel lblNewLabel = new JLabel(new ImageIcon("img/greenSquare.png"));
 		
@@ -92,7 +86,7 @@ public class HeaderView extends JPanel {
 							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
 							.addGap(38)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE)
+								.addComponent(logoButton, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE)
 								.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
 							.addGap(75)))
 					.addContainerGap())
@@ -117,7 +111,7 @@ public class HeaderView extends JPanel {
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(logoPanel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)))
+									.addComponent(logoButton, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(menuPanelWrapper, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED))
@@ -164,6 +158,10 @@ public class HeaderView extends JPanel {
 	
 	public void addBackButtonListener(ActionListener l) {
 		backButton.addActionListener(l);
+	}
+	
+	public void addHomeButtonListener(ActionListener l) {
+		logoButton.addActionListener(l);
 	}
 	
 	public void setEnableBackButton(boolean value) {

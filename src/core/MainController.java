@@ -27,6 +27,7 @@ import search.SearchViewController;
 import menu.MenuController;
 import myAccount.MyAccountController;
 import myAccount.MyAccountEnum;
+import myProfile.MyInfoController;
 
 /**
  * The main controller of the application. Initializes the standard controllers
@@ -53,6 +54,9 @@ public class MainController {
 		this.mainView.addBackButtonListener(new BackButtonListener());
 		new MenuController(mainView.getHeaderView(), this);
 		new SearchController(mainView.getSearchBar(), mainView.getAutoCompleteContainer(), this);
+		this.mainView.getHeaderView().addHomeButtonListener(new HomeButtonListener());
+		
+		switchController(new FrontPageController(this));
 	}
 	
 	/**
@@ -130,7 +134,11 @@ public class MainController {
 	}
 	
 	public void initFrontPageController() {
-		switchController(new FrontPageController());
+		switchController(new FrontPageController(this));
+	}
+	
+	public void initMyInfoController() {
+		switchController(new MyInfoController());
 	}
 	
 	public void initPreviousController() {
@@ -212,6 +220,15 @@ public class MainController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			initPreviousController();
+		}
+		
+	}
+	
+	private class HomeButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			initFrontPageController();
 		}
 		
 	}

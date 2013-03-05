@@ -29,7 +29,6 @@ public class ProductView extends JPanel {
 	public ProductView(final Product product) {
 		setOpaque(false); 
 		IMatDataHandler dataHandler = IMatDataHandler.getInstance();
-		
 		setMaximumSize(new Dimension(800, 150));
 		setPreferredSize(new Dimension(628, 110));
 		setSize(new Dimension(800, 150));

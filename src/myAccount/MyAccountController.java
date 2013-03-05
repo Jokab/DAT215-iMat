@@ -49,7 +49,7 @@ public class MyAccountController implements ViewController {
 			} else if(e.getSource() == sidePanel.getShoppingLists()) {
 				mainController.initShoppingListController();
 			} else if(e.getSource() == sidePanel.getSettings()) {
-				
+				mainController.initMyInfoController();
 			}
 		}
 
