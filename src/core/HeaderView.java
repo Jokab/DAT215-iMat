@@ -190,6 +190,5 @@ public class HeaderView extends JPanel {
 		public void mouseExited(MouseEvent e) {
 			((MenuButton) e.getSource()).toggle();
 		}
-		
 	}
 }

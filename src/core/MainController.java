@@ -102,7 +102,7 @@ public class MainController {
 	 * <code>MyAccountController</code> to get a side panel for my account.
 	 */
 	public void initShoppingListController() {
-		switchController(new MyAccountController(new ShoppingListViewController(this), MyAccountEnum.SHOPPINGLISTS));
+		switchController(new MyAccountController(new ShoppingListViewController(this), MyAccountEnum.SHOPPINGLISTS, this));
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class MainController {
 	 * <code>MyAccountController</code> to get a side panel for my account.
 	 */
 	public void initOrderHistoryController() {
-		switchController(new MyAccountController(new OrderViewController(), MyAccountEnum.ORDERHISTORY));
+		switchController(new MyAccountController(new OrderViewController(), MyAccountEnum.ORDERHISTORY, this));
 	}	
 	
 	public void initSearchViewController(String searchString) {
