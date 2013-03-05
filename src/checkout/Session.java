@@ -3,9 +3,7 @@ package checkout;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import se.chalmers.ait.dat215.project.CreditCard;
@@ -61,7 +59,7 @@ public class Session {
 			customer.setPostAddress(this.getValue("address"));
 			customer.setPostCode(this.getValue("zipcode"));
 			customer.setPhoneNumber(this.getValue("phonenumber"));
-			creditCard.setCardType((String) this.getValue("cardtype"));
+			creditCard.setCardType(this.getValue("cardtype"));
 			creditCard.setCardNumber(this.getValue("cardnumber"));
 			creditCard.setValidMonth(Integer.parseInt(this.getValue("validmonth")));
 			creditCard.setValidYear(Integer.parseInt(this.getValue("validyear")));

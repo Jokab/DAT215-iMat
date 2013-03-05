@@ -1,13 +1,11 @@
 package order;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import se.chalmers.ait.dat215.project.Order;
 import se.chalmers.ait.dat215.project.ShoppingItem;
-import sun.io.Converters;
 
 public class OrderUtil {
 

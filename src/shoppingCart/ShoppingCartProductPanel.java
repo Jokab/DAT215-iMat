@@ -6,22 +6,15 @@ import se.chalmers.ait.dat215.project.ShoppingItem;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.JButton;
-import javax.swing.border.EmptyBorder;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class ShoppingCartProductPanel extends JPanel {
 
@@ -70,6 +63,7 @@ public class ShoppingCartProductPanel extends JPanel {
 			public void mouseEntered(MouseEvent e) {
 				buttonPanel.getParent().getMouseListeners()[0].mouseEntered(e);
 			}
+			@Override
 			public void mouseExited(MouseEvent e) {
 				
 			}
@@ -105,6 +99,7 @@ public class ShoppingCartProductPanel extends JPanel {
 			public void mouseEntered(MouseEvent e) {
 				buttonPanel.setVisible(true);
 			}
+			@Override
 			public void mouseExited(MouseEvent e) {
 				buttonPanel.setVisible(false);
 			}

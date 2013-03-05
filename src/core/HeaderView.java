@@ -1,14 +1,11 @@
 package core;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import java.awt.Font;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -16,17 +13,10 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Dimension;
-import java.awt.Cursor;
-import java.awt.Insets;
-import javax.swing.border.LineBorder;
-
-import menu.MenuPanel;
 import menu.SubmenuPanel;
 
 import java.awt.GridLayout;
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.util.Timer;
 import menu.MenuButton;
 import javax.swing.SwingConstants;
 

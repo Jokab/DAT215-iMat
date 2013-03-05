@@ -1,8 +1,6 @@
 package productView;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -23,6 +21,7 @@ public class ProductAddToListButton extends JButton {
 		setForeground(NORMAL_TEXT_COLOR);
 		setIcon(new ImageIcon("img/popup_icon.gif"));
 		addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 			}
 		});

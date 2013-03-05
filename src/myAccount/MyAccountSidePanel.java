@@ -2,22 +2,17 @@ package myAccount;
 
 import javax.swing.GroupLayout;
 import javax.swing.JPanel;
-import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import java.awt.Container;
 import javax.swing.JLabel;
 
 import components.SidePanelButton;
 
-import productView.ProductSidePanelButton;
 import java.awt.Dimension;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
 public class MyAccountSidePanel extends JPanel {
@@ -31,7 +26,7 @@ public class MyAccountSidePanel extends JPanel {
 	 * Create the panel.
 	 */
 	public MyAccountSidePanel(MyAccountEnum activeController) {
-		setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(225, 225, 225)));
+		setBorder(new MatteBorder(0, 0, 0, 1, new Color(225, 225, 225)));
 		setOpaque(false);
 		setSize(new Dimension(170, 400));
 		setPreferredSize(new Dimension(162, 363));

@@ -1,25 +1,16 @@
 package checkout;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JSlider;
-import java.awt.Component;
-import javax.swing.Box;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
-import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 
-import se.chalmers.ait.dat215.project.CreditCard;
-import se.chalmers.ait.dat215.project.Customer;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.ShoppingCart;
 
@@ -42,7 +33,6 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
-import net.sourceforge.jdatepicker.DateModel;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -122,6 +112,7 @@ public class InformationPanel extends JPanel {
 		dateModel = new UtilDateModel();
 		final JDatePanelImpl deliveryDateChooser = new JDatePanelImpl(dateModel);
 		deliveryDateChooser.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				session.put("deliveryday", "" + dateModel.getDay());
 				session.put("deliverymonth", "" + dateModel.getMonth());
@@ -398,6 +389,7 @@ public class InformationPanel extends JPanel {
 		CardTypeBox.setSelectedIndex(index);
 		CardTypeBox.setFont(new Font("Georgia", Font.PLAIN, 13));
 		CardTypeBox.addFocusListener(new FocusAdapter() {
+			@Override
 			public void focusLost(FocusEvent e){
 				session.put("cardtype", (String) CardTypeBox.getSelectedItem());
 			}
@@ -407,6 +399,7 @@ public class InformationPanel extends JPanel {
 		BeginVerificationButton.setForeground(SELECTED_TEXT_COLOR);
 		BeginVerificationButton.setBackground(SELECTED_BG_COLOR);
 		BeginVerificationButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				((InformationPanel) BeginVerificationButton.getParent()).displayErrorMessage();
 			}
@@ -458,6 +451,7 @@ public class InformationPanel extends JPanel {
 			CCVField.setText("nnn");
 		}
 		CCVField.addFocusListener(new FocusAdapter() {
+			@Override
 			public void focusLost(FocusEvent e){
 				session.put("ccv", CCVField.getText());
 				if(session.getErrorMessages().get("ccv")){
@@ -483,6 +477,7 @@ public class InformationPanel extends JPanel {
 		PhoneNumberField.setToolTipText("Ditt telefonnummer p\u00E5 valfritt format.");
 		PhoneNumberField.setText(session.getValue("phonenumber"));
 		PhoneNumberField.addFocusListener(new FocusAdapter() {
+			@Override
 			public void focusLost(FocusEvent e){
 				session.put("phonenumber", PhoneNumberField.getText());
 				if(session.getErrorMessages().get("phonenumber")){
@@ -496,12 +491,14 @@ public class InformationPanel extends JPanel {
 		EmailField = new JTextField(session.getValue("email"));
 		EmailField.setColumns(10);
 		EmailField.addFocusListener(new FocusAdapter() {
+			@Override
 			public void focusLost(FocusEvent e){
 				session.put("email", EmailField.getText());
 			}
 		});
 		
 		saveMyInfoBox.addItemListener(new ItemListener() {
+			@Override
 			public void itemStateChanged(ItemEvent e) {
 				session.setSaveInfo(e.getStateChange() == ItemEvent.SELECTED);
 			}

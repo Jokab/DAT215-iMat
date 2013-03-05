@@ -21,19 +21,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import core.MainController;
 import core.ViewController;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.Product;
 import se.chalmers.ait.dat215.project.ProductCategory;
 import se.chalmers.ait.dat215.project.ShoppingItem;
-import ProductSearch.ProductSearch;
 import ShoppingList.PopupControllerSave;
 import ShoppingList.ShoppingList;
 import ShoppingList.ShoppingListHandler;
-import ShoppingList.ShoppingListPopupSave;
 
 /**
  * A class for controlling the ProductListView, which holds and shows Products
@@ -158,6 +154,7 @@ public class ProductListController implements ViewController,
 			}
 		}
 
+		@Override
 		public void mouseExited(MouseEvent evt) {
 			if (pView.contains(evt.getPoint())) {
 				evt.consume();
@@ -191,6 +188,7 @@ public class ProductListController implements ViewController,
 			this.pView = pView;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (dataHandler.isFavorite(product)) {
 				ImageIcon starIcon = new ImageIcon("img/starUnfilled.png");

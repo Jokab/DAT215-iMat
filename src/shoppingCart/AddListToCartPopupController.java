@@ -8,17 +8,10 @@ import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
-
-import se.chalmers.ait.dat215.project.Product;
-import se.chalmers.ait.dat215.project.ShoppingItem;
 import core.MainController;
-import core.ViewController;
-
 import ShoppingList.PopupListEntry;
 import ShoppingList.ShoppingList;
 import ShoppingList.ShoppingListHandler;

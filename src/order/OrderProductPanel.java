@@ -4,26 +4,15 @@ import javax.swing.JPanel;
 
 import se.chalmers.ait.dat215.project.ShoppingItem;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.JButton;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class OrderProductPanel extends JPanel {
 
@@ -48,7 +37,7 @@ public class OrderProductPanel extends JPanel {
 		setPreferredSize(new Dimension(446, 38));
 		setMaximumSize(new Dimension(460, 38));
 		setMinimumSize(new Dimension(460, 38));
-		setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(225, 225, 225)));
+		setBorder(new MatteBorder(0, 0, 1, 0, new Color(225, 225, 225)));
 		
 		double amount = this.item.getAmount();
 		amountLabel = new JLabel(amount + " " + this.item.getProduct().getUnit().substring(3));

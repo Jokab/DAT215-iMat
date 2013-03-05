@@ -8,20 +8,16 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowListener;
 
-import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -108,6 +104,7 @@ public class MainView extends JFrame {
 		windowbuttonsPanel.setLayout(new BorderLayout(7, 0));
 		
 		minimizeButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				setState(Frame.ICONIFIED);
 			}
@@ -120,6 +117,7 @@ public class MainView extends JFrame {
 		windowbuttonsPanel.add(minimizeButton, BorderLayout.WEST);
 		
 		maximizeButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				setExtendedState(Frame.MAXIMIZED_BOTH);
 			}
@@ -132,6 +130,7 @@ public class MainView extends JFrame {
 		windowbuttonsPanel.add(maximizeButton, BorderLayout.CENTER);
 		
 		exitButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				shutDown();
 				System.exit(NORMAL);
@@ -173,6 +172,7 @@ public class MainView extends JFrame {
 		
 		// Popup: Manipulate program to first paint other components behind JPanel and then the JPanel
 		popupBgPanel = new JPanel() {
+			@Override
 			protected void paintComponent(Graphics g)
 		    {
 		        g.setColor( getBackground() );
@@ -188,12 +188,14 @@ public class MainView extends JFrame {
 		
 		// Handle positioning of window
 		headerView.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mousePressed(MouseEvent e) {
 				xPosition = e.getX();
 				yPosition = e.getY();
 			}
 		});
 		headerView.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
 			public void mouseDragged(MouseEvent e) {
 				setLocation(getLocation().x + (e.getX() - xPosition),
 						getLocation().y + (e.getY() - yPosition));

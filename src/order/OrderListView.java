@@ -4,12 +4,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JSeparator;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.SwingConstants;
-
-import java.awt.Component;
-import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -46,9 +41,9 @@ public class OrderListView extends JPanel {
 		setBackground(Color.WHITE);
 		listNameLabel.setFont(new Font("Calibri", Font.PLAIN, 18));
 		listNameLabel.setForeground(new Color(150, 150 ,150));
-		panel.setBorder(new MatteBorder(0, 0, 0, 2, (Color) new Color(225, 225, 225)));
+		panel.setBorder(new MatteBorder(0, 0, 0, 2, new Color(225, 225, 225)));
 		panel.setBackground(Color.WHITE);
-		rightPanel.setBorder(new MatteBorder(0, 0, 0, 1, (Color) new Color(225, 225, 225)));
+		rightPanel.setBorder(new MatteBorder(0, 0, 0, 1, new Color(225, 225, 225)));
 		rightPanel.setOpaque(false);
 		rightPanel.setVisible(false);
 		

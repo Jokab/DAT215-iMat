@@ -2,12 +2,9 @@ package myProfile;
 
 import javax.swing.JPanel;
 
-import checkout.Session;
-
 import se.chalmers.ait.dat215.project.CreditCard;
 import se.chalmers.ait.dat215.project.Customer;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
-import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -27,9 +24,6 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
@@ -296,6 +290,7 @@ public class MyInfoPanel extends JPanel {
 		
 		JButton saveButton = new JButton("Spara");
 		saveButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				saveData();
 			}
@@ -303,6 +298,7 @@ public class MyInfoPanel extends JPanel {
 		
 		JButton btnAvbryt = new JButton("Avbryt");
 		btnAvbryt.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO: Go back in history
 			}

@@ -1,17 +1,9 @@
 package ShoppingList;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.SwingConstants;
 import java.awt.Dimension;
 import javax.swing.border.EmptyBorder;
@@ -44,6 +36,7 @@ public class PopupListEntry extends JButton {
 		return this.list;
 	}
 	
+	@Override
 	public String getName() {
 		return this.name;
 	}

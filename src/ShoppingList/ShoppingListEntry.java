@@ -1,17 +1,9 @@
 package ShoppingList;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import java.awt.Component;
-import javax.swing.Box;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import java.awt.event.MouseListener;
 import java.awt.Font;
@@ -39,7 +31,7 @@ public class ShoppingListEntry extends JPanel {
 	public ShoppingListEntry(ShoppingList list) {
 		setBackground(NORMAL_BG_COLOR);
 		setMaximumSize(new Dimension(32767, 50));
-		setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(225, 225, 225)));
+		setBorder(new MatteBorder(0, 0, 1, 0, new Color(225, 225, 225)));
 		this.list = list;
 		
 		shoppingInfoLabel = new ShoppingListEntryInfo(list);
@@ -67,7 +59,7 @@ public class ShoppingListEntry extends JPanel {
 		return this.list;
 	}
 	public ShoppingListEntryInfo getInfoPanel() {
-		return (ShoppingListEntryInfo)this.shoppingInfoLabel;
+		return this.shoppingInfoLabel;
 	}
 	
 	/**

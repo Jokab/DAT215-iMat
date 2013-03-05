@@ -34,9 +34,8 @@ public class ProductView extends JPanel {
 		setMaximumSize(new Dimension(800, 150));
 		setPreferredSize(new Dimension(628, 110));
 		setSize(new Dimension(800, 150));
-		setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(225, 225, 225)));
+		setBorder(new MatteBorder(0, 0, 1, 0, new Color(225, 225, 225)));
 		setMinimumSize(new Dimension(800, 150));
-		/* Adding the image */
 		
 		JLabel productPic = new JLabel();
 		productPic.setBounds(20, 16, 80, 80);
@@ -79,6 +78,7 @@ public class ProductView extends JPanel {
 		buyButton.setBorder(null);
 		buyButton.setBounds(540, 39, 46, 25);
 		buyButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				ShoppingCartAdapter.getInstance().addProduct(product, productAmountPanel.getAmount());
 			}
@@ -86,8 +86,6 @@ public class ProductView extends JPanel {
 		
 		productAddToListBtn.setVisible(false);
 		ImageIcon starIcon;
-		
-
 		
 		starButton = new JButton();
 		starButton.setContentAreaFilled(false);
@@ -102,7 +100,6 @@ public class ProductView extends JPanel {
 			starButton.setVisible(false);
 		}
 		starButton.setIcon(starIcon);
-		
 
 		setLayout(null);
 		add(productPic);
@@ -119,9 +116,6 @@ public class ProductView extends JPanel {
 		
 		add(productAddToListBtn);
 	
-		
-		/* The hover effect */
-		
 	}
 	
 	public void addViewMouseListener(MouseListener listener) {
