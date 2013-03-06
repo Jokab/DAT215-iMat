@@ -21,6 +21,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import javax.swing.SwingConstants;
 import java.awt.Component;
+import javax.swing.border.LineBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.UIManager;
+import javax.swing.BoxLayout;
 
 public class ReceiptPanel extends JPanel {
 	private JPanel contentPanel;
@@ -34,7 +38,6 @@ public class ReceiptPanel extends JPanel {
 	public ReceiptPanel() {
 		setOpaque(false);
 		contentPanel = new JPanel();
-		contentPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 		Session session = Session.getInstance();
 		ShoppingCart shoppingCart = dataHandler.getShoppingCart();
@@ -45,7 +48,7 @@ public class ReceiptPanel extends JPanel {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
-		JLabel thanksLabel = new JLabel("Tack f\u00F6r din best\u00E4llning!");
+		JLabel thanksLabel = new JLabel("Tack för din beställning!");
 		thanksLabel.setFont(DEFAULT_FONT);
 		thanksLabel.setForeground(DEFAULT_COLOR);
 		
@@ -65,15 +68,14 @@ public class ReceiptPanel extends JPanel {
 		addressLabel.setFont(DEFAULT_FONT);
 		addressLabel.setForeground(DEFAULT_COLOR);
 		
-		doneButton = new JButton("SlutfÃ¶r");
+		doneButton = new JButton("Tillbaka till startsidan");
 		doneButton.setBackground(SELECTED_BG_COLOR);
 		doneButton.setForeground(SELECTED_TEXT_COLOR);
 		
-		saveToListButton = new JButton("Spara handlingslista");
-		saveToListButton.setBorder(null);
+		saveToListButton = new JButton("Spara som inköpslista");
+		saveToListButton.setBorder(UIManager.getBorder("Button.border"));
 		saveToListButton.setContentAreaFilled(false);
 		saveToListButton.setForeground(DEFAULT_COLOR);
-		saveToListButton.setIcon(new ImageIcon("img/popup_icon.gif"));
 		
 		JLabel deliveryDateLabel = new JLabel("Leveransdatum: " + session.getValue("deliveryday") +"/"+ (Integer.parseInt(session.getValue("deliverymonth"))+1) + " - " + session.getValue("deliveryyear"));
 		deliveryDateLabel.setFont(DEFAULT_FONT);
@@ -83,9 +85,9 @@ public class ReceiptPanel extends JPanel {
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 									.addComponent(nameLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -94,13 +96,15 @@ public class ReceiptPanel extends JPanel {
 									.addComponent(cardNumberLabel))
 								.addComponent(deliveryDateLabel, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(thanksLabel)))
-						.addComponent(saveToListButton, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE))
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(scrollPane, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(thanksLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(244)
+							.addComponent(saveToListButton, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)))
 					.addGap(18)
 					.addComponent(doneButton)
-					.addContainerGap(381, Short.MAX_VALUE))
+					.addContainerGap(321, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -132,6 +136,7 @@ public class ReceiptPanel extends JPanel {
 		
 		
 		scrollPane.setViewportView(contentPanel);
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.PAGE_AXIS));
 		
 		setLayout(groupLayout);
 		

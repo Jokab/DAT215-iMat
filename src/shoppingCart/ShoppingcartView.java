@@ -91,7 +91,7 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		addToCartButton.setFont(DEFAULT_FONT);
 		addToCartButton.setBackground(DEFAULT_BACKGROUND);
 		addToCartButton.setForeground(Color.BLACK);
-		addToCartButton.setText("L\u00E4gg till fr\u00E5n ink\u00F6pslista");
+		addToCartButton.setText("L\u00E4gg till ink\u00F6pslista");
 		
 		toCounterButton = new JButton("Till kassa");
 		toCounterButton.setEnabled(false);
@@ -100,8 +100,8 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		toCounterButton.setBackground(SELECTED_BG_COLOR);
 		toCounterButton.setForeground(Color.black);
 
-		this.saveProductListButton = new JButton("Spara inköpslista");
-		saveProductListButton.setFont(new Font("Calibri", Font.PLAIN, 11));
+		this.saveProductListButton = new JButton("Spara");
+		saveProductListButton.setFont(new Font("Calibri", Font.PLAIN, 12));
 		saveProductListButton.setBackground(DEFAULT_BACKGROUND);
 		saveProductListButton.setForeground(Color.BLACK);
 		saveProductListButton.setEnabled(false);
@@ -109,26 +109,23 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 				.addActionListener(new SaveProductButtonListener());
 
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(gl_contentPanel
-				.createParallelGroup(Alignment.LEADING)
-				.addComponent(optionPanel, GroupLayout.DEFAULT_SIZE, 220,
-						Short.MAX_VALUE)
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 220,
-						Short.MAX_VALUE)
-				.addComponent(summaryPanel, GroupLayout.DEFAULT_SIZE, 220,
-						Short.MAX_VALUE));
-		gl_contentPanel.setVerticalGroup(gl_contentPanel.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				gl_contentPanel
-						.createSequentialGroup()
-						.addComponent(summaryPanel, GroupLayout.PREFERRED_SIZE,
-								124, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE,
-								471, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(optionPanel, GroupLayout.DEFAULT_SIZE,
-								113, Short.MAX_VALUE)));
+		gl_contentPanel.setHorizontalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+				.addComponent(summaryPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addComponent(optionPanel, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(20, Short.MAX_VALUE))
+		);
+		gl_contentPanel.setVerticalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addComponent(summaryPanel, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 471, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(optionPanel, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
+		);
 
 		// Components in summaryPanel
 		totalPriceLabel = new JLabel("0");
@@ -169,14 +166,14 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		GroupLayout gl_optionPanel = new GroupLayout(optionPanel);
 		gl_optionPanel.setHorizontalGroup(
 			gl_optionPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_optionPanel.createSequentialGroup()
+				.addGroup(Alignment.LEADING, gl_optionPanel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_optionPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+					.addGroup(gl_optionPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
 						.addGroup(gl_optionPanel.createSequentialGroup()
-							.addComponent(saveProductListButton, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(toCounterButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(saveProductListButton)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(toCounterButton, GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		gl_optionPanel.setVerticalGroup(

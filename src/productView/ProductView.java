@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseListener;
 import javax.swing.border.MatteBorder;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 
 public class ProductView extends JPanel {
@@ -82,13 +83,16 @@ public class ProductView extends JPanel {
 				ShoppingCartAdapter.getInstance().addProduct(product, productAmountPanel.getAmount());
 			}
 		});
+		productAddToListBtn.setBorder(UIManager.getBorder("Button.border"));
+		productAddToListBtn.setHorizontalAlignment(SwingConstants.CENTER);
+		productAddToListBtn.setFont(new Font("Calibri", Font.PLAIN, 12));
 		
 		productAddToListBtn.setVisible(false);
 		ImageIcon starIcon;
 		
 		starButton = new JButton();
 		starButton.setContentAreaFilled(false);
-		starButton.setBounds(594, 5, 30, 32);
+		starButton.setBounds(594, 1, 30, 32);
 		starButton.setBorder(null);
 		
 		if(dataHandler.isFavorite(product)) {
@@ -111,7 +115,7 @@ public class ProductView extends JPanel {
 		add(buyButton);
 		add(productUnit);
 		productAddToListBtn.setOpaque(false);
-		productAddToListBtn.setBounds(395, 5, 173, 25);
+		productAddToListBtn.setBounds(425, 5, 159, 25);
 		
 		add(productAddToListBtn);
 	

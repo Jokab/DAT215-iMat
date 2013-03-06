@@ -156,12 +156,12 @@ public class InformationPanel extends JPanel {
 		CardNumberLabel.setForeground(DEFAULT_COLOR);
 		
 		CCVLabel = new JLabel("CCV:");
-		CCVLabel.setToolTipText("De tre sista siffrorna i koden som st\u00E5r p\u00E5 baksidan av ditt kreditkort");
+		CCVLabel.setToolTipText("De tre sista siffrorna i koden som står på baksidan av ditt kreditkort");
 		CCVLabel.setFont(DEFAULT_FONT);
 		CCVLabel.setForeground(DEFAULT_COLOR);
 		
 		ValidThroughLabel = new JLabel("Giltligt till:");
-		ValidThroughLabel.setToolTipText("M\u00E5nad och \u00E5r d\u00E5 ditt kreditkort g\u00E5r ut. Anges p\u00E5 formatet mm/\u00E5\u00E5 eller mm/\u00E5\u00E5\u00E5\u00E5");
+		ValidThroughLabel.setToolTipText("Månad och år då ditt kreditkort går ut. Anges på formatet MM/åå eller MM/åååå");
 		ValidThroughLabel.setFont(DEFAULT_FONT);
 		ValidThroughLabel.setForeground(DEFAULT_COLOR);
 		
@@ -292,7 +292,7 @@ public class InformationPanel extends JPanel {
 
 			}
 		});
-		MonthField.setToolTipText("M\u00E5nad och \u00E5r d\u00E5 ditt kreditkort g\u00E5r ut. Anges p\u00E5 formatet mm/\u00E5\u00E5 eller mm/\u00E5\u00E5\u00E5\u00E5");
+		MonthField.setToolTipText("Månad och år då ditt kreditkort går ut. Anges på formatet MM/åå eller MM/åååå");
 		MonthField.setText(session.getValue("validmonth"));
 		if(MonthField.getText().length()==0){
 			MonthField.setText("mm");
@@ -356,11 +356,11 @@ public class InformationPanel extends JPanel {
 		});
 		
 		JLabel label = new JLabel("/");
-		label.setToolTipText("M\u00E5nad och \u00E5r d\u00E5 ditt kreditkort g\u00E5r ut. Anges p\u00E5 formatet mm/\u00E5\u00E5 eller mm/\u00E5\u00E5\u00E5\u00E5");
+		label.setToolTipText("Månad och år då ditt kreditkort går ut. Anges på formatet MM/åå eller MM/åååå");
 		label.setFont(new Font("Georgia", Font.BOLD, 15));
 		
 		YearField = new JFormattedTextField(yearFormat);
-		YearField.setToolTipText("M\u00E5nad och \u00E5r d\u00E5 ditt kreditkort g\u00E5r ut. Anges p\u00E5 formatet mm/\u00E5\u00E5 eller mm/\u00E5\u00E5\u00E5\u00E5");
+		YearField.setToolTipText("Månad och år då ditt kreditkort går ut. Anges på formatet MM/åå eller MM/åååå");
 		YearField.setText(session.getValue("validyear"));
 		if(YearField.getText().length()==0){
 			YearField.setText("ï¿½ï¿½ï¿½ï¿½");
@@ -424,7 +424,7 @@ public class InformationPanel extends JPanel {
 			}
 		});
 		
-		BeginVerificationButton = new JButton("NÃ¤sta");
+		BeginVerificationButton = new JButton("Nästa");
 		BeginVerificationButton.setForeground(SELECTED_TEXT_COLOR);
 		BeginVerificationButton.setBackground(SELECTED_BG_COLOR);
 		BeginVerificationButton.addActionListener(new ActionListener() {
@@ -469,7 +469,7 @@ public class InformationPanel extends JPanel {
 
 			}
 		});
-		CCVField.setToolTipText("De tre sista siffrorna i koden som st\u00E5r p\u00E5 baksidan av ditt kreditkort");
+		CCVField.setToolTipText("De tre sista siffrorna i koden som står på baksidan av ditt kreditkort");
 		CCVField.setText(session.getValue("ccv"));
 		if(CCVField.getText().length()==0){
 			CCVField.setText("nnn");
@@ -488,7 +488,7 @@ public class InformationPanel extends JPanel {
 		});
 		
 		PhoneNumberLabel = new JLabel("Telefonnummer:");
-		PhoneNumberLabel.setToolTipText("Ditt telefonnummer p\u00E5 valfritt format.");
+		PhoneNumberLabel.setToolTipText("Ditt telefonnummer på valfritt format.");
 		PhoneNumberLabel.setFont(DEFAULT_FONT);
 		PhoneNumberLabel.setForeground(DEFAULT_COLOR);
 		
@@ -498,7 +498,7 @@ public class InformationPanel extends JPanel {
 		EmailLabel.setForeground(DEFAULT_COLOR);
 		
 		PhoneNumberField = new JFormattedTextField();
-		PhoneNumberField.setToolTipText("Ditt telefonnummer p\u00E5 valfritt format.");
+		PhoneNumberField.setToolTipText("Ditt telefonnummer på valfritt format.");
 		PhoneNumberField.setText(session.getValue("phonenumber"));
 		PhoneNumberField.addFocusListener(new FocusAdapter() {
 			@Override
@@ -684,7 +684,7 @@ public class InformationPanel extends JPanel {
 		Map<String,Boolean> errors = session.getErrorMessages();
 		Set<String> keys = errors.keySet();
 		
-		errorLabel.setText("<html><body>Var vï¿½nlig se ï¿½ver fï¿½ljande information:<br>");
+		errorLabel.setText("<html><body>Var vänlig se över följande information:<br>");
 		errorLabel.setVisible(!session.infoIsOk());
 		
 		Iterator i =keys.iterator();
@@ -693,7 +693,7 @@ public class InformationPanel extends JPanel {
 			// TODO switch case, 
 			if(errors.get(temp)){
 				switch(temp){
-				case("firstname"): temp = "Fï¿½rnamn"; FirstNameLabel.setForeground(Color.RED); break;
+				case("firstname"): temp = "Förnamn"; FirstNameLabel.setForeground(Color.RED); break;
 				case("lastname"): temp = "Efternamn"; LastNameLabel.setForeground(Color.RED); break;
 				case("address"): temp = "Address"; AdressLabel.setForeground(Color.RED);break;
 				case("cardnumber"): temp = "Kortnummer"; CardNumberLabel.setForeground(Color.RED); break;

@@ -19,14 +19,13 @@ public class ProductAddToListButton extends JButton {
 		setBorder(null);
 		setBackground(NORMAL_BG_COLOR);
 		setForeground(NORMAL_TEXT_COLOR);
-		setIcon(new ImageIcon("img/popup_icon.gif"));
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		setHorizontalAlignment(SwingConstants.LEFT);
-		setText("LÃ¤gg till i inkÃ¶pslista");
+		setText("Lägg till i inköpslista");
 		
 
 	}
