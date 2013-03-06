@@ -1,13 +1,17 @@
 package SearchBar;
 
-
-
+import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Comparator;
@@ -29,62 +33,98 @@ import ProductSearch.ProductSearch;
  * A controller for handling input to the SearchBar and displaying the results.
  * 
  * @author Jakob
- *
+ * 
  */
 public class SearchController {
 
 	private IMatDataHandler dh = IMatDataHandler.getInstance();
-	private final SearchBar bar;
+	private final SearchBar searchBar;
 	private final int MAX_RESULTS = 6;
 	private final Comparator<Product> DEFAULT_COMPARATOR = null;
 	private final AutoCompleteContainer resultContainer;
 	private final MainController mainController;
-	
-	private String lastSearchString; 
-	
+
+	private String lastSearchString;
+
 	private final AutoCompleteResultButton autoCompleteButton = new AutoCompleteResultButton();
+
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public SearchController(SearchBar bar, AutoCompleteContainer resultContainer, MainController mainController) {
-		this.bar = bar;
+	public SearchController(SearchBar bar,
+			final AutoCompleteContainer resultContainer,
+			MainController mainController) {
+		this.searchBar = bar;
 		this.resultContainer = resultContainer;
 		this.mainController = mainController;
 		bar.addFocusGainedListener(new BarFocusListener());
 		bar.addBarActionPerformedListener(new BarActionPerformedListener());
-		
+
 		SearchButtonListener l = new SearchButtonListener();
 		autoCompleteButton.addActionListener(l);
 		bar.getSearchField().addActionListener(l);
 		bar.addSearchButtonListener(l);
-		
-		this.bar.getSearchField().getDocument().addDocumentListener(new DocumentListener() {
-			  @Override
-			public void changedUpdate(DocumentEvent e) {
-				  updateAutoCompletePanel(SearchController.this.bar.getSearchField());
-			  }
-			  @Override
-			public void removeUpdate(DocumentEvent e) {
-				  updateAutoCompletePanel(SearchController.this.bar.getSearchField());
-			  }
-			  @Override
-			public void insertUpdate(DocumentEvent e) {
-				  updateAutoCompletePanel(SearchController.this.bar.getSearchField());
-			  }
+		bar.getSearchField().addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent evt) {
+				if(evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+					resultContainer.setVisible(false);
+				}
+			}
 		});
+
+		Toolkit.getDefaultToolkit().addAWTEventListener(new OutsideClickListener(), AWTEvent.MOUSE_EVENT_MASK);
+
+		this.searchBar.getSearchField().getDocument()
+				.addDocumentListener(new DocumentListener() {
+					@Override
+					public void changedUpdate(DocumentEvent e) {
+						update();
+					}
+
+					@Override
+					public void removeUpdate(DocumentEvent e) {
+						update();
+					}
+
+					@Override
+					public void insertUpdate(DocumentEvent e) {
+						update();
+					}
+
+					public void update() {
+						if (searchBar.getSearchField().getText() != null
+								&& !searchBar.getSearchField().getText()
+								.isEmpty())
+							updateAutoCompletePanel(SearchController.this.searchBar
+									.getSearchField());
+					}
+				});
 	}
+	
+//	private class BackspaceTypedListener implements KeyAdapter {
+//
+//		@Override
+//		public void keyPressed(KeyEvent arg0) {	}
+//
+//		@Override
+//		public void keyReleased(KeyEvent arg0) {}
+//
+//
+//		
+//	}
 
 	private class BarFocusListener implements FocusListener {
 
 		@Override
 		public void focusGained(FocusEvent arg0) {
-			bar.getSearchField().setText("");
+			searchBar.getSearchField().setText("");
 		}
 
 		@Override
 		public void focusLost(FocusEvent arg0) {
 			resultContainer.setVisible(false);
-			//bar.getSearchField().setText("Sök produkt...");
+			searchBar.getSearchField().setText("Sök produkt...");
 		}
 	}
 
@@ -92,33 +132,38 @@ public class SearchController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
-			updateAutoCompletePanel(bar.getSearchField());
+			updateAutoCompletePanel(searchBar.getSearchField());
 			resultContainer.setVisible(true);
 		}
 	}
-	
+
 	private class BarMouseListener implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent evt) {
-			if(evt.getSource().getClass().equals(AutoCompleteProductsPanel.class)) {
-				Product p = ((AutoCompleteProductsPanel)evt.getSource()).getProduct();
-				mainController.initProductListController(ProductCategories.getInstance().getCategory(p.getCategory()), p.getCategory());
+			if (evt.getSource().getClass()
+					.equals(AutoCompleteProductsPanel.class)) {
+				Product p = ((AutoCompleteProductsPanel) evt.getSource())
+						.getProduct();
+				mainController.initProductListController(ProductCategories
+						.getInstance().getCategory(p.getCategory()), p
+						.getCategory());
 				resultContainer.setVisible(false);
-				lastSearchString = bar.getSearchField().getText();
-				bar.getSearchField().setText("Sök produkt...");
-				bar.getSearchField().setFocusable(false);
-				bar.getSearchField().setFocusable(true);
+				lastSearchString = searchBar.getSearchField().getText();
+				searchBar.getSearchField().setText("Sök produkt...");
+				searchBar.getSearchField().setFocusable(false);
+				searchBar.getSearchField().setFocusable(true);
 			}
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent evt) {
-			if(evt.getSource().getClass().equals(AutoCompleteProductsPanel.class)) {
-				AutoCompleteProductsPanel panel = (AutoCompleteProductsPanel)evt.getSource();
-	
-				if(panel.contains(evt.getPoint())) {
+			if (evt.getSource().getClass()
+					.equals(AutoCompleteProductsPanel.class)) {
+				AutoCompleteProductsPanel panel = (AutoCompleteProductsPanel) evt
+						.getSource();
+
+				if (panel.contains(evt.getPoint())) {
 					panel.setBackground(new Color(250, 250, 250));
 				}
 			}
@@ -126,46 +171,69 @@ public class SearchController {
 
 		@Override
 		public void mouseExited(MouseEvent evt) {
-			if(evt.getSource().getClass().equals(AutoCompleteProductsPanel.class)) {
-				AutoCompleteProductsPanel panel = (AutoCompleteProductsPanel)evt.getSource();
+			if (evt.getSource().getClass()
+					.equals(AutoCompleteProductsPanel.class)) {
+				AutoCompleteProductsPanel panel = (AutoCompleteProductsPanel) evt
+						.getSource();
 				panel.setBackground(Color.white);
 			}
 		}
 
 		@Override
-		public void mousePressed(MouseEvent arg0) {	}
+		public void mousePressed(MouseEvent arg0) {
+		}
 
 		@Override
-		public void mouseReleased(MouseEvent arg0) {}
-		
+		public void mouseReleased(MouseEvent arg0) {
+		}
+
 	}
 	
+	private class OutsideClickListener implements AWTEventListener {
+		public void eventDispatched(AWTEvent event) {
+			
+			if (event.getClass().equals(MouseEvent.class)) {
+				MouseEvent evt = (MouseEvent) event;
+				if (evt.getID() == MouseEvent.MOUSE_CLICKED
+						&& (!searchBar.contains(evt.getPoint()) && !resultContainer.contains(evt
+								.getPoint()))
+						&& !autoCompleteButton.contains(evt.getPoint())) {
+					resultContainer.setVisible(false);
+				}
+			}
+			
+		}
+	}
+
 	private class SearchButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			mainController.initSearchViewController(lastSearchString);
-			bar.getSearchField().setFocusable(false);
-			bar.getSearchField().setFocusable(true);
+			searchBar.getSearchField().setFocusable(false);
+			searchBar.getSearchField().setFocusable(true);
 		}
-		
+
 	}
-	
+
 	/**
-	 * Updates the panel attached to the SearchBar to reflect the list that
-	 * was returned. Takes a maximum of 3 list items.
+	 * Updates the panel attached to the SearchBar to reflect the list that was
+	 * returned. Takes a maximum of 3 list items.
 	 * 
-	 * @param field The textfield to be updated.
+	 * @param field
+	 *            The textfield to be updated.
 	 */
 	public void updateAutoCompletePanel(JTextField field) {
-		
+
 		resultContainer.removeAll();
-		lastSearchString = bar.getSearchField().getText();
-		ProductSearch ps = new ProductSearch(lastSearchString, MAX_RESULTS, null);
+		lastSearchString = searchBar.getSearchField().getText();
+		ProductSearch ps = new ProductSearch(lastSearchString, MAX_RESULTS,
+				null);
 		List<Product> list = ps.getProducts();
-		if(list.size() != 0) {
+		if (list.size() != 0) {
 			for (Product p : list) {
-				AutoCompleteProductsPanel productPanel = new AutoCompleteProductsPanel(p);
+				AutoCompleteProductsPanel productPanel = new AutoCompleteProductsPanel(
+						p);
 				productPanel.addAutoCompMouseListener(new BarMouseListener());
 				resultContainer.add(productPanel);
 			}
@@ -177,14 +245,14 @@ public class SearchController {
 		resultContainer.repaint();
 		resultContainer.revalidate();
 	}
-	
+
 	public boolean panelHasContent() {
 		Component[] components = resultContainer.getComponents();
-		if(components != null) {
+		if (components != null) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 }

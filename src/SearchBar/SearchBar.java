@@ -5,6 +5,7 @@ import javax.swing.JTextField;
 
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseListener;
 import java.awt.Color;
 
 import javax.swing.ImageIcon;
@@ -53,5 +54,8 @@ public class SearchBar extends JPanel {
 	
 	public void addSearchButtonListener(ActionListener l) {
 		searchButton.addActionListener(l);
+	}
+	public void addOutsideClickListener(MouseListener listener) {
+		searchField.addMouseListener(listener);
 	}
 }
