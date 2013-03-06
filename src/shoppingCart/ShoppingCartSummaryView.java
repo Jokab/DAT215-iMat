@@ -67,7 +67,7 @@ public class ShoppingCartSummaryView extends JPanel implements
 		separator.setBackground(new Color(236, 236, 236));
 		add(separator);
 
-		showItemsButton = new JButton("visa varor");
+		showItemsButton = new JButton("Visa varor");
 		showItemsButton.setContentAreaFilled(false);
 		showItemsButton.setBorder(null);
 		showItemsButton.setFont(new Font("Segoe UI Light", Font.PLAIN, 13));
@@ -90,7 +90,7 @@ public class ShoppingCartSummaryView extends JPanel implements
 		});
 		add(showItemsButton);
 
-		toCounterButton = new JButton("till kassa");
+		toCounterButton = new JButton("Till kassa");
 		toCounterButton.setVisible(false);
 		toCounterButton.setContentAreaFilled(false);
 		toCounterButton.setBorder(null);
