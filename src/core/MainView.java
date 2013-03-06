@@ -35,6 +35,7 @@ import shoppingCart.ShoppingCartMinimizedView;
 import shoppingCart.ShoppingCartSummaryView;
 import shoppingCart.ShoppingcartView;
 import java.awt.Toolkit;
+import javax.swing.border.MatteBorder;
 
 
 public class MainView extends JFrame {
@@ -84,7 +85,7 @@ public class MainView extends JFrame {
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
-		contentPane.setBorder(null);
+		contentPane.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(225, 225, 225)));
 		setContentPane(contentPane);
 		layeredPane.setBorder(null);
 		
