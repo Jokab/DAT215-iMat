@@ -102,18 +102,6 @@ public class SearchController {
 				});
 	}
 	
-//	private class BackspaceTypedListener implements KeyAdapter {
-//
-//		@Override
-//		public void keyPressed(KeyEvent arg0) {	}
-//
-//		@Override
-//		public void keyReleased(KeyEvent arg0) {}
-//
-//
-//		
-//	}
-
 	private class BarFocusListener implements FocusListener {
 
 		@Override
@@ -124,7 +112,6 @@ public class SearchController {
 		@Override
 		public void focusLost(FocusEvent arg0) {
 			resultContainer.setVisible(false);
-			searchBar.getSearchField().setText("Sök produkt...");
 		}
 	}
 
@@ -149,7 +136,6 @@ public class SearchController {
 						p.getCategory(), p);
 				resultContainer.setVisible(false);
 				lastSearchString = searchBar.getSearchField().getText();
-				searchBar.getSearchField().setText("Sök produkt...");
 				searchBar.getSearchField().setFocusable(false);
 				searchBar.getSearchField().setFocusable(true);
 			}
@@ -198,6 +184,9 @@ public class SearchController {
 								.getPoint()))
 						&& !autoCompleteButton.contains(evt.getPoint())) {
 					resultContainer.setVisible(false);
+					searchBar.getSearchField().setText("Sök efter produkt...");
+					searchBar.getSearchField().setFocusable(false);
+					searchBar.getSearchField().setFocusable(true);
 				}
 			}
 			
