@@ -53,7 +53,8 @@ public class ProductListController implements ViewController,
 	private ProductCategory currentSubcategory = null;
 	private IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 	private ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
-
+	private Product activeProduct;
+	
 	private SearchFilterOption[] comboBoxValues ={new SearchFilterOption(new OrderByNameAscending(), "Namn stigande"), 
 			new SearchFilterOption(new OrderByNameDescending(), "Namn fallande"),
 			new SearchFilterOption(new OrderByPriceAscending(), "Pris stigande"),
@@ -100,6 +101,27 @@ public class ProductListController implements ViewController,
 		filter(category, subcategory, new OrderByNameAscending());
 	}
 	
+	public void filter(String category, ProductCategory subcategory, Product activeProduct) {
+		this.currentCategory = category;
+		this.currentSubcategory = subcategory;
+		initComboBox(new OrderByNameAscending());
+		List<Product> list = ProductFilter.getProductBySubcategory(subcategory, new OrderByNameAscending());
+		
+		updateView(list);
+		view.setCurrentCategory(currentCategory);
+		view.setSubcategories(
+				ProductCategories.getInstance().getSubcategories(
+						currentCategory), new SidePanelMouseListener(),
+				subcategory);
+		this.activeProduct = activeProduct;
+		
+		int index = list.indexOf(this.activeProduct);
+		int height = (new ProductView(activeProduct)).getHeight();
+		if(index > 0) {
+			view.setScrollPaneVertical(index * height , height * list.size());
+		}
+	}
+	
 	public void filter(String category, ProductCategory subcategory, Comparator<Product> filter) {
 		this.currentCategory = category;
 		this.currentSubcategory = subcategory;
@@ -111,7 +133,7 @@ public class ProductListController implements ViewController,
 						currentCategory), new SidePanelMouseListener(),
 				subcategory);
 	}
-		
+	
 	public void filterFavorites() {
 		List<Product> productList = dataHandler.getProducts();
 		List<Product> favoriteList = new LinkedList<Product>();

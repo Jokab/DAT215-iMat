@@ -80,6 +80,7 @@ public class MainView extends JFrame {
 		setUndecorated(true);
 		setBounds(100, 100, 1200, 720);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("img/frameIcon.png"));
+		setTitle("MatnyttIT");
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);

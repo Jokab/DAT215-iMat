@@ -25,6 +25,8 @@ public class ProductListView extends JPanel {
 	private final ProductSidePanel productSidePanel;
 	private final JComboBox comboBox;
 	private final JLabel sortLabel;
+	private final JScrollPane scrollPane = new JScrollPane();
+	
 	/**
 	 * Create the panel.
 	 */
@@ -32,7 +34,6 @@ public class ProductListView extends JPanel {
 		setOpaque(false);
 		setBorder(null);
 		
-		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
 		
 		productSidePanel = new ProductSidePanel();
@@ -123,5 +124,10 @@ public class ProductListView extends JPanel {
 	
 	public void addComboBoxListener(ActionListener l) {
 		comboBox.addActionListener(l);
+	}
+	
+	public void setScrollPaneVertical(int distanceFromTop, int maximumHeight) {
+		scrollPane.getVerticalScrollBar().setMaximum(maximumHeight);
+		scrollPane.getVerticalScrollBar().setValue(distanceFromTop);
 	}
 }

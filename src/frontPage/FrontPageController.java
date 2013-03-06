@@ -33,7 +33,7 @@ public class FrontPageController implements ViewController {
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() != null) {
 				Product p = ((FrontPageItemButton) e.getSource()).getProduct();
-				mainController.initProductListController(ProductCategories.getInstance().getCategory(p.getCategory()), p.getCategory());
+				mainController.initProductListController(ProductCategories.getInstance().getCategory(p.getCategory()), p.getCategory(), p);
 			}
 			
 		}

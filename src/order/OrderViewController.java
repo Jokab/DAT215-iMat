@@ -22,7 +22,7 @@ public class OrderViewController implements ViewController {
 	private static final ShoppingCartAdapter cart = ShoppingCartAdapter
 			.getInstance();
 	private OrderEntry activeEntryPanel;
-
+	
 	public OrderViewController() {
 		view = new OrderListView();
 		view.getAddToCartButton().addActionListener(
@@ -44,6 +44,9 @@ public class OrderViewController implements ViewController {
 
 		@Override
 		public void mouseClicked(MouseEvent evt) {
+			if(activeEntryPanel != null) {
+				activeEntryPanel.setInactive();
+			}
 			activeEntryPanel = (OrderEntry) evt.getSource();
 			activeEntryPanel.setActive();
 			updateDetailedPanel(activeEntryPanel.getOrder());

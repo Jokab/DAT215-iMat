@@ -31,11 +31,11 @@ public class ProductView extends JPanel {
 		this.product = product;
 		setOpaque(false); 
 		IMatDataHandler dataHandler = IMatDataHandler.getInstance();
-		setMaximumSize(new Dimension(800, 150));
+		setMaximumSize(new Dimension(800, 110));
 		setPreferredSize(new Dimension(628, 110));
-		setSize(new Dimension(800, 150));
+		setSize(new Dimension(800, 110));
 		setBorder(new MatteBorder(0, 0, 1, 0, new Color(225, 225, 225)));
-		setMinimumSize(new Dimension(800, 150));
+		setMinimumSize(new Dimension(800, 110));
 		
 		JLabel productPic = new JLabel();
 		productPic.setBounds(20, 16, 80, 80);

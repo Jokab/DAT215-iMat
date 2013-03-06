@@ -89,6 +89,18 @@ public class MainController {
 	}
 	
 	/**
+	 * Initializes a <code>ProductListController</code> with the a selected item 
+	 * which will be shown on top.
+	 * @param category
+	 * @param subcategory
+	 */
+	public void initProductListController(String category, ProductCategory subcategory, Product p) {
+		ProductListController productListController = new ProductListController(this);
+		productListController.filter(category, subcategory, p);
+		switchController(productListController);
+	}
+	
+	/**
 	 * Initializes a <code>ProductListController</code> with the specified settings.
 	 * @param category
 	 * @param subcategory

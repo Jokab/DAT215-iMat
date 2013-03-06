@@ -145,9 +145,8 @@ public class SearchController {
 					.equals(AutoCompleteProductsPanel.class)) {
 				Product p = ((AutoCompleteProductsPanel) evt.getSource())
 						.getProduct();
-				mainController.initProductListController(ProductCategories
-						.getInstance().getCategory(p.getCategory()), p
-						.getCategory());
+				mainController.initProductListController(ProductCategories.getInstance().getCategory(p.getCategory()), 
+						p.getCategory(), p);
 				resultContainer.setVisible(false);
 				lastSearchString = searchBar.getSearchField().getText();
 				searchBar.getSearchField().setText("Sök produkt...");
