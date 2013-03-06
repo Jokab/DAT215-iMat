@@ -6,6 +6,9 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -70,6 +73,22 @@ public class ShoppingCartSummaryView extends JPanel implements
 		showItemsButton.setFont(new Font("Segoe UI Light", Font.PLAIN, 13));
 		showItemsButton.setBounds(51, 117, 66, 23);
 		showItemsButton.setForeground(new Color(184, 184, 184));
+		showItemsButton.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				System.out.println("hej");
+				showItemsButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+				showItemsButton.setForeground(new Color(144,144,144));
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				showItemsButton.setFont(new Font("Segoe UI Bold", Font.PLAIN, 11));
+				showItemsButton.setForeground(new Color(62, 62, 62));
+			}
+			
+		});
 		add(showItemsButton);
 
 		toCounterButton = new JButton("till kassa");
@@ -87,6 +106,21 @@ public class ShoppingCartSummaryView extends JPanel implements
 			}
 
 		});
+		toCounterButton.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				toCounterButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+				toCounterButton.setForeground(new Color(144,144,144));
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				toCounterButton.setFont(new Font("Segoe UI Bold", Font.PLAIN, 11));
+				toCounterButton.setForeground(new Color(62, 62, 62));
+			}
+			
+		});
 		add(toCounterButton);
 
 		JLabel lblKr = new JLabel("kr");
@@ -97,6 +131,7 @@ public class ShoppingCartSummaryView extends JPanel implements
 		add(lblKr);
 		
 		updateSummary();
+		updateToCounterButton();
 	}
 
 	private void toCheckout() {
@@ -126,4 +161,5 @@ public class ShoppingCartSummaryView extends JPanel implements
 	public void addPopoutListener(ActionListener l) {
 		showItemsButton.addActionListener(l);
 	}
+
 }
