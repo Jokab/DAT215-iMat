@@ -34,6 +34,7 @@ public class ShoppingListView extends JPanel {
 	
 	private final Color NORMAL_BG_COLOR = Color.WHITE;
 	private final Color NORMAL_TEXT_COLOR = new Color(144,144,144);
+	private final JLabel label = new JLabel(new ImageIcon("img/facebook.png"));
 
 	/**
 	 * Create the panel.
@@ -59,7 +60,9 @@ public class ShoppingListView extends JPanel {
 				.addGroup(gl_rightPanel.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(listNameLabel, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(299, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 266, Short.MAX_VALUE)
+					.addComponent(label, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
 				.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
 				.addGroup(gl_rightPanel.createSequentialGroup()
 					.addContainerGap()
@@ -68,10 +71,13 @@ public class ShoppingListView extends JPanel {
 					.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
 					.addContainerGap())
 		);
+		label.setToolTipText("Dela p\u00E5 facebook");
 		gl_rightPanel.setVerticalGroup(
 			gl_rightPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_rightPanel.createSequentialGroup()
-					.addComponent(listNameLabel, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_rightPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(listNameLabel, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+						.addComponent(label, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -79,7 +85,7 @@ public class ShoppingListView extends JPanel {
 						.addGroup(gl_rightPanel.createSequentialGroup()
 							.addComponent(removeListButton, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
 							.addGap(11))
-						.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)))
+						.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)))
 		);
 		
 		detaildPanel = new JPanel();
