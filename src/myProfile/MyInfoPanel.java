@@ -28,6 +28,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.SwingConstants;
 
 public class MyInfoPanel extends JPanel {
 	private Map<String,Boolean> errors;
@@ -93,52 +94,60 @@ public class MyInfoPanel extends JPanel {
 		monthFormat.setMinimumIntegerDigits(1);
 		monthFormat.setGroupingUsed(false);
 		
-		JLabel lblMinaUppgifter = new JLabel("Mina uppgifter");
-		lblMinaUppgifter.setFont(new Font("Verdana", Font.PLAIN, 20));
-		
 		lastNameLabel = new JLabel("Efternamn:");
+		lastNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		lastNameLabel.setToolTipText("Ditt efternamn");
-		lastNameLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		lastNameLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		
 		firstNameLabel = new JLabel("F\u00F6rnamn:");
+		firstNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		firstNameLabel.setToolTipText("Ditt f\u00F6rnamn");
-		firstNameLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		firstNameLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		
 		addressLabel = new JLabel("Leveransadress:");
+		addressLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		addressLabel.setToolTipText("Din leveransadress");
-		addressLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		addressLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		
 		zipLabel = new JLabel("Postnummer:");
+		zipLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		zipLabel.setToolTipText("Ditt postnummer utan mellanrum");
-		zipLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		zipLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		
 		cityLabel = new JLabel("Stad:");
+		cityLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		cityLabel.setToolTipText("Din postort");
-		cityLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		cityLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		
 		phoneLabel = new JLabel("Telefonnummer:");
+		phoneLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		phoneLabel.setToolTipText("Ditt telefonnnummer p\u00E5 valfritt format");
-		phoneLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		phoneLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		
 		emailLabel = new JLabel("Email:");
+		emailLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		emailLabel.setToolTipText("Din emailadress");
-		emailLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		emailLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		
 		cardTypeLabel = new JLabel("Korttyp:");
+		cardTypeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		cardTypeLabel.setToolTipText("Korttyp");
-		cardTypeLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		cardTypeLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		
 		cardNumberLabel = new JLabel("Kortnummer:");
+		cardNumberLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		cardNumberLabel.setToolTipText("Ditt kontokortnummer utan mellanrum eller bindestreck");
-		cardNumberLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		cardNumberLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		
 		ccvLabel = new JLabel("CCV:");
+		ccvLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		ccvLabel.setToolTipText("De tre sista siffrorna i koden p\u00E5 baksidan av ditt kontokort");
-		ccvLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		ccvLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		
 		validDateLabel = new JLabel("Giltligt till:");
+		validDateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		validDateLabel.setToolTipText("M\u00E5nad och \u00E5r n\u00E4r ditt kontokort g\u00E5r ut");
-		validDateLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
+		validDateLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
 		
 		lastNameField = new JTextField(customer.getLastName());
 		lastNameField.setToolTipText("Ditt efternamn");
@@ -287,7 +296,7 @@ public class MyInfoPanel extends JPanel {
 		default: index = 0; break;
 		}
 		cardTypeBox.setSelectedIndex(index);
-		cardTypeBox.setFont(new Font("Georgia", Font.PLAIN, 13));
+		cardTypeBox.setFont(new Font("Calibri", Font.PLAIN, 12));
 		
 		JButton saveButton = new JButton("Spara");
 		saveButton.addActionListener(new ActionListener() {
@@ -307,6 +316,10 @@ public class MyInfoPanel extends JPanel {
 		
 		errorMessageLabel = new JLabel("");
 		
+		JLabel lblMinaUppgifter = new JLabel("Mina uppgifter");
+		lblMinaUppgifter.setForeground(new Color(150, 150, 150));
+		lblMinaUppgifter.setFont(new Font("Calibri", Font.PLAIN, 18));
+		
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -316,7 +329,6 @@ public class MyInfoPanel extends JPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblMinaUppgifter, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addComponent(phoneLabel, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
@@ -325,8 +337,7 @@ public class MyInfoPanel extends JPanel {
 									.addGap(68)
 									.addComponent(emailLabel, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(emailField, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
-									.addGap(0, 0, Short.MAX_VALUE))
+									.addComponent(emailField, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(58)
 									.addComponent(cardTypeLabel, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
@@ -336,8 +347,7 @@ public class MyInfoPanel extends JPanel {
 									.addGap(20)
 									.addComponent(cardNumberLabel, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(cardNumberField, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+									.addComponent(cardNumberField, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(78)
 									.addComponent(ccvLabel, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
@@ -379,7 +389,10 @@ public class MyInfoPanel extends JPanel {
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(slashLabel)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(yearField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+									.addComponent(yearField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(17)
+									.addComponent(lblMinaUppgifter, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)))
 							.addGap(18)
 							.addComponent(errorMessageLabel, GroupLayout.PREFERRED_SIZE, 269, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
@@ -390,10 +403,10 @@ public class MyInfoPanel extends JPanel {
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblMinaUppgifter, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(lblMinaUppgifter, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lastNameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)

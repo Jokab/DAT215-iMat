@@ -230,15 +230,15 @@ public class InformationPanel extends JPanel {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
-					
+					if(ZIPField.getText().length() == 4 ){
+						ZIPLabel.setForeground(Color.GREEN);
+					} else {
+						ZIPLabel.setForeground(Color.RED);
+					}
 				} else {
 					arg0.consume();
 				}
-				if(ZIPField.getText().length() == 5 ){
-					ValidThroughLabel.setForeground(Color.GREEN);
-				} else {
-					ValidThroughLabel.setForeground(Color.RED);
-				}
+
 			}
 		});
 		ZIPField.setToolTipText("Ditt postnummer utan mellanrum");
@@ -267,15 +267,15 @@ public class InformationPanel extends JPanel {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
-					
+					if((MonthField.getText().length()==1 || MonthField.getText().length()==0) && (YearField.getText().length()==3 || YearField.getText().length()==1) ){
+						ValidThroughLabel.setForeground(Color.GREEN);
+					} else {
+						ValidThroughLabel.setForeground(Color.RED);
+					}
 				} else {
 					arg0.consume();
 				}
-				if((MonthField.getText().length()==2 || MonthField.getText().length()==1) && (YearField.getText().length()==4 || YearField.getText().length()==2) ){
-					ValidThroughLabel.setForeground(Color.GREEN);
-				} else {
-					ValidThroughLabel.setForeground(Color.RED);
-				}
+
 			}
 		});
 		MonthField.setToolTipText("M\u00E5nad och \u00E5r d\u00E5 ditt kreditkort g\u00E5r ut. Anges p\u00E5 formatet mm/\u00E5\u00E5 eller mm/\u00E5\u00E5\u00E5\u00E5");
@@ -303,15 +303,15 @@ public class InformationPanel extends JPanel {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
-					
+					if(CardNumberField.getText().length()==15){
+						CardNumberLabel.setForeground(Color.GREEN);
+					} else {
+						CardNumberLabel.setForeground(Color.BLACK);
+					}
 				} else {
 					arg0.consume();
 				}
-				if(CardNumberField.getText().length()==16){
-					CardNumberLabel.setForeground(Color.GREEN);
-				} else {
-					CardNumberLabel.setForeground(Color.BLACK);
-				}
+
 			}
 		});
 		CardNumberField.setToolTipText("Ditt kortnummer utan mellanrum och bindestreck");
@@ -348,15 +348,15 @@ public class InformationPanel extends JPanel {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
-					
+					if((MonthField.getText().length()==1 || MonthField.getText().length()==0) && (YearField.getText().length()==3 || YearField.getText().length()==1) ){
+						ValidThroughLabel.setForeground(Color.GREEN);
+					} else {
+						ValidThroughLabel.setForeground(Color.RED);
+					}
 				} else {
 					arg0.consume();
 				}
-				if((MonthField.getText().length()==2 || MonthField.getText().length()==1) && (YearField.getText().length()==4 || YearField.getText().length()==2) ){
-					ValidThroughLabel.setForeground(Color.GREEN);
-				} else {
-					ValidThroughLabel.setForeground(Color.RED);
-				}
+
 			}
 		});
 		YearField.setColumns(10);
