@@ -86,7 +86,7 @@ public class ProductSidePanel extends JPanel {
 			return;
 		}
 		subcategoriesPanel.removeAll();
-		System.out.println("removing");
+		
 		if(subcategories != null) {
 			for(Entry<ProductCategory, String> entry : subcategories.entrySet()) {
 				ProductSidePanelButton btn = new ProductSidePanelButton(entry.getValue(), entry.getKey());

@@ -100,19 +100,6 @@ public class ProductListController implements ViewController,
 		filter(category, subcategory, new OrderByNameAscending());
 	}
 	
-	public void filterFavorites() {
-		List<Product> productList = dataHandler.getProducts();
-		List<Product> favoriteList = new LinkedList<Product>();
-		for(Product p : productList) {
-			if(dataHandler.isFavorite(p)) {
-				favoriteList.add(p);
-			}
-		}
-		view.setCurrentCategory("FAVORITER");
-		view.setSubcategories(null, null);
-		updateView(favoriteList);
-	}
-	
 	public void filter(String category, ProductCategory subcategory, Comparator<Product> filter) {
 		this.currentCategory = category;
 		this.currentSubcategory = subcategory;
@@ -123,6 +110,24 @@ public class ProductListController implements ViewController,
 				ProductCategories.getInstance().getSubcategories(
 						currentCategory), new SidePanelMouseListener(),
 				subcategory);
+	}
+		
+	public void filterFavorites() {
+		List<Product> productList = dataHandler.getProducts();
+		List<Product> favoriteList = new LinkedList<Product>();
+		for(Product p : productList) {
+			if(dataHandler.isFavorite(p)) {
+				favoriteList.add(p);
+			}
+		}
+		view.setCurrentCategory("FAVORITER");
+		view.setSubcategories(null, null);
+		
+		/** Hack to prevent sorting, since it doesn't work. **/
+		view.getComboBox().setVisible(false);
+		view.getSortLabel().setVisible(false);
+		
+		updateView(favoriteList);
 	}
 
 	private class SidePanelMouseListener implements MouseListener {

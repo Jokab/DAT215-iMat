@@ -24,6 +24,7 @@ public class ProductListView extends JPanel {
 	private final JPanel viewPanel = new JPanel();
 	private final ProductSidePanel productSidePanel;
 	private final JComboBox comboBox;
+	private final JLabel sortLabel;
 	/**
 	 * Create the panel.
 	 */
@@ -37,9 +38,10 @@ public class ProductListView extends JPanel {
 		productSidePanel = new ProductSidePanel();
 		productSidePanel.setBorder(new MatteBorder(0, 0, 0, 1, new Color(225, 225, 225)));
 		
-		JLabel label = new JLabel("Sotera efter");
-		label.setForeground(new Color(150, 150, 150));
-		label.setFont(new Font("Calibri", Font.PLAIN, 12));
+		sortLabel = new JLabel("Sortera efter");
+		sortLabel.setForeground(new Color(150, 150, 150));
+		sortLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
+		sortLabel.setVisible(true);
 		
 		comboBox = new JComboBox(comboBoxValues);
 		comboBox.setOpaque(false);
@@ -47,6 +49,7 @@ public class ProductListView extends JPanel {
 		comboBox.setFont(new Font("Calibri", Font.PLAIN, 12));
 		comboBox.setBorder(null);
 		comboBox.setBackground(Color.WHITE);
+		comboBox.setVisible(true);
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -56,7 +59,7 @@ public class ProductListView extends JPanel {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(label, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+							.addComponent(sortLabel, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
 							.addGap(10)
 							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 669, GroupLayout.PREFERRED_SIZE))
@@ -72,7 +75,7 @@ public class ProductListView extends JPanel {
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(2)
-									.addComponent(label, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
+									.addComponent(sortLabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
 								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)))
@@ -92,6 +95,14 @@ public class ProductListView extends JPanel {
 	 */
 	public JPanel getViewPanel() {
 		return this.viewPanel;
+	}
+	
+	public JComboBox getComboBox() {
+		return this.comboBox;
+	}
+	
+	public JLabel getSortLabel() {
+		return this.sortLabel;
 	}
 	
 	public void setCurrentCategory(String category) {

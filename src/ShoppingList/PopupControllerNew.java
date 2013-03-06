@@ -3,6 +3,8 @@ package ShoppingList;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.LinkedList;
@@ -59,6 +61,15 @@ public class PopupControllerNew {
 		this.mainController.showPopup(popup);
 		
 		this.textField = popup.getTextField();
+		this.textField.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent evt) {
+				if(evt.getKeyChar() == KeyEvent.VK_ENTER && saveButton.isEnabled()) {
+					saveButtonClicked();
+				} else if (evt.getKeyChar() == KeyEvent.VK_ESCAPE) {
+					exitPopup();
+				}
+			}
+		});
 		
 		this.warningLabel = popup.getWarningLabel();
 		
@@ -69,6 +80,7 @@ public class PopupControllerNew {
 		this.cancelButton.addActionListener(new CancelButtonClicked());
 		
 		this.textField.requestFocus();
+		
 		
 		/** Adds a listener for user input, which activates in real-time. **/
 		textField.getDocument().addDocumentListener(new TextFieldListener());
