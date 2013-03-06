@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Map.Entry;
 
 import se.chalmers.ait.dat215.project.ProductCategory;
@@ -48,6 +49,9 @@ public class MenuController {
 				@Override
 				public void mouseExited(MouseEvent e) {
 					button.toggle();
+					if(e.getY() < 0) {
+						view.setSubmenuPanel(null);
+					}
 				}
 			});
 		}
@@ -81,7 +85,7 @@ public class MenuController {
 	private SubmenuPanel createSubmenu(final String category) {
 
 		ProductCategories categories = ProductCategories.getInstance();
-		SubmenuPanel submenu = new SubmenuPanel();
+		final SubmenuPanel submenu = new SubmenuPanel();
 
 		for (final Entry<ProductCategory, String> entry : categories
 				.getSubcategories(category).entrySet()) {
@@ -97,6 +101,7 @@ public class MenuController {
 				@Override
 				public void mouseEntered(MouseEvent e) {
 					button.toggle();
+					submenu.setVisible(true);
 				}
 
 				@Override
@@ -105,7 +110,7 @@ public class MenuController {
 				}
 			});
 		}
-
+		submenu.addMouseListener(new SubmenuMouseListener(submenu));
 		return submenu;
 
 	}
@@ -122,6 +127,31 @@ public class MenuController {
 		public void actionPerformed(ActionEvent e) {
 			controller.initShoppingListController();
 		}
+	}
+	
+	private class SubmenuMouseListener implements MouseListener {
+
+		private SubmenuPanel s;
+		public SubmenuMouseListener(SubmenuPanel s) {
+			this.s = s;
+		}
+		@Override
+		public void mouseClicked(MouseEvent e) {}
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			s.setVisible(false);
+		}
+		
 	}
 
 }
