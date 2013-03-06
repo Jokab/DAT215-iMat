@@ -138,7 +138,7 @@ public class MainView extends JFrame {
 		
 		
 		contentView.setOpaque(false);
-		contentView.setBounds(64, 200, 1116, 535);
+		contentView.setBounds(64, 200, 1116, 511);
 		headerView.setBounds(0, 15, 1180, 184);
 		
 		shoppingCartView = new ShoppingcartView(mainController);
