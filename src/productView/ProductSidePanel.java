@@ -81,16 +81,23 @@ public class ProductSidePanel extends JPanel {
 	 * @param activeSubcategory
 	 */
 	public void setSubcategories(Map<ProductCategory, String> subcategories, MouseListener listener, ProductCategory activeSubcategory){
+		if(subcategories == null) {
+			subcategoriesPanel.setVisible(false);
+			return;
+		}
 		subcategoriesPanel.removeAll();
-		for(Entry<ProductCategory, String> entry : subcategories.entrySet()) {
-			ProductSidePanelButton btn = new ProductSidePanelButton(entry.getValue(), entry.getKey());
-			btn.addMouseListener(listener);
-			// Set button active
-			if(entry.getKey() == activeSubcategory) {
-				btn.setActive();
+		System.out.println("removing");
+		if(subcategories != null) {
+			for(Entry<ProductCategory, String> entry : subcategories.entrySet()) {
+				ProductSidePanelButton btn = new ProductSidePanelButton(entry.getValue(), entry.getKey());
+				btn.addMouseListener(listener);
+				// Set button active
+				if(entry.getKey() == activeSubcategory) {
+					btn.setActive();
+				}
+				subcategoriesPanel.add(btn);
+				subcategoriesPanel.add(Box.createRigidArea(new Dimension(0,5)));
 			}
-			subcategoriesPanel.add(btn);
-			subcategoriesPanel.add(Box.createRigidArea(new Dimension(0,5)));
 		}
 	}
 }

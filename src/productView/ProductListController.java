@@ -109,6 +109,7 @@ public class ProductListController implements ViewController,
 			}
 		}
 		view.setCurrentCategory("FAVORITER");
+		view.setSubcategories(null, null);
 		updateView(favoriteList);
 	}
 	

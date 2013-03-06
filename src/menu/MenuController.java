@@ -51,6 +51,7 @@ public class MenuController {
 				}
 			});
 		}
+		
 		final MenuButton favButton = new MenuButton("favoriter");
 		menu.addButton(favButton);
 		favButton.addMouseListener(new MouseAdapter() {
@@ -61,6 +62,7 @@ public class MenuController {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
+				view.setSubmenuPanel(null);
 				favButton.toggle();
 			}
 
@@ -77,6 +79,7 @@ public class MenuController {
 	}
 
 	private SubmenuPanel createSubmenu(final String category) {
+
 		ProductCategories categories = ProductCategories.getInstance();
 		SubmenuPanel submenu = new SubmenuPanel();
 

@@ -132,7 +132,12 @@ public class HeaderView extends JPanel {
 	
 	public void setSubmenuPanel(JPanel submenuPanel) {
 		submenuPanelWrapper.removeAll();
-		submenuPanelWrapper.add(submenuPanel);
+		if(submenuPanel != null) {
+			submenuPanelWrapper.add(submenuPanel);
+			submenuPanelWrapper.setVisible(true);
+		} else {
+			submenuPanelWrapper.setVisible(false);
+		}
 		submenuPanelWrapper.validate();
 		
 	}

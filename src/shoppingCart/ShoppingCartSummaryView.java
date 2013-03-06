@@ -77,7 +77,6 @@ public class ShoppingCartSummaryView extends JPanel implements
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				System.out.println("hej");
 				showItemsButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 				showItemsButton.setForeground(new Color(144,144,144));
 			}
