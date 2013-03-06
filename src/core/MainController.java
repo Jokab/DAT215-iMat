@@ -136,7 +136,7 @@ public class MainController {
 	}
 	
 	public void initMyInfoController() {
-		switchController(new MyInfoController());
+		switchController(new MyAccountController(new MyInfoController(), MyAccountEnum.SETTINGS, this));
 	}
 	
 	public void initPreviousController() {

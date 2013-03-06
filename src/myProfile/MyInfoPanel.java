@@ -61,6 +61,7 @@ public class MyInfoPanel extends JPanel {
 	private JLabel validDateLabel;
 	
 	public MyInfoPanel() {
+		setOpaque(false);
 		errors = new HashMap<String,Boolean>();
 		
 		setPreferredSize(new Dimension(600, 500));
