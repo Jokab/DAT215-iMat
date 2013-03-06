@@ -26,6 +26,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.SwingConstants;
@@ -60,7 +62,8 @@ public class MyInfoPanel extends JPanel {
 	private JLabel cardNumberLabel;
 	private JLabel ccvLabel;
 	private JLabel validDateLabel;
-	
+	private final Font DEFAULT_FONT = new Font("Calibri", Font.PLAIN, 12);
+	private final Color DEFAULT_COLOR = new Color(150,150,150);
 	public MyInfoPanel() {
 		setOpaque(false);
 		errors = new HashMap<String,Boolean>();
@@ -95,6 +98,7 @@ public class MyInfoPanel extends JPanel {
 		monthFormat.setGroupingUsed(false);
 		
 		lastNameLabel = new JLabel("Efternamn:");
+		lastNameLabel.setForeground(DEFAULT_COLOR);
 		lastNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		lastNameLabel.setToolTipText("Ditt efternamn");
 		lastNameLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -103,51 +107,61 @@ public class MyInfoPanel extends JPanel {
 		firstNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		firstNameLabel.setToolTipText("Ditt f\u00F6rnamn");
 		firstNameLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
+		firstNameLabel.setForeground(DEFAULT_COLOR);
 		
 		addressLabel = new JLabel("Leveransadress:");
 		addressLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		addressLabel.setToolTipText("Din leveransadress");
 		addressLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
+		addressLabel.setForeground(DEFAULT_COLOR);
 		
 		zipLabel = new JLabel("Postnummer:");
 		zipLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		zipLabel.setToolTipText("Ditt postnummer utan mellanrum");
 		zipLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
+		zipLabel.setForeground(DEFAULT_COLOR);
 		
 		cityLabel = new JLabel("Stad:");
 		cityLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		cityLabel.setToolTipText("Din postort");
 		cityLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
+		cityLabel.setForeground(DEFAULT_COLOR);
 		
 		phoneLabel = new JLabel("Telefonnummer:");
 		phoneLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		phoneLabel.setToolTipText("Ditt telefonnnummer p\u00E5 valfritt format");
 		phoneLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
+		phoneLabel.setForeground(DEFAULT_COLOR);
 		
 		emailLabel = new JLabel("Email:");
 		emailLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		emailLabel.setToolTipText("Din emailadress");
 		emailLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
+		emailLabel.setForeground(DEFAULT_COLOR);
 		
 		cardTypeLabel = new JLabel("Korttyp:");
 		cardTypeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		cardTypeLabel.setToolTipText("Korttyp");
 		cardTypeLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
+		cardTypeLabel.setForeground(DEFAULT_COLOR);
 		
 		cardNumberLabel = new JLabel("Kortnummer:");
 		cardNumberLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		cardNumberLabel.setToolTipText("Ditt kontokortnummer utan mellanrum eller bindestreck");
 		cardNumberLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
+		cardNumberLabel.setForeground(DEFAULT_COLOR);
 		
 		ccvLabel = new JLabel("CCV:");
 		ccvLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		ccvLabel.setToolTipText("De tre sista siffrorna i koden p\u00E5 baksidan av ditt kontokort");
 		ccvLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
+		ccvLabel.setForeground(DEFAULT_COLOR);
 		
 		validDateLabel = new JLabel("Giltligt till:");
 		validDateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		validDateLabel.setToolTipText("M\u00E5nad och \u00E5r n\u00E4r ditt kontokort g\u00E5r ut");
 		validDateLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
+		validDateLabel.setForeground(DEFAULT_COLOR);
 		
 		lastNameField = new JTextField(customer.getLastName());
 		lastNameField.setToolTipText("Ditt efternamn");
@@ -171,15 +185,21 @@ public class MyInfoPanel extends JPanel {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
-					
+					if(zipField.getText().length()==4){
+						zipLabel.setForeground(Color.GREEN);
+					} else {
+						zipLabel.setForeground(DEFAULT_COLOR);
+					}
+				} else if (arg0.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+					if(zipField.getText().length() == 5){
+						zipLabel.setForeground(Color.GREEN);
+					} else {
+						zipLabel.setForeground(DEFAULT_COLOR);
+					}
 				} else {
 					arg0.consume();
 				}
-				if(zipField.getText().length()==5){
-					zipLabel.setForeground(Color.GREEN);
-				} else {
-					zipLabel.setForeground(Color.BLACK);
-				}
+				
 			}
 		});
 		
@@ -204,15 +224,21 @@ public class MyInfoPanel extends JPanel {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
-					
+					if(cardNumberField.getText().length()==15){
+						cardNumberLabel.setForeground(Color.GREEN);
+					} else {
+						cardNumberLabel.setForeground(DEFAULT_COLOR);
+					}
+				} else if(arg0.getKeyChar() == KeyEvent.VK_BACK_SPACE){
+					if(cardNumberField.getText().length() == 16){
+						cardNumberLabel.setForeground(Color.GREEN);
+					} else {
+						cardNumberLabel.setForeground(DEFAULT_COLOR);
+					}
 				} else {
 					arg0.consume();
 				}
-				if(cardNumberField.getText().length()==16){
-					cardNumberLabel.setForeground(Color.GREEN);
-				} else {
-					cardNumberLabel.setForeground(Color.BLACK);
-				}
+				
 			}
 		});
 		
@@ -223,15 +249,21 @@ public class MyInfoPanel extends JPanel {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
-					
+					if(ccvField.getText().length()==2){
+						ccvLabel.setForeground(Color.GREEN);
+					} else {
+						ccvLabel.setForeground(DEFAULT_COLOR);
+					}
+				} else if (arg0.getKeyChar() == KeyEvent.VK_BACK_SPACE){
+					if (ccvField.getText().length()==3){
+						ccvLabel.setForeground(Color.GREEN);
+					} else {
+						ccvLabel.setForeground(DEFAULT_COLOR);
+					}
 				} else {
 					arg0.consume();
 				}
-				if(ccvField.getText().length()==3){
-					ccvLabel.setForeground(Color.GREEN);
-				} else {
-					ccvLabel.setForeground(Color.BLACK);
-				}
+				
 			}
 		});
 		
@@ -245,15 +277,21 @@ public class MyInfoPanel extends JPanel {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
-					
+					if((monthField.getText().length()==0 || monthField.getText().length() == 1) && (yearField.getText().length() == 2 || yearField.getText().length()==4)){
+						validDateLabel.setForeground(Color.GREEN);
+					} else {
+						validDateLabel.setForeground(DEFAULT_COLOR);
+					}
+				} else if(arg0.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+					if((monthField.getText().length()==1 || monthField.getText().length() == 2) && (yearField.getText().length() == 2 || yearField.getText().length()==4)){
+						validDateLabel.setForeground(Color.GREEN);
+					} else {
+						validDateLabel.setForeground(DEFAULT_COLOR);
+					}
 				} else {
 					arg0.consume();
 				}
-				if((monthField.getText().length()==1 || monthField.getText().length() == 2) && (yearField.getText().length() == 2 || yearField.getText().length()==4)){
-					validDateLabel.setForeground(Color.GREEN);
-				} else {
-					validDateLabel.setForeground(Color.BLACK);
-				}
+				
 			}
 		});
 		
@@ -271,15 +309,21 @@ public class MyInfoPanel extends JPanel {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
-					
+					if((monthField.getText().length()==1 || monthField.getText().length() == 2) && (yearField.getText().length() == 1 || yearField.getText().length()==3)){
+						validDateLabel.setForeground(Color.GREEN);
+					} else {
+						validDateLabel.setForeground(DEFAULT_COLOR);
+					}
+				} else if(arg0.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+					if((monthField.getText().length()==1 || monthField.getText().length() == 2) && (yearField.getText().length() == 2 || yearField.getText().length()==4)){
+						validDateLabel.setForeground(Color.GREEN);
+					} else {
+						validDateLabel.setForeground(DEFAULT_COLOR);
+					}
 				} else {
 					arg0.consume();
 				}
-				if((monthField.getText().length()==1 || monthField.getText().length() == 2) && (yearField.getText().length() == 2 || yearField.getText().length()==4)){
-					validDateLabel.setForeground(Color.GREEN);
-				} else {
-					validDateLabel.setForeground(Color.BLACK);
-				}
+				
 			}
 		});
 		
