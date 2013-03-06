@@ -99,6 +99,12 @@ public class MainController {
 		switchController(productListController);
 	}
 	
+	public void initProductListFavorites() {
+		ProductListController productListController = new ProductListController(this);
+		productListController.filterFavorites();
+		switchController(productListController);
+	}
+	
 	/**
 	 * Initializes a new <code>ShoppingListViewController</code> inside the standard 
 	 * <code>MyAccountController</code> to get a side panel for my account.

@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 import ProductCategories.ProductCategories;
@@ -21,6 +22,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+
+import com.sun.org.apache.bcel.internal.generic.DMUL;
+
 import core.MainController;
 import core.ViewController;
 import se.chalmers.ait.dat215.project.IMatDataHandler;
@@ -96,6 +100,18 @@ public class ProductListController implements ViewController,
 		filter(category, subcategory, new OrderByNameAscending());
 	}
 	
+	public void filterFavorites() {
+		List<Product> productList = dataHandler.getProducts();
+		List<Product> favoriteList = new LinkedList<Product>();
+		for(Product p : productList) {
+			if(dataHandler.isFavorite(p)) {
+				favoriteList.add(p);
+			}
+		}
+		view.setCurrentCategory("FAVORITER");
+		updateView(favoriteList);
+	}
+	
 	public void filter(String category, ProductCategory subcategory, Comparator<Product> filter) {
 		this.currentCategory = category;
 		this.currentSubcategory = subcategory;
@@ -160,7 +176,6 @@ public class ProductListController implements ViewController,
 				evt.consume();
 			} else {
 				if(!(dataHandler.isFavorite(pView.getProduct()))) {
-					System.out.println(pView.getProduct().getName() + " " + dataHandler.isFavorite(pView.getProduct()));
 					pView.getStarButton().setVisible(false);
 				} else {
 					pView.getStarButton().setVisible(true);
