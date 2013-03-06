@@ -23,6 +23,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import productView.ProductView.ShowMorePanel;
+
 import com.sun.org.apache.bcel.internal.generic.DMUL;
 
 import core.MainController;
@@ -54,6 +56,7 @@ public class ProductListController implements ViewController,
 	private IMatDataHandler dataHandler = IMatDataHandler.getInstance();
 	private ShoppingListHandler handler = ShoppingListHandler.INSTANCE;
 	private Product activeProduct;
+	private ProductView activeProductView;
 	
 	private SearchFilterOption[] comboBoxValues ={new SearchFilterOption(new OrderByNameAscending(), "Namn stigande"), 
 			new SearchFilterOption(new OrderByNameDescending(), "Namn fallande"),
@@ -64,7 +67,6 @@ public class ProductListController implements ViewController,
 	 * The active product view which is stored when the popup is opened for
 	 * saving product to list.
 	 **/
-	private ProductView activeProductView;
 
 	public ProductListController(MainController mainController) {
 		this.view = new ProductListView(comboBoxValues);
@@ -78,6 +80,13 @@ public class ProductListController implements ViewController,
 			pView.getAddToListButton().addActionListener(
 					new AddToListActionListener(p, pView));
 			pView.getStarButton().addActionListener(new StarActionListener(p, pView));
+			pView.addShowMoreMouseListener(new ShowMoreMouseListener());
+			
+//			if(activeProduct == p) {
+//				activeProductView = pView;
+//				activeProductView.setActive();
+//			}
+//			
 			view.getViewPanel().add(pView);
 		}
 		view.getViewPanel().revalidate();
@@ -104,6 +113,7 @@ public class ProductListController implements ViewController,
 	public void filter(String category, ProductCategory subcategory, Product activeProduct) {
 		this.currentCategory = category;
 		this.currentSubcategory = subcategory;
+		
 		initComboBox(new OrderByNameAscending());
 		List<Product> list = ProductFilter.getProductBySubcategory(subcategory, new OrderByNameAscending());
 		
@@ -113,13 +123,12 @@ public class ProductListController implements ViewController,
 				ProductCategories.getInstance().getSubcategories(
 						currentCategory), new SidePanelMouseListener(),
 				subcategory);
-		this.activeProduct = activeProduct;
 		
-		int index = list.indexOf(this.activeProduct);
+		int index = list.indexOf(activeProduct);
 		int height = (new ProductView(activeProduct)).getHeight();
 		if(index > 0) {
-			view.setScrollPaneVertical(index * height , height * list.size());
-		}
+			view.setScrollPaneVertical(height * index, height * list.size());
+		}	
 	}
 	
 	public void filter(String category, ProductCategory subcategory, Comparator<Product> filter) {
@@ -307,5 +316,44 @@ public class ProductListController implements ViewController,
 		}
 		
 		view.addComboBoxListener(new ComboBoxListener());
+	}
+	
+	private class ShowMoreMouseListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if(activeProductView != null) {
+				activeProductView.setInactive();
+			}
+			ShowMorePanel smp = (ShowMorePanel) e.getSource();
+				if(activeProduct != smp.getProduct()) {
+					activeProductView = smp.getProductView();
+					activeProduct = smp.getProduct();
+					activeProductView.setActive();
+					view.revalidateListPanel();
+				} else {
+					activeProduct = null;
+					activeProductView = null;
+				}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			((ShowMorePanel) e.getSource()).toggle();
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			((ShowMorePanel) e.getSource()).toggle();
+		}
+		
 	}
 }

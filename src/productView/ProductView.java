@@ -16,6 +16,7 @@ import java.awt.event.MouseListener;
 import javax.swing.border.MatteBorder;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import java.awt.FlowLayout;
 
 
 public class ProductView extends JPanel {
@@ -23,6 +24,27 @@ public class ProductView extends JPanel {
 	private JButton starButton;
 	private Product product;
 	private final ProductAddToListButton productAddToListBtn = new ProductAddToListButton();
+	private final JLabel showMoreLabel = new JLabel("Visa mer");
+	private JLabel showMoreImage = new JLabel(downArrow);
+	
+	private final static ImageIcon downArrow = new ImageIcon("img/downArrow.png");
+	private final static ImageIcon upArrow = new ImageIcon("img/upArrow.png");
+	private ProductViewDetail pwd;
+	
+	protected class ShowMorePanel extends JPanel {
+		private boolean isToggled = false;
+		public void toggle() {
+			showMoreLabel.setFont(new Font("Calibri", isToggled?Font.PLAIN:Font.BOLD, 12));
+			isToggled ^= true;
+		}
+		public Product getProduct() {
+			return product;
+		}
+		public ProductView getProductView() {
+			return ProductView.this;
+		}
+	};
+	private ShowMorePanel showMorePanel = new ShowMorePanel();
 	
 	/**
 	 * Create the panel.
@@ -103,7 +125,7 @@ public class ProductView extends JPanel {
 			starButton.setVisible(false);
 		}
 		starButton.setIcon(starIcon);
-
+		
 		setLayout(null);
 		add(productPic);
 		add(productTitle);
@@ -118,6 +140,16 @@ public class ProductView extends JPanel {
 		productAddToListBtn.setBounds(425, 5, 159, 25);
 		
 		add(productAddToListBtn);
+		
+		showMorePanel.setOpaque(false);
+		FlowLayout flowLayout = (FlowLayout) showMorePanel.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		showMorePanel.setBounds(131, 73, 118, 23);
+		add(showMorePanel);
+		showMorePanel.add(showMoreLabel);
+		showMoreLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
+		showMoreLabel.setForeground(new Color(150, 150, 150));
+		showMorePanel.add(showMoreImage);
 	
 	}
 	
@@ -144,5 +176,34 @@ public class ProductView extends JPanel {
 
 	public ProductAddToListButton getAddToListButton() {
 		return this.productAddToListBtn;
+	}
+	
+	public void addShowMoreMouseListener(MouseListener l) {
+		showMorePanel.addMouseListener(l);
+	}
+	
+	public void setActive() {
+		setMaximumSize(new Dimension(800, 340));
+		setPreferredSize(new Dimension(628, 340));
+		setSize(new Dimension(800, 340));
+		
+		pwd = new ProductViewDetail();
+		pwd.setBounds(125, 105, 450, 230);
+		
+		showMoreLabel.setText("Visa mindre");
+		showMoreImage.setIcon(upArrow);
+		
+		add(pwd);
+	}
+	
+	public void setInactive() {
+		setMaximumSize(new Dimension(800, 110));
+		setPreferredSize(new Dimension(628, 110));
+		setSize(new Dimension(800, 110));
+		if(pwd != null) {
+			remove(pwd);
+		}
+		showMoreLabel.setText("Visa mer");
+		showMoreImage.setIcon(downArrow);
 	}
 }

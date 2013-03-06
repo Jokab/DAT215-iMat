@@ -130,4 +130,8 @@ public class ProductListView extends JPanel {
 		scrollPane.getVerticalScrollBar().setMaximum(maximumHeight);
 		scrollPane.getVerticalScrollBar().setValue(distanceFromTop);
 	}
+	
+	public void revalidateListPanel() {
+		viewPanel.revalidate();
+	}
 }
