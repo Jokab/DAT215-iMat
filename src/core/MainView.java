@@ -78,7 +78,7 @@ public class MainView extends JFrame {
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
-		setBounds(100, 100, 1200, 720);
+		setBounds(100, 100, 1204, 724);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("img/frameIcon.png"));
 		setTitle("MatnyttIT");
 		

@@ -77,8 +77,8 @@ public class ProductListView extends JPanel {
 								.addComponent(sortLabel, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
 								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addGap(8)
-							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)))
-					.addContainerGap())
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 452, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(40, Short.MAX_VALUE))
 		);
 		scrollPane.setViewportView(viewPanel);
 		viewPanel.setBackground(Color.WHITE);
