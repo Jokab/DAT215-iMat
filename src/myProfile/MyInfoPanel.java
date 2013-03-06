@@ -32,6 +32,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.SwingConstants;
 
+import components.StandardButton;
+
 public class MyInfoPanel extends JPanel {
 	private Map<String,Boolean> errors;
 
@@ -164,18 +166,26 @@ public class MyInfoPanel extends JPanel {
 		validDateLabel.setForeground(DEFAULT_COLOR);
 		
 		lastNameField = new JTextField(customer.getLastName());
+		lastNameField.setForeground(Color.GRAY);
+		lastNameField.setFont(new Font("Calibri", Font.PLAIN, 12));
 		lastNameField.setToolTipText("Ditt efternamn");
 		lastNameField.setColumns(10);
 		
 		firstNameField = new JTextField(customer.getFirstName());
+		firstNameField.setForeground(Color.GRAY);
+		firstNameField.setFont(new Font("Calibri", Font.PLAIN, 12));
 		firstNameField.setToolTipText("Ditt f\u00F6rnamn");
 		firstNameField.setColumns(10);
 		
 		addressField = new JTextField(customer.getAddress());
+		addressField.setForeground(Color.GRAY);
+		addressField.setFont(new Font("Calibri", Font.PLAIN, 12));
 		addressField.setToolTipText("Din leveransadress");
 		addressField.setColumns(10);
 		
 		zipField = new JFormattedTextField(ZIPFormat);
+		zipField.setForeground(Color.GRAY);
+		zipField.setFont(new Font("Calibri", Font.PLAIN, 12));
 		zipField.setToolTipText("Ditt postnummer utan mellanrum");
 		zipField.setText(customer.getPostCode());
 		if(zipField.getText().length()==0){
@@ -204,17 +214,25 @@ public class MyInfoPanel extends JPanel {
 		});
 		
 		cityField = new JTextField(customer.getPhoneNumber());
+		cityField.setForeground(Color.GRAY);
+		cityField.setFont(new Font("Calibri", Font.PLAIN, 12));
 		cityField.setToolTipText("Din postort");
 		cityField.setColumns(10);
 		
 		phoneNumberField = new JFormattedTextField(customer.getPhoneNumber());
+		phoneNumberField.setForeground(Color.GRAY);
+		phoneNumberField.setFont(new Font("Calibri", Font.PLAIN, 12));
 		phoneNumberField.setToolTipText("Ditt telefonnnummer p\u00E5 valfritt format");
 		
 		emailField = new JTextField(customer.getEmail());
+		emailField.setForeground(Color.GRAY);
+		emailField.setFont(new Font("Calibri", Font.PLAIN, 12));
 		emailField.setToolTipText("Din emailadress");
 		emailField.setColumns(10);
 		
 		cardNumberField = new JFormattedTextField(cardNumberFormat);
+		cardNumberField.setForeground(Color.GRAY);
+		cardNumberField.setFont(new Font("Calibri", Font.PLAIN, 12));
 		cardNumberField.setToolTipText("Ditt kontokortnummer utan mellanrum eller bindestreck");
 		cardNumberField.setText(creditCard.getCardNumber());
 		if(cardNumberField.getText().length()==0){
@@ -243,6 +261,8 @@ public class MyInfoPanel extends JPanel {
 		});
 		
 		ccvField = new JFormattedTextField(CCVFormat);
+		ccvField.setForeground(Color.GRAY);
+		ccvField.setFont(new Font("Calibri", Font.PLAIN, 12));
 		ccvField.setToolTipText("De tre sista siffrorna i koden p\u00E5 baksidan av ditt kontokort");
 		ccvField.setText("" +creditCard.getVerificationCode());
 		ccvField.addKeyListener(new KeyAdapter() {
@@ -268,6 +288,8 @@ public class MyInfoPanel extends JPanel {
 		});
 		
 		monthField = new JFormattedTextField(monthFormat);
+		monthField.setForeground(Color.GRAY);
+		monthField.setFont(new Font("Calibri", Font.PLAIN, 12));
 		monthField.setToolTipText("M\u00E5nad och \u00E5r n\u00E4r ditt kontokort g\u00E5r ut");
 		monthField.setText("" +creditCard.getValidMonth());
 		if(monthField.getText().length()==0){
@@ -300,6 +322,8 @@ public class MyInfoPanel extends JPanel {
 		slashLabel.setFont(new Font("Georgia", Font.PLAIN, 15));
 		
 		yearField = new JFormattedTextField(yearFormat);
+		yearField.setForeground(Color.GRAY);
+		yearField.setFont(new Font("Calibri", Font.PLAIN, 12));
 		yearField.setToolTipText("M\u00E5nad och \u00E5r n\u00E4r ditt kontokort g\u00E5r ut");
 		yearField.setText("" + creditCard.getValidYear());
 		if(yearField.getText().length()==0){
@@ -329,6 +353,7 @@ public class MyInfoPanel extends JPanel {
 		
 		
 		cardTypeBox = new JComboBox();
+		cardTypeBox.setForeground(Color.GRAY);
 		cardTypeBox.setToolTipText("Korttyp");
 		cardTypeBox.setModel(new DefaultComboBoxModel(new String[] {"Visa", "Mecenat", "MasterCard", "American Express"}));
 		int index= 0;
@@ -342,19 +367,11 @@ public class MyInfoPanel extends JPanel {
 		cardTypeBox.setSelectedIndex(index);
 		cardTypeBox.setFont(new Font("Calibri", Font.PLAIN, 12));
 		
-		JButton saveButton = new JButton("Spara");
+		JButton saveButton = new StandardButton("Spara");
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				saveData();
-			}
-		});
-		
-		JButton btnAvbryt = new JButton("Avbryt");
-		btnAvbryt.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				//TODO: Go back in history
 			}
 		});
 		
@@ -439,15 +456,12 @@ public class MyInfoPanel extends JPanel {
 									.addComponent(lblMinaUppgifter, GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)))
 							.addGap(18)
 							.addComponent(errorMessageLabel, GroupLayout.PREFERRED_SIZE, 269, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnAvbryt)
-							.addGap(18)
-							.addComponent(saveButton)))
+						.addComponent(saveButton))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblMinaUppgifter, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
@@ -500,9 +514,7 @@ public class MyInfoPanel extends JPanel {
 								.addComponent(yearField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(errorMessageLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addGap(87)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(saveButton)
-						.addComponent(btnAvbryt))
+					.addComponent(saveButton)
 					.addGap(51))
 		);
 		setLayout(groupLayout);

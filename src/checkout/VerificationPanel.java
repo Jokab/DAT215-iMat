@@ -19,7 +19,11 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
+import components.StandardButton;
+import components.StandardButtonGreen;
+
 import se.chalmers.ait.dat215.project.IMatDataHandler;
+import javax.swing.Icon;
 
 public class VerificationPanel extends JPanel {
 	private JTextField passwordField;
@@ -78,15 +82,9 @@ public class VerificationPanel extends JPanel {
 		passwordField = new JPasswordField();
 		passwordField.setColumns(10);
 		
-		submitButton = new JButton("Bekräfta köp");
-		submitButton.setFont(DEFAULT_FONT);
-		submitButton.setBackground(SELECTED_BG_COLOR);
-		submitButton.setForeground(SELECTED_TEXT_COLOR);
+		submitButton = new StandardButtonGreen("Bekräfta köp");
 		
-		cancelButton = new JButton("Tillbaka");
-		cancelButton.setFont(DEFAULT_FONT);
-		cancelButton.setBackground(CANCEL_TEXT_COLOR);
-		cancelButton.setForeground(Color.WHITE);
+		cancelButton = new StandardButton("Tillbaka");
 		
 		JLabel matnyttitLabel = new JLabel("MatnyttIT");
 		pleaseLabel.setFont(DEFAULT_FONT);
@@ -104,26 +102,34 @@ public class VerificationPanel extends JPanel {
 		pleaseLabel.setFont(DEFAULT_FONT);
 		dynamicDateLabel.setForeground(DEFAULT_COLOR);
 		
+		JLabel label = new JLabel();
+		
+		JLabel lblKassaBekrfta = new JLabel("Kassa - bekr\u00E4fta k\u00F6p");
+		lblKassaBekrfta.setForeground(new Color(150, 150, 150));
+		lblKassaBekrfta.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		
+		JLabel label_2 = new JLabel(new ImageIcon("img/counter2.png"));
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(116)
+					.addGap(115)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(vbVisaLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(cancelButton)
+								.addComponent(cancelButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGap(18)
-								.addComponent(submitButton))
+								.addComponent(submitButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addComponent(pleaseLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addGroup(groupLayout.createSequentialGroup()
 								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
 									.addComponent(cardNumberLabel, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
 									.addComponent(dateLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addComponent(amountLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(retailLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE))
-								.addPreferredGap(ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
+									.addComponent(retailLabel, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
 								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 									.addComponent(matnyttitLabel)
 									.addComponent(dynamicCardNumberLabel, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
@@ -131,14 +137,25 @@ public class VerificationPanel extends JPanel {
 									.addComponent(dynamicDateLabel)))
 							.addGroup(groupLayout.createSequentialGroup()
 								.addComponent(passwordLabel)
-								.addPreferredGap(ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
+								.addPreferredGap(ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
 								.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE))))
-					.addGap(329))
+					.addGap(205))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(label_2, GroupLayout.PREFERRED_SIZE, 224, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(452, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblKassaBekrfta, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(485, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
+					.addComponent(lblKassaBekrfta, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(label_2, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(vbVisaLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(pleaseLabel)
@@ -164,9 +181,9 @@ public class VerificationPanel extends JPanel {
 						.addComponent(passwordLabel))
 					.addGap(37)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(submitButton)
-						.addComponent(cancelButton))
-					.addContainerGap(116, Short.MAX_VALUE))
+						.addComponent(submitButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cancelButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(82, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
 	}

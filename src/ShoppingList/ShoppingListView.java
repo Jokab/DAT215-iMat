@@ -15,18 +15,21 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.Dimension;
 import java.awt.Color;
 import javax.swing.border.MatteBorder;
+
+import components.StandardButton;
+
 import java.awt.FlowLayout;
 
 public class ShoppingListView extends JPanel {
 	private final JPanel panel = new JPanel();
 	private final JPanel rightPanel = new JPanel();
 	private final JPanel panel_2 = new JPanel();
-	private final JButton newListButton = new JButton(new ImageIcon("img/newShoppingListButton.png"));
+	private final JButton newListButton = new StandardButton(new ImageIcon("img/newShoppingListButton.png"));
 	private final JLabel headerLabel = new JLabel("Inköpslistor");
-	private final JButton removeListButton = new JButton(new ImageIcon("img/deleteShoppingListButton.png"));
+	private final JButton removeListButton = new StandardButton(new ImageIcon("img/deleteShoppingListButton.png"));
 	private final JScrollPane scrollPane = new JScrollPane();
 	private final JLabel listNameLabel = new JLabel();
-	private final JButton addToCartButton = new JButton(new ImageIcon("img/addShoppingListToCartButton.png"));
+	private final JButton addToCartButton = new StandardButton(new ImageIcon("img/addShoppingListToCartButton.png"));
 	private final JPanel detaildPanel;
 	
 	private final Color NORMAL_BG_COLOR = Color.WHITE;
@@ -35,12 +38,7 @@ public class ShoppingListView extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ShoppingListView() {
-		newListButton.setContentAreaFilled(false);
-		newListButton.setBorder(null);
-		newListButton.setBackground(NORMAL_BG_COLOR);
-		newListButton.setForeground(NORMAL_TEXT_COLOR);
-		
+	public ShoppingListView() {		
 		headerLabel.setFont(new Font("Calibri", Font.PLAIN, 18));
 		headerLabel.setForeground(new Color(150, 150 ,150));
 		
@@ -83,10 +81,6 @@ public class ShoppingListView extends JPanel {
 							.addGap(11))
 						.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)))
 		);
-		removeListButton.setBorder(null);
-		removeListButton.setContentAreaFilled(false);
-		addToCartButton.setContentAreaFilled(false);
-		addToCartButton.setBorder(null);
 		
 		detaildPanel = new JPanel();
 		detaildPanel.setBackground(Color.WHITE);
@@ -105,6 +99,7 @@ public class ShoppingListView extends JPanel {
 					.addGap(3)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(10)
 							.addComponent(newListButton, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap())
 						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)))

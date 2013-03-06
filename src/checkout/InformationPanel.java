@@ -1,5 +1,6 @@
 package checkout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
@@ -27,6 +28,9 @@ import java.util.Set;
 
 import javax.swing.JFormattedTextField;
 
+import components.StandardButton;
+import components.StandardButtonGreen;
+
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
@@ -37,6 +41,7 @@ import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.Icon;
 
 public class InformationPanel extends JPanel {
 	
@@ -73,6 +78,8 @@ public class InformationPanel extends JPanel {
 	private final Color SELECTED_BG_COLOR = new Color(177,211,114);
 	private final Color SELECTED_TEXT_COLOR = Color.white;
 	private final Color CANCEL_TEXT_COLOR = new Color(144,144,144);
+	private JLabel label_1;
+	private JLabel lblKassaDina;
 	/**
 	 * Create the panel.
 	 */
@@ -424,9 +431,7 @@ public class InformationPanel extends JPanel {
 			}
 		});
 		
-		BeginVerificationButton = new JButton("Nästa");
-		BeginVerificationButton.setForeground(SELECTED_TEXT_COLOR);
-		BeginVerificationButton.setBackground(SELECTED_BG_COLOR);
+		BeginVerificationButton = new StandardButtonGreen("Nästa");
 		BeginVerificationButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -434,12 +439,10 @@ public class InformationPanel extends JPanel {
 			}
 		});
 		
-		cancelButton = new JButton("Avbryt");
-		cancelButton.setFont(DEFAULT_FONT);
-		cancelButton.setBackground(CANCEL_TEXT_COLOR);
-		cancelButton.setForeground(Color.WHITE);
+		cancelButton = new StandardButton("Avbryt");
 		
 		JCheckBox saveMyInfoBox = new JCheckBox("Spara mina uppgifter");
+		saveMyInfoBox.setOpaque(false);
 		saveMyInfoBox.setSelected(session.getSaveInfo());
 		saveMyInfoBox.setFont(DEFAULT_FONT);
 		saveMyInfoBox.setForeground(DEFAULT_COLOR);
@@ -542,11 +545,17 @@ public class InformationPanel extends JPanel {
 		lblSiffror.setFont(DEFAULT_FONT);
 		lblSiffror.setForeground(DEFAULT_COLOR);
 		
+		label_1 = new JLabel(new ImageIcon("img/counter1.png"));
+		
+		lblKassaDina = new JLabel("Kassa - dina uppgifter");
+		lblKassaDina.setForeground(new Color(150, 150, 150));
+		lblKassaDina.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(44)
+					.addContainerGap(83, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(FirstNameLabel)
 						.addComponent(ValidThroughLabel)
@@ -590,16 +599,25 @@ public class InformationPanel extends JPanel {
 							.addGap(56)
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(cancelButton)
+									.addComponent(cancelButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
-									.addComponent(BeginVerificationButton))
+									.addComponent(BeginVerificationButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 								.addComponent(errorLabel, GroupLayout.PREFERRED_SIZE, 244, GroupLayout.PREFERRED_SIZE))))
-					.addGap(85))
+					.addGap(59))
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblKassaDina, GroupLayout.PREFERRED_SIZE, 232, GroupLayout.PREFERRED_SIZE)
+						.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 224, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(558, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(32)
+					.addComponent(lblKassaDina, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+					.addGap(15)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(LastNameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(LastNameLabel)
@@ -655,12 +673,11 @@ public class InformationPanel extends JPanel {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(deliveryDateChooser, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
-							.addComponent(errorLabel, GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)))
+							.addComponent(errorLabel, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(BeginVerificationButton)
-						.addComponent(cancelButton))
-					.addGap(39))
+						.addComponent(BeginVerificationButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cancelButton, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 		);
 		setLayout(groupLayout);
 

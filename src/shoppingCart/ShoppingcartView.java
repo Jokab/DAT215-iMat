@@ -24,6 +24,10 @@ import javax.swing.JSeparator;
 
 import core.MainController;
 import javax.swing.ScrollPaneConstants;
+
+import components.StandardButton;
+import components.StandardButtonGreen;
+
 import java.awt.Component;
 
 public class ShoppingcartView extends JPanel implements PropertyChangeListener {
@@ -86,24 +90,15 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		JPanel optionPanel = new JPanel();
 		optionPanel.setOpaque(false);
 		
-		addToCartButton = new JButton();
+		addToCartButton = new StandardButton();
 		addToCartButton.addActionListener(new AddListToCartListener());
-		addToCartButton.setFont(DEFAULT_FONT);
-		addToCartButton.setBackground(DEFAULT_BACKGROUND);
-		addToCartButton.setForeground(Color.BLACK);
 		addToCartButton.setText("L\u00E4gg till ink\u00F6pslista");
 		
-		toCounterButton = new JButton("Till kassa");
+		toCounterButton = new StandardButtonGreen("Till kassa");
 		toCounterButton.setEnabled(false);
 		toCounterButton.addActionListener(new CheckoutButtonListener());
-		toCounterButton.setFont(DEFAULT_FONT);
-		toCounterButton.setBackground(SELECTED_BG_COLOR);
-		toCounterButton.setForeground(Color.black);
 
-		this.saveProductListButton = new JButton("Spara");
-		saveProductListButton.setFont(new Font("Calibri", Font.PLAIN, 12));
-		saveProductListButton.setBackground(DEFAULT_BACKGROUND);
-		saveProductListButton.setForeground(Color.BLACK);
+		this.saveProductListButton = new StandardButton("Spara");
 		saveProductListButton.setEnabled(false);
 		saveProductListButton
 				.addActionListener(new SaveProductButtonListener());
@@ -162,25 +157,32 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 		summaryPanel.add(totalPriceLabel);
 		summaryPanel.add(priceUnitLabel);
 		summaryPanel.add(separator);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setForeground(new Color(225, 225, 225));
+		separator_1.setBackground(new Color(236, 236, 236));
 
 		GroupLayout gl_optionPanel = new GroupLayout(optionPanel);
 		gl_optionPanel.setHorizontalGroup(
-			gl_optionPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_optionPanel.createSequentialGroup()
+			gl_optionPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_optionPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_optionPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
 						.addGroup(gl_optionPanel.createSequentialGroup()
 							.addComponent(saveProductListButton)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(toCounterButton, GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)))
+							.addComponent(toCounterButton, GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
+						.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+						.addComponent(separator_1, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		gl_optionPanel.setVerticalGroup(
 			gl_optionPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_optionPanel.createSequentialGroup()
+					.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(9)
 					.addComponent(addToCartButton, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
 					.addGroup(gl_optionPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(saveProductListButton)
 						.addComponent(toCounterButton))
@@ -254,15 +256,10 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 
 	private void updateBottomButtons() {
 		if (model.getItems() == null || model.getItems().isEmpty()) {
-			saveProductListButton.setForeground(DEFAULT_COLOR);
 			saveProductListButton.setEnabled(false);
-			toCounterButton.setBackground(Color.white);
 			toCounterButton.setEnabled(false);
 		} else {
-			saveProductListButton.setForeground(Color.BLACK);
 			saveProductListButton.setEnabled(true);
-			toCounterButton.setBackground(SELECTED_BG_COLOR);
-			toCounterButton.setForeground(Color.BLACK);
 			toCounterButton.setEnabled(true);
 		}
 	}

@@ -15,6 +15,9 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.Dimension;
 import java.awt.Color;
 import javax.swing.border.MatteBorder;
+
+import components.StandardButton;
+
 import java.awt.FlowLayout;
 
 public class OrderListView extends JPanel {
@@ -24,7 +27,7 @@ public class OrderListView extends JPanel {
 	private final JLabel headerLabel = new JLabel("Orderhistorik");
 	private final JScrollPane scrollPane = new JScrollPane();
 	private final JLabel listNameLabel = new JLabel();
-	private final JButton addToCartButton = new JButton(new ImageIcon("img/addShoppingListToCartButton.png"));
+	private final JButton addToCartButton = new StandardButton(new ImageIcon("img/addShoppingListToCartButton.png"));
 	private final JPanel detaildPanel;
 	
 	private final Color NORMAL_BG_COLOR = Color.WHITE;
@@ -72,8 +75,6 @@ public class OrderListView extends JPanel {
 					.addComponent(addToCartButton, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
 					.addContainerGap())
 		);
-		addToCartButton.setContentAreaFilled(false);
-		addToCartButton.setBorder(null);
 		
 		detaildPanel = new JPanel();
 		detaildPanel.setBackground(Color.WHITE);
