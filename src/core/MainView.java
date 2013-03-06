@@ -44,7 +44,6 @@ public class MainView extends JFrame {
 	private final HeaderView headerView = new HeaderView();
 	private final ContentView contentView = new ContentView();
 	private final JButton exitButton = new JButton();
-	private final JButton maximizeButton = new JButton();
 	private final JButton minimizeButton = new JButton();
 	private final JPanel windowbuttonsPanel = new JPanel();
 	private final JPanel popupBgPanel;
@@ -102,7 +101,7 @@ public class MainView extends JFrame {
 		);
 		
 		// Windowbuttons
-		windowbuttonsPanel.setBounds(1099, 11, 52, 14);	
+		windowbuttonsPanel.setBounds(1119, 11, 32, 14);	
 		windowbuttonsPanel.setOpaque(false);
 		windowbuttonsPanel.setMinimumSize(new Dimension(50, 12));
 		windowbuttonsPanel.setLayout(new BorderLayout(7, 0));
@@ -119,19 +118,6 @@ public class MainView extends JFrame {
 		minimizeButton.setBorder(null);
 		minimizeButton.setIcon(new ImageIcon("img/minimizeIcon.png"));
 		windowbuttonsPanel.add(minimizeButton, BorderLayout.WEST);
-		
-		maximizeButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setExtendedState(Frame.MAXIMIZED_BOTH);
-			}
-		});
-		maximizeButton.setToolTipText("Maximera");
-		maximizeButton.setSize(new Dimension(12, 12));
-		maximizeButton.setContentAreaFilled(false);
-		maximizeButton.setBorder(null);
-		maximizeButton.setIcon(new ImageIcon("img/maximizeIcon.png"));
-		windowbuttonsPanel.add(maximizeButton, BorderLayout.CENTER);
 		
 		exitButton.addActionListener(new ActionListener() {
 			@Override
