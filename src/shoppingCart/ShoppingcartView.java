@@ -237,6 +237,8 @@ public class ShoppingcartView extends JPanel implements PropertyChangeListener {
 
 	private void updateItemList() {
 		productListPanel.removeAll();
+		productListPanel.repaint();
+		productListPanel.revalidate();
 		List<ShoppingItem> tmpList = model.getItems();
 		for (ShoppingItem item : tmpList) {
 			productListPanel.add(new ShoppingCartProductPanel(item));
