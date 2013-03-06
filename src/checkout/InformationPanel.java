@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.KeyStroke;
 
 import se.chalmers.ait.dat215.project.IMatDataHandler;
 import se.chalmers.ait.dat215.project.ShoppingCart;
@@ -225,15 +226,22 @@ public class InformationPanel extends JPanel {
 			}
 		});
 		
-		ZIPField = new JFormattedTextField(ZIPFormat);	
+		ZIPField = new JFormattedTextField(ZIPFormat); //Formatted ZIPFormat
+
 		ZIPField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+				if((arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57 )){
 					if(ZIPField.getText().length() == 4 ){
 						ZIPLabel.setForeground(Color.GREEN);
 					} else {
-						ZIPLabel.setForeground(Color.RED);
+						ZIPLabel.setForeground(DEFAULT_COLOR);
+					}
+				} else if( arg0.getKeyChar() == KeyEvent.VK_BACK_SPACE){
+					if(ZIPField.getText().length() == 5 ){
+						ZIPLabel.setForeground(Color.GREEN);
+					} else {
+						ZIPLabel.setForeground(DEFAULT_COLOR);
 					}
 				} else {
 					arg0.consume();
@@ -250,10 +258,9 @@ public class InformationPanel extends JPanel {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 					session.put("zipcode", ZIPField.getText());
-					//TODO:
 					if(session.getErrorMessages().get("zipcode")){
 						ZIPLabel.setForeground(Color.RED);
-					} else if(ZIPLabel.getText().length() == 5){
+					} else if(ZIPField.getText().length() == 5){
 						ZIPLabel.setForeground(Color.GREEN);
 					} else {
 						ZIPLabel.setForeground(DEFAULT_COLOR);
@@ -267,11 +274,18 @@ public class InformationPanel extends JPanel {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
-					if((MonthField.getText().length()==1 || MonthField.getText().length()==0) && (YearField.getText().length()==3 || YearField.getText().length()==1) ){
+					if((MonthField.getText().length()==1 || MonthField.getText().length()==0) && (YearField.getText().length()==4 || YearField.getText().length()==2) ){
 						ValidThroughLabel.setForeground(Color.GREEN);
 					} else {
-						ValidThroughLabel.setForeground(Color.RED);
+						ValidThroughLabel.setForeground(DEFAULT_COLOR);
 					}
+				} else if (arg0.getKeyChar() == KeyEvent.VK_BACK_SPACE){ 
+						if((MonthField.getText().length()==2 || MonthField.getText().length()==1) && (YearField.getText().length()==4 || YearField.getText().length()==2) ){
+							ValidThroughLabel.setForeground(Color.GREEN);
+						} else {
+							ValidThroughLabel.setForeground(DEFAULT_COLOR);
+						}
+					
 				} else {
 					arg0.consume();
 				}
@@ -306,8 +320,15 @@ public class InformationPanel extends JPanel {
 					if(CardNumberField.getText().length()==15){
 						CardNumberLabel.setForeground(Color.GREEN);
 					} else {
-						CardNumberLabel.setForeground(Color.BLACK);
+						CardNumberLabel.setForeground(DEFAULT_COLOR);
 					}
+				} else if (arg0.getKeyChar() == KeyEvent.VK_BACK_SPACE){
+						if(CardNumberField.getText().length() == 16){
+							CardNumberLabel.setForeground(Color.GREEN);
+						} else {
+							CardNumberLabel.setForeground(DEFAULT_COLOR);
+						}
+					
 				} else {
 					arg0.consume();
 				}
@@ -345,14 +366,22 @@ public class InformationPanel extends JPanel {
 			YearField.setText("ï¿½ï¿½ï¿½ï¿½");
 		}
 		YearField.addKeyListener(new KeyAdapter() {
+			
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
-					if((MonthField.getText().length()==1 || MonthField.getText().length()==0) && (YearField.getText().length()==3 || YearField.getText().length()==1) ){
+					if((MonthField.getText().length()==2 || MonthField.getText().length()==1) && (YearField.getText().length()==3 || YearField.getText().length()==1) ){
 						ValidThroughLabel.setForeground(Color.GREEN);
 					} else {
-						ValidThroughLabel.setForeground(Color.RED);
+						ValidThroughLabel.setForeground(DEFAULT_COLOR);
 					}
+				} else if (arg0.getKeyChar() == KeyEvent.VK_BACK_SPACE){ 
+						if((MonthField.getText().length()==2 || MonthField.getText().length()==1) && (YearField.getText().length()==4 || YearField.getText().length()==2) ){
+							ValidThroughLabel.setForeground(Color.GREEN);
+						} else {
+							ValidThroughLabel.setForeground(DEFAULT_COLOR);
+						}
+					
 				} else {
 					arg0.consume();
 				}
@@ -403,19 +432,6 @@ public class InformationPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				((InformationPanel) BeginVerificationButton.getParent()).displayErrorMessage();
 			}
-//				session.put("deliveryday", "" + dateModel.getDay());
-//				session.put("deliverymonth", "" + dateModel.getMonth());
-//				session.put("deliveryyear", "" + dateModel.getYear());
-//				//TODO: Load verification panel.
-//				if (session.infoIsOk() && !shoppingCart.getItems().isEmpty()){ 
-//					session.saveSession();
-//				} else {
-//					System.out.println("error");
-//					JOptionPane.showMessageDialog(new JFrame("Ajdï¿½"), "Det verkar ha blivit nï¿½got fel med de uppgifter du matat in.\n Var god se ï¿½ver dessa och fï¿½rsï¿½k igen.");
-//					//JDialog errorMessage = new JDialog(new JDialog(), "Det verkar vara nï¿½got fel med de uppgifter som du matat in");
-//					//TODO: Pop up som informerar anvï¿½ndaren om att denna ï¿½r dum i huvudet
-//				}
-//			}
 		});
 		
 		cancelButton = new JButton("Avbryt");
@@ -434,15 +450,23 @@ public class InformationPanel extends JPanel {
 		CCVField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){	
+				if(arg0.getKeyChar() >= 48 && arg0.getKeyChar()<= 57){
+					if(CCVField.getText().length() == 2){
+						CCVLabel.setForeground(Color.GREEN);
+					} else {
+						CCVLabel.setForeground(DEFAULT_COLOR);
+					}
+				} else if (arg0.getKeyChar() == KeyEvent.VK_BACK_SPACE){ 
+						if(CCVField.getText().length() == 3){
+							CCVLabel.setForeground(Color.GREEN);
+						} else {
+							CCVLabel.setForeground(DEFAULT_COLOR);
+						}
+					
 				} else {
 					arg0.consume();
 				}
-				if(CCVField.getText().length()==3){
-					CCVLabel.setForeground(Color.GREEN);
-				} else {
-					CCVLabel.setForeground(Color.BLACK);
-				}
+
 			}
 		});
 		CCVField.setToolTipText("De tre sista siffrorna i koden som st\u00E5r p\u00E5 baksidan av ditt kreditkort");
@@ -676,8 +700,8 @@ public class InformationPanel extends JPanel {
 				case("ccv"): temp = "CCV"; CCVLabel.setForeground(Color.RED); break;
 				case("zipcode"): temp = "Postnummer"; ZIPLabel.setForeground(Color.RED); break;
 				case("city"): temp = "Stad"; CityLabel.setForeground(Color.RED);break;
-				case("validmonth"): temp = ""; ValidThroughLabel.setForeground(Color.RED);break;
-				case("validyear"): temp = ""; ValidThroughLabel.setForeground(Color.RED); break;
+				case("validmonth"): temp = "Felaktig månad"; ValidThroughLabel.setForeground(Color.RED);break;
+				case("validyear"): temp = "Felaktigt år"; ValidThroughLabel.setForeground(Color.RED); break;
 				case("deliverydate"): temp = "Leveransdatum"; deliveryDateLabel.setForeground(Color.RED); break;
 				case("phonenumber"): temp = "Telefonnummer"; PhoneNumberLabel.setForeground(Color.RED); break;
 				}
