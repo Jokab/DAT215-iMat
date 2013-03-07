@@ -3,9 +3,10 @@
 .settings/org.eclipse.jdt.core.prefs
 /bin
 /img
-/lib
+lib/
 /META-INF
 /net
+*.png
 jdatepicker-1.3.2.jar
 miglayout15-swing.jar
 miglayout-src.zip
